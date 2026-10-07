@@ -1,44 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Privacy Policy - Docu</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Privacy Policy — Docu – Daily Cashflow</title>
+  <meta name="description" content="Privacy Policy for Docu – Daily Cashflow (Daily Organized Cashflow Utility) — Detailed transparency on offline SQLite storage, Google Sheets API, Google Drive backup, and Limited Use compliance." />
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <style>
+    /* ==========================================================================
+       1. DESIGN TOKENS & RESET (SYNCHRONIZED WITH DOCU LANDING PAGE)
+       ========================================================================== */
     :root {
-      --bg: #0b0f17;
-      --card-bg: rgba(18, 24, 38, 0.85);
+      --ease-primary: cubic-bezier(0.22, 1, 0.36, 1);
+
+      /* Obsidian Dark Theme */
+      --bg: #07090e;
+      --bg-surface: #0e121d;
+      --card-bg: rgba(14, 18, 29, 0.76);
       --card-border: rgba(255, 255, 255, 0.08);
-      --text-main: #f1f5f9;
+      --card-border-glow: rgba(45, 212, 191, 0.3);
+      --card-hover: rgba(21, 28, 44, 0.88);
+
+      --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --primary: #6366f1;
-      --primary-glow: rgba(99, 102, 241, 0.25);
-      --accent: #06b6d4;
-      --radius-lg: 18px;
-      --radius-md: 12px;
-      --transition: all 0.2s ease;
+      --text-subtle: #64748b;
+
+      --teal: #2dd4bf;
+      --teal-glow: rgba(45, 212, 191, 0.25);
+      --violet: #8b5cf6;
+      --violet-glow: rgba(139, 92, 246, 0.25);
+      --amber: #f59e0b;
+      --amber-glow: rgba(245, 158, 11, 0.28);
+      --rose: #f43f5e;
+      --blue: #38bdf8;
+
+      --glass-blur: 16px;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 30px;
+
+      --nav-h: 74px;
     }
 
     [data-theme="light"] {
+      /* Clean Light Theme */
       --bg: #f8fafc;
-      --card-bg: rgba(255, 255, 255, 0.95);
+      --bg-surface: #ffffff;
+      --card-bg: rgba(255, 255, 255, 0.88);
       --card-border: rgba(0, 0, 0, 0.08);
+      --card-border-glow: rgba(13, 148, 136, 0.25);
+      --card-hover: rgba(255, 255, 255, 0.98);
+
       --text-main: #0f172a;
       --text-muted: #475569;
-      --primary: #4f46e5;
-      --primary-glow: rgba(79, 70, 229, 0.2);
-      --accent: #0891b2;
+      --text-subtle: #94a3b8;
+
+      --teal: #0d9488;
+      --teal-glow: rgba(13, 148, 136, 0.2);
+      --violet: #7c3aed;
+      --violet-glow: rgba(124, 58, 237, 0.2);
+      --amber: #d97706;
+      --amber-glow: rgba(217, 119, 6, 0.22);
+      --rose: #e11d48;
+      --blue: #0284c7;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -46,364 +87,1857 @@
       background-color: var(--bg);
       color: var(--text-main);
       line-height: 1.7;
-      padding: 30px 16px 80px;
-      transition: background 0.3s ease, color 0.3s ease;
+      overflow-x: hidden;
+      transition: background-color 400ms var(--ease-primary), color 400ms var(--ease-primary);
+      position: relative;
     }
 
-    .container {
-      max-width: 860px;
-      margin: 0 auto;
+    /* Scroll progress bar */
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--teal), var(--violet));
+      z-index: 1000;
+      pointer-events: none;
     }
 
-    .nav-header {
+    /* Ambient Orbs */
+    .ambient-orbs {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.22;
+      animation: floatSlow 18s ease-in-out infinite alternate;
+    }
+
+    .orb-1 {
+      width: 480px;
+      height: 480px;
+      background: var(--teal);
+      top: -120px;
+      left: -80px;
+    }
+
+    .orb-2 {
+      width: 520px;
+      height: 520px;
+      background: var(--violet);
+      bottom: 10%;
+      right: -100px;
+      animation-duration: 22s;
+    }
+
+    @keyframes floatSlow {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 50px) scale(1.08); }
+    }
+
+    /* ==========================================================================
+       2. NAVBAR (GLASSMORPHISM)
+       ========================================================================== */
+    .navbar-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-h);
+      z-index: 100;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 28px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--card-border);
+      justify-content: center;
+      padding: 12px 20px;
+      pointer-events: none;
     }
 
-    .back-btn {
+    .nav-glass {
+      pointer-events: auto;
+      width: 100%;
+      max-width: 1180px;
+      height: 100%;
+      background: var(--card-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--card-border);
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      transition: all 400ms var(--ease-primary);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-scrolled .nav-glass {
+      max-width: 960px;
+      height: 52px;
+      background: rgba(14, 18, 29, 0.92);
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.5);
+    }
+    [data-theme="light"] .nav-scrolled .nav-glass {
+      background: rgba(255, 255, 255, 0.94);
+      border-color: rgba(0, 0, 0, 0.12);
+    }
+
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 800;
+    }
+
+    .brand-logo-img {
+      height: 34px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .logo-dark-only { display: block; }
+    .logo-light-only { display: none; }
+    [data-theme="light"] .logo-dark-only { display: none; }
+    [data-theme="light"] .logo-light-only { display: block; }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-home-btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      color: var(--accent);
+      color: var(--text-muted);
       text-decoration: none;
+      font-size: 0.86rem;
       font-weight: 600;
-      font-size: 0.9rem;
-      padding: 6px 14px;
-      border-radius: 20px;
-      background: rgba(6, 182, 212, 0.1);
-      border: 1px solid rgba(6, 182, 212, 0.2);
-      transition: var(--transition);
+      padding: 7px 16px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      transition: color 0.2s, border-color 0.2s, transform 0.2s;
     }
 
-    .back-btn:hover {
-      background: rgba(6, 182, 212, 0.2);
+    .back-home-btn:hover {
+      color: var(--teal);
+      border-color: var(--teal);
       transform: translateX(-2px);
     }
 
-    .theme-toggle {
+    .theme-toggle-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.4s var(--ease-primary), background 0.3s;
+    }
+
+    .theme-toggle-btn:hover {
+      transform: scale(1.08) rotate(15deg);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .theme-toggle-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Mobile TOC dropdown */
+    .mobile-toc-bar {
+      display: none;
+      position: sticky;
+      top: var(--nav-h);
+      z-index: 90;
+      padding: 10px 16px;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .mobile-toc-select {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      font-size: 0.88rem;
+      font-weight: 600;
+      outline: none;
+    }
+
+    /* ==========================================================================
+       3. HERO SECTION (SHIELD REVEAL & CHIPS)
+       ========================================================================== */
+    .hero-policy {
+      padding: 140px 24px 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .shield-icon-wrap {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .shield-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .shield-path {
+      stroke: var(--teal);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: rgba(45, 212, 191, 0.08);
+      stroke-dasharray: 260;
+      stroke-dashoffset: 260;
+      animation: drawShield 1.6s var(--ease-primary) forwards;
+    }
+
+    .shield-check {
+      stroke: var(--teal);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      transform-origin: center;
+      transform: scale(0);
+      animation: popCheck 0.5s 1.2s var(--ease-primary) forwards;
+    }
+
+    @keyframes drawShield {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes popCheck {
+      to { transform: scale(1); }
+    }
+
+    .hero-title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s 0.3s var(--ease-primary) forwards;
+    }
+
+    .date-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s var(--ease-primary) forwards;
+    }
+
+    .badge-shimmer {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+      animation: sweepOnce 2.6s 1.2s ease-in-out forwards;
+    }
+
+    @keyframes sweepOnce {
+      0% { left: -100%; }
+      100% { left: 200%; }
+    }
+
+    /* Privacy at a glance chips */
+    .glance-chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .glance-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 30px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-main);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transform: scale(0.9);
+      animation: popChip 0.5s var(--ease-primary) forwards;
+    }
+
+    .glance-chip:nth-child(1) { animation-delay: 0.7s; color: var(--teal); }
+    .glance-chip:nth-child(2) { animation-delay: 0.8s; color: var(--blue); }
+    .glance-chip:nth-child(3) { animation-delay: 0.9s; color: var(--amber); }
+    .glance-chip:nth-child(4) { animation-delay: 1.0s; color: var(--violet); }
+
+    @keyframes popChip {
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ==========================================================================
+       4. MAIN TWO-COLUMN LAYOUT (TOC STICKY + DOCUMENT)
+       ========================================================================== */
+    .document-layout {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 20px 24px 120px;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 50px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Mobile Sticky Table of Contents Header Bar (Hidden by default, shown on mobile) */
+    .mobile-toc-bar {
+      display: none;
+      position: sticky;
+      top: 76px;
+      z-index: 85;
+      padding: 10px 16px;
+      background: rgba(7, 9, 14, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 16px;
+    }
+    [data-theme="light"] .mobile-toc-bar {
+      background: rgba(248, 250, 252, 0.88);
+    }
+
+    .mobile-toc-select {
+      width: 100%;
+      padding: 10px 16px;
+      border-radius: 14px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       color: var(--text-main);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.82rem;
-      font-weight: 600;
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-family: inherit;
+      outline: none;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
       cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%232dd4bf%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px top 50%;
+      background-size: 11px auto;
+      padding-right: 36px;
     }
 
-    .policy-card {
+    /* Sticky Sidebar Table of Contents */
+    .toc-sidebar {
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: var(--radius-lg);
-      padding: 36px 32px;
-      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(12px);
+      padding: 22px 18px;
+      backdrop-filter: blur(var(--glass-blur));
     }
 
-    h1 {
-      font-size: 2rem;
+    .toc-title {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-subtle);
       font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-      background: linear-gradient(135deg, var(--text-main), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      margin-bottom: 14px;
+      padding-left: 10px;
     }
 
-    .meta-date {
-      font-size: 0.85rem;
+    .toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+    }
+
+    .toc-item a {
+      display: block;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
       color: var(--text-muted);
-      margin-bottom: 24px;
-      font-weight: 500;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      line-height: 1.4;
+      transition: all 0.2s var(--ease-primary);
+      border-left: 2px solid transparent;
     }
 
-    h2 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin: 28px 0 12px;
+    .toc-item a:hover {
       color: var(--text-main);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .toc-item.active a {
+      color: var(--teal);
+      border-left-color: var(--teal);
+      background: rgba(45, 212, 191, 0.08);
+      font-weight: 700;
+    }
+
+    /* Policy Content Article */
+    .policy-content {
+      max-width: 780px; /* ~70 characters per line for high readability */
+    }
+
+    .policy-section {
+      margin-bottom: 60px;
+      scroll-margin-top: 100px;
+    }
+
+    .policy-card-main {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      padding: 40px 36px;
+      backdrop-filter: blur(var(--glass-blur));
+      box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.35);
+    }
+
+    .section-heading-wrap {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      margin-bottom: 22px;
+      position: relative;
     }
 
-    h3 {
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin: 16px 0 8px;
+    .section-heading-wrap h2 {
+      font-size: 1.55rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
       color: var(--text-main);
     }
 
-    p, li {
-      color: var(--text-muted);
-      font-size: 0.94rem;
-      margin-bottom: 12px;
+    .anchor-hash {
+      color: var(--text-subtle);
+      text-decoration: none;
+      font-size: 1.1rem;
+      opacity: 0;
+      transition: opacity 0.2s, color 0.2s;
     }
 
-    ul, ol {
-      padding-left: 22px;
+    .section-heading-wrap:hover .anchor-hash {
+      opacity: 1;
+    }
+    .anchor-hash:hover {
+      color: var(--teal);
+    }
+
+    p {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      line-height: 1.75;
       margin-bottom: 16px;
     }
 
-    li {
-      margin-bottom: 6px;
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 28px 0 12px;
     }
 
-    .callout-box {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(6, 182, 212, 0.08));
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      border-left: 5px solid var(--primary);
-      padding: 18px 20px;
+    ul, ol {
+      padding-left: 24px;
+      margin-bottom: 20px;
+    }
+
+    li {
+      color: var(--text-muted);
+      font-size: 0.96rem;
+      line-height: 1.75;
+      margin-bottom: 8px;
+    }
+
+    strong {
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    /* Code styling */
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.86em;
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--teal);
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Monospace Filename Chips */
+    .mono-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      padding: 3px 10px;
+      border-radius: 6px;
+      margin: 2px 0;
+    }
+
+    /* Reveal on Scroll Elements */
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s var(--ease-primary), transform 0.6s var(--ease-primary);
+    }
+
+    .reveal-item.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ==========================================================================
+       5. COMPONENT: SECTION 1 DUAL-PATH DIAGRAM & SCOPE CARDS
+       ========================================================================== */
+    .flow-diagram-box {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--card-border);
       border-radius: var(--radius-md);
+      padding: 24px 20px;
+      margin: 24px 0 32px;
+    }
+
+    .flow-diagram-svg {
+      width: 100%;
+      height: 120px;
+      display: block;
+    }
+
+    .flow-line-solid {
+      stroke: var(--teal);
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    .flow-line-dash {
+      stroke: var(--violet);
+      stroke-width: 2.5;
+      stroke-dasharray: 6, 6;
+      fill: none;
+      animation: dashMove 20s linear infinite;
+    }
+
+    @keyframes dashMove {
+      to { stroke-dashoffset: -200; }
+    }
+
+    .flow-dot-particle {
+      fill: var(--violet);
+      animation: particleFlow 4s ease-in-out infinite;
+    }
+
+    @keyframes particleFlow {
+      0% { transform: translateX(0); opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { transform: translateX(275px); opacity: 0; }
+    }
+
+    /* Scope Cards with Copy Button */
+    .scopes-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
       margin: 20px 0;
     }
 
-    .callout-box p {
-      color: var(--text-main);
-      font-size: 0.92rem;
-      margin: 0;
-    }
-
-    .callout-box strong {
-      color: #38bdf8;
-    }
-
-    code {
-      background: rgba(255, 255, 255, 0.08);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-family: monospace;
-      font-size: 0.88em;
-      color: var(--accent);
-    }
-
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      word-break: break-all;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .lang-tabs {
+    .scope-card {
+      background: rgba(139, 92, 246, 0.06);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
       display: flex;
-      gap: 8px;
-      margin-bottom: 24px;
-      background: rgba(0, 0, 0, 0.2);
-      padding: 4px;
-      border-radius: 30px;
-      width: fit-content;
-      border: 1px solid var(--card-border);
+      flex-direction: column;
+      gap: 10px;
     }
 
-    .lang-btn {
-      padding: 6px 16px;
-      border-radius: 20px;
-      border: none;
+    .scope-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      color: var(--violet);
+      font-size: 0.95rem;
+    }
+
+    .scope-code-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      overflow-x: auto;
+    }
+
+    .scope-code-row code {
       background: transparent;
-      color: var(--text-muted);
-      font-size: 0.82rem;
+      border: none;
+      padding: 0;
+      white-space: nowrap;
+      font-size: 0.8rem;
+    }
+
+    .copy-scope-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.72rem;
       font-weight: 700;
       cursor: pointer;
-      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+      transition: background 0.2s, color 0.2s;
     }
 
-    .lang-btn.active {
-      background: var(--primary);
+    .copy-scope-btn:hover {
+      background: var(--teal);
+      color: #000;
+    }
+
+    /* ==========================================================================
+       6. COMPONENT: SECTION 2 LIMITED USE & ROTATING GRADIENT BOX
+       ========================================================================== */
+    .purposes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 24px 0 32px;
+    }
+
+    .purpose-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 20px 16px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .purpose-num-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(45, 212, 191, 0.15);
+      color: var(--teal);
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+
+    .purpose-card h4 {
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .purpose-card p {
+      font-size: 0.82rem;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* Animated Gradient Border Box for Limited Use */
+    .limited-use-box {
+      position: relative;
+      border-radius: var(--radius-lg);
+      padding: 2px;
+      margin: 32px 0;
+      background: linear-gradient(135deg, var(--teal), var(--violet), var(--amber), var(--teal));
+      background-size: 300% 300%;
+      animation: rotateBorder 12s ease infinite;
+    }
+
+    @keyframes rotateBorder {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .limited-use-inner {
+      background: var(--bg-surface);
+      border-radius: calc(var(--radius-lg) - 2px);
+      padding: 26px 24px;
+    }
+
+    .limited-use-inner p {
+      margin: 0;
+      color: var(--text-main);
+      font-size: 0.96rem;
+    }
+
+    .policy-link-hover {
+      color: var(--teal);
+      text-decoration: none;
+      position: relative;
+      font-weight: 700;
+    }
+
+    .policy-link-hover::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--teal);
+      transition: width 0.3s var(--ease-primary);
+    }
+
+    .policy-link-hover:hover::after {
+      width: 100%;
+    }
+
+    /* Red X Clauses */
+    .clauses-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 20px 0;
+    }
+
+    .clause-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s var(--ease-primary), transform 0.5s var(--ease-primary);
+    }
+
+    .clauses-list.revealed .clause-row:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.05s; }
+    .clauses-list.revealed .clause-row:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.17s; }
+    .clauses-list.revealed .clause-row:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.29s; }
+    .clauses-list.revealed .clause-row:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.41s; }
+
+    .cross-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(244, 63, 94, 0.12);
+      color: var(--rose);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 2px;
+      border: 1px solid rgba(244, 63, 94, 0.25);
+    }
+
+    .info-icon-amber {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--amber);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 2px;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    /* ==========================================================================
+       7. COMPONENT: SECTION 3 DATA SECURITY CARDS (LOCK ANIMATION)
+       ========================================================================== */
+    .security-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin: 24px 0;
+    }
+
+    .security-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 22px 18px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .security-card:hover {
+      border-color: var(--card-border-glow);
+      transform: translateY(-4px);
+    }
+
+    .sec-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(45, 212, 191, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--teal);
+      margin-bottom: 14px;
+    }
+
+    /* Lock SVG Shackle Closing */
+    .lock-svg-sec .shackle-sec {
+      transition: transform 0.6s var(--ease-primary);
+    }
+    .security-card:hover .lock-svg-sec .shackle-sec {
+      transform: translateY(3px);
+    }
+
+    /* Encrypted Transmission Visualization */
+    .transmission-box {
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin: 18px 0 24px;
+    }
+
+    .transmission-svg {
+      width: 100%;
+      height: 70px;
+      display: block;
+    }
+
+    .tls-packet {
+      fill: var(--teal);
+      filter: drop-shadow(0 0 6px var(--teal));
+      animation: transmitData 3s ease-in-out infinite;
+    }
+
+    .tls-packet-2 {
+      fill: var(--violet);
+      filter: drop-shadow(0 0 6px var(--violet));
+      animation: transmitData 3s ease-in-out infinite 1.5s;
+    }
+
+    @keyframes transmitData {
+      0% { transform: translateX(0); opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { transform: translateX(330px); opacity: 0; }
+    }
+
+    /* ==========================================================================
+       8. COMPONENT: SECTION 4 USER RIGHTS VERTICAL TIMELINE
+       ========================================================================== */
+    .timeline-container {
+      position: relative;
+      padding-left: 36px;
+      margin: 30px 0;
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 11px;
+      top: 10px;
+      bottom: 20px;
+      width: 2px;
+      background: rgba(245, 158, 11, 0.25);
+    }
+
+    .timeline-step {
+      position: relative;
+      margin-bottom: 32px;
+    }
+
+    .timeline-node {
+      position: absolute;
+      left: -36px;
+      top: 2px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--bg-surface);
+      border: 2px solid var(--amber);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 10px var(--amber-glow);
+    }
+
+    .timeline-node::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--amber);
+    }
+
+    .google-perm-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, var(--amber), #ea580c);
       color: #fff;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-top: 10px;
+      box-shadow: 0 4px 16px var(--amber-glow);
+      transition: transform 0.25s var(--ease-primary), box-shadow 0.25s;
+    }
+
+    .google-perm-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px var(--amber-glow);
+    }
+
+    .google-perm-btn svg {
+      transition: transform 0.25s;
+    }
+    .google-perm-btn:hover svg {
+      transform: translate(3px, -3px);
+    }
+
+    /* ==========================================================================
+       9. COMPONENT: SECTION 5 CONTACT ENVELOPE CARD
+       ========================================================================== */
+    .contact-card-box {
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.08), rgba(139, 92, 246, 0.05));
+      border: 1px solid rgba(45, 212, 191, 0.2);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    .envelope-icon {
+      width: 50px;
+      height: 50px;
+      flex-shrink: 0;
+      color: var(--teal);
+    }
+
+    .envelope-svg .env-flap {
+      transform-origin: top;
+      transition: transform 0.4s var(--ease-primary);
+    }
+    .contact-card-box:hover .envelope-svg .env-flap {
+      transform: scaleY(-1);
+    }
+
+    .copy-email-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .copy-email-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    /* Back to Top Floating Button */
+    #backToTopBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--teal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+      z-index: 99;
+    }
+
+    #backToTopBtn.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #backToTopBtn:hover {
+      transform: translateY(-4px);
+      border-color: var(--teal);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 50px 24px;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* ==========================================================================
+       10. RESPONSIVE BREAKPOINTS & PRINT MEDIA
+       ========================================================================== */
+    @media (max-width: 900px) {
+      .document-layout {
+        grid-template-columns: 1fr;
+      }
+      .toc-sidebar {
+        display: none;
+      }
+      .mobile-toc-bar {
+        display: block;
+      }
+      .purposes-grid, .security-cards-grid {
+        grid-template-columns: 1fr;
+      }
+      .contact-card-box {
+        flex-direction: column;
+        text-align: center;
+      }
     }
 
     @media (max-width: 640px) {
-      .policy-card {
-        padding: 24px 18px;
+      .navbar-container {
+        padding: 8px 12px;
       }
-      h1 {
+      .nav-glass {
+        padding: 0 14px;
+        border-radius: 30px;
+      }
+      .brand-logo-img {
+        height: 28px;
+      }
+      .back-home-btn {
+        padding: 5px 12px;
+        font-size: 0.78rem;
+      }
+      .hero-policy {
+        padding: 100px 16px 40px;
+      }
+      .hero-title {
+        font-size: 1.85rem;
+        line-height: 1.25;
+      }
+      .shield-icon-wrap {
+        width: 65px;
+        height: 65px;
+        margin-bottom: 14px;
+      }
+      .date-badge {
+        font-size: 0.76rem;
+        padding: 5px 12px;
+      }
+      .glance-chips-row {
+        gap: 6px;
+      }
+      .glance-chip {
+        font-size: 0.74rem;
+        padding: 5px 10px;
+      }
+      .document-layout {
+        padding: 0 12px 60px;
+      }
+      .policy-card-main {
+        padding: 22px 16px;
+        border-radius: var(--radius-lg);
+      }
+      .section-heading-wrap h2 {
+        font-size: 1.25rem;
+      }
+      p, li {
+        font-size: 0.9rem;
+        line-height: 1.65;
+      }
+      .flow-diagram-box {
+        overflow-x: auto;
+        padding: 16px 12px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .flow-diagram-svg {
+        min-width: 580px;
+        height: 110px;
+      }
+      .transmission-box {
+        overflow-x: auto;
+        padding: 14px 10px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .transmission-svg {
+        min-width: 480px;
+        height: 60px;
+      }
+      .scope-code-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .scope-code-row code {
+        font-size: 0.72rem;
+        white-space: normal;
+        word-break: break-all;
+      }
+      .copy-scope-btn {
+        align-self: flex-end;
+      }
+      .timeline-container {
+        padding-left: 24px;
+      }
+      .timeline-node {
+        left: -24px;
+        width: 18px;
+        height: 18px;
+      }
+      .contact-card-box {
+        padding: 20px 16px;
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+      }
+      .contact-card-box > div {
+        flex-direction: column;
+        text-align: center;
+      }
+      .copy-email-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .hero-title {
         font-size: 1.6rem;
+      }
+      .hero-policy {
+        padding: 90px 12px 30px;
+      }
+      .policy-card-main {
+        padding: 18px 12px;
+      }
+      .glance-chips-row {
+        gap: 4px;
+      }
+      .glance-chip {
+        font-size: 0.7rem;
+        padding: 4px 8px;
+      }
+      .section-heading-wrap h2 {
+        font-size: 1.15rem;
+      }
+      .back-home-btn span {
+        display: none;
+      }
+    }
+
+    /* Print optimization */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      .ambient-orbs, #scroll-progress, #backToTopBtn, .navbar-container, .mobile-toc-bar, .toc-sidebar {
+        display: none !important;
+      }
+      .policy-card-main {
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+      }
+      a {
+        color: #000000 !important;
+        text-decoration: underline !important;
+      }
+    }
+
+    /* Reduced Motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation: none !important;
+        transition: none !important;
+      }
+      .shield-path { stroke-dashoffset: 0 !important; }
+      .shield-check { transform: scale(1) !important; }
+      .hero-title, .date-badge, .glance-chip, .reveal-item {
+        opacity: 1 !important;
+        transform: none !important;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <header class="nav-header">
-      <a href="index.html" class="back-btn">
-        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-        Back to App Profile
-      </a>
+  <!-- Scroll Progress Indicator -->
+  <div id="scroll-progress"></div>
 
-      <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙 Mode</button>
-    </header>
-
-    <div class="lang-tabs">
-      <button class="lang-btn active" onclick="switchLang('en', this)">English (Official)</button>
-      <button class="lang-btn" onclick="switchLang('id', this)">Bahasa Indonesia</button>
-    </div>
-
-    <!-- ENGLISH VERSION -->
-    <article class="policy-card" id="lang-en">
-      <h1>Privacy Policy for Docu</h1>
-      <div class="meta-date">Effective & Last Updated: October 7, 2026</div>
-
-      <p>
-        Welcome to <strong>Docu</strong> ("we," "our," or "the App"). Docu is an offline-first personal finance management, asset tracking (stocks & gold), and cashflow planning application.
-      </p>
-      <p>
-        We respect your privacy and are committed to safeguarding your personal and financial information. This Privacy Policy details our data handling practices and our explicit compliance with <strong>Google API Services User Data Policy</strong>.
-      </p>
-
-      <h2>1. Information We Collect and Process</h2>
-      <h3>A. Local Device Storage (Offline-First)</h3>
-      <ul>
-        <li><strong>Financial Records:</strong> Transaction notes, amounts, categories, budget limits, tax calculations, and receipt metadata saved in the local SQLite database.</li>
-        <li><strong>Asset Portfolio:</strong> Investment entries, wallets, and stock/gold holding numbers.</li>
-        <li><em>All primary financial calculations occur directly on your device. We do not operate external central databases to collect or store your private logs.</em></li>
-      </ul>
-
-      <h3>B. Data Accessed via Google APIs</h3>
-      <p>When you link your Google Account to enable synchronization and backup features:</p>
-      <ul>
-        <li><strong>Google Profile Identity:</strong> Basic account email and display name strictly to verify connection state and display linked user info.</li>
-        <li><strong>Google Sheets API (<code>https://www.googleapis.com/auth/spreadsheets</code>):</strong>
-          <br>Used to create/update your personal <code>Docu_Database</code> spreadsheet, sync transaction tables, and utilize temporary formula scratchpads (<code>Stocks_database</code>) for live asset pricing via <code>GOOGLEFINANCE</code>.
-        </li>
-        <li><strong>Google Drive API (<code>https://www.googleapis.com/auth/drive</code>):</strong>
-          <br>Used to maintain a dedicated <code>Docu_Backups</code> folder in your personal Google Drive for uploading and restoring compressed database snapshots (<code>docu_backup_*.zip</code>).
-        </li>
-      </ul>
-
-      <h2>2. Purpose & Utilization of Google User Data</h2>
-      <p>Google user data is used exclusively to facilitate explicit, user-initiated actions:</p>
-      <ol>
-        <li><strong>Private Cloud Backup & Restore:</strong> Storing SQLite snapshots into your own personal Google Drive storage.</li>
-        <li><strong>Spreadsheet Synchronization:</strong> Exporting financial records and transaction logs to your Google Sheets file.</li>
-        <li><strong>Market Data Lookups:</strong> Querying public market values for stocks and precious metals directly within your personal spreadsheet.</li>
-      </ol>
-
-      <div class="callout-box">
-        <p>
-          <strong>Google API Limited Use Disclosure:</strong><br>
-          Docu's use and transfer to any other app of information received from Google APIs adheres to the 
-          <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.
-        </p>
-      </div>
-
-      <p>Under these requirements:</p>
-      <ul>
-        <li>We <strong>DO NOT</strong> use Google user data to train, retrain, or improve generalized Artificial Intelligence (AI) or Machine Learning (ML) models.</li>
-        <li>We <strong>DO NOT</strong> sell, rent, or transfer your Google data or financial logs to advertising networks or data brokers.</li>
-        <li>We <strong>DO NOT</strong> use your Google Sheets or Drive content for personalized advertising.</li>
-        <li>Humans will not read your Google user data unless you give explicit permission for support, it is necessary for security analysis, or required by law.</li>
-      </ul>
-
-      <h2>3. Data Security & Storage</h2>
-      <ul>
-        <li><strong>Tokens:</strong> Google OAuth tokens are stored in private, sandboxed app storage and used solely to communicate with official Google endpoints.</li>
-        <li><strong>Transmission:</strong> All API communication uses encrypted HTTPS/TLS protocols.</li>
-        <li><strong>Passwords:</strong> Docu never requests or stores your Google account password.</li>
-      </ul>
-
-      <h2>4. User Rights & Data Deletion</h2>
-      <ul>
-        <li><strong>Disconnect:</strong> You can disconnect your Google account anytime via the App's sync settings.</li>
-        <li><strong>Revoke Remote Access:</strong> You can revoke Docu's authorization anytime via <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">Google Account Permissions</a>.</li>
-        <li><strong>Direct Deletion:</strong> Because all files reside in your personal Google Drive and device, you can delete the <code>Docu_Backups</code> folder, <code>Docu_Database</code> spreadsheet, or clear app local data at any time.</li>
-      </ul>
-
-      <h2>5. Contact Information</h2>
-      <p>If you have any questions or inquiries regarding Docu's privacy practices:</p>
-      <ul>
-        <li><strong>Email:</strong> <a href="mailto:thedesignervr@gmail.com">thedesignervr@gmail.com</a></li>
-        <li><strong>App:</strong> Docu - Daily Organized Cashflow Utility</li>
-      </ul>
-    </article>
-
-    <!-- BAHASA INDONESIA VERSION -->
-    <article class="policy-card" id="lang-id" style="display: none;">
-      <h1>Kebijakan Privasi Docu</h1>
-      <div class="meta-date">Berlaku & Terakhir Diperbarui: 7 Oktober 2026</div>
-
-      <p>
-        Selamat datang di <strong>Docu</strong> ("kami" atau "Aplikasi"). Docu adalah aplikasi pencatatan keuangan pribadi, pelacak portofolio aset (saham & emas), serta kalkulator cashflow dengan prinsip offline-first.
-      </p>
-      <p>
-        Kami menghargai privasi Anda dan berkomitmen menjaga keamanan data keuangan Anda. Kebijakan ini menjelaskan bagaimana data dikelola serta kepatuhan kami terhadap <strong>Google API Services User Data Policy</strong>.
-      </p>
-
-      <h2>1. Data yang Dikumpulkan dan Diproses</h2>
-      <h3>A. Penyimpanan Lokal di Perangkat (Offline-First)</h3>
-      <ul>
-        <li><strong>Catatan Transaksi:</strong> Nominal, kategori, catatan, batas anggaran, kalkulasi pajak, dan foto bukti struk yang tersimpan di database lokal SQLite.</li>
-        <li><strong>Portofolio Aset:</strong> Catatan tabungan, dompet, dan kuantitas investasi saham/emas.</li>
-        <li><em>Seluruh data utama tersimpan di memori perangkat Anda. Kami tidak memiliki server terpusat untuk mengumpulkan riwayat keuangan Anda.</em></li>
-      </ul>
-
-      <h3>B. Data yang Diakses melalui Google API</h3>
-      <p>Saat Anda menghubungkan akun Google untuk fitur sinkronisasi dan cadangan:</p>
-      <ul>
-        <li><strong>Profil Google:</strong> Nama dan alamat email untuk memverifikasi akun aktif.</li>
-        <li><strong>Google Sheets API (<code>https://www.googleapis.com/auth/spreadsheets</code>):</strong>
-          <br>Membuat dan memperbarui spreadsheet <code>Docu_Database</code> untuk ekspor catatan, serta lembar kerja sementara (<code>Stocks_database</code>) untuk membaca harga saham & emas via formula <code>GOOGLEFINANCE</code>.
-        </li>
-        <li><strong>Google Drive API (<code>https://www.googleapis.com/auth/drive</code>):</strong>
-          <br>Membuat folder <code>Docu_Backups</code> di Google Drive pribadi Anda untuk mencadangkan dan memulihkan snapshot database SQLite (<code>docu_backup_*.zip</code>).
-        </li>
-      </ul>
-
-      <h2>2. Kepatuhan Ketentuan Google (Limited Use Disclosure)</h2>
-      <div class="callout-box">
-        <p>
-          Penggunaan data yang diperoleh Docu melalui Google API tunduk sepenuhnya pada 
-          <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, termasuk ketentuan <strong>Limited Use</strong>.
-        </p>
-      </div>
-
-      <ul>
-        <li>Kami <strong>TIDAK</strong> menggunakan data Google Anda untuk melatih model Artificial Intelligence (AI) atau Machine Learning (ML).</li>
-        <li>Kami <strong>TIDAK</strong> menjual atau membagikan data Google maupun data keuangan Anda ke pihak ketiga atau pengiklan.</li>
-        <li>Data tidak digunakan untuk personalisasi iklan.</li>
-        <li>Tidak ada staf manusia yang membaca isi spreadsheet atau cadangan Drive Anda kecuali atas izin eksplisit Anda saat bantuan teknis.</li>
-      </ul>
-
-      <h2>3. Keamanan Data & Hak Pengguna</h2>
-      <ul>
-        <li><strong>Pencabutan Akses:</strong> Anda dapat memutus akun Google di aplikasi atau mencabut izin sewaktu-waktu melalui <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">Google Account Permissions</a>.</li>
-        <li><strong>Penghapusan Data:</strong> Anda memegang kendali 100% atas file spreadsheet dan backup di Google Drive pribadi Anda untuk dihapus kapan saja.</li>
-      </ul>
-
-      <h2>4. Kontak Kami</h2>
-      <p>Pertanyaan terkait privasi data Docu dapat diajukan ke:</p>
-      <ul>
-        <li><strong>Email:</strong> <a href="mailto:thedesignervr@gmail.com">thedesignervr@gmail.com</a></li>
-        <li><strong>Aplikasi:</strong> Docu - Daily Organized Cashflow Utility</li>
-      </ul>
-    </article>
+  <!-- Ambient Background Orbs -->
+  <div class="ambient-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
   </div>
 
+  <!-- Navbar -->
+  <header class="navbar-container" id="mainNavbar">
+    <nav class="nav-glass">
+      <a href="index.html" class="brand-link" aria-label="Return to Docu – Daily Cashflow Home">
+        <img src="asset/icon/logo_horizontal_dark.png" alt="Docu – Daily Cashflow" class="brand-logo-img logo-dark-only" />
+        <img src="asset/icon/logo_horizontal_light.png" alt="Docu – Daily Cashflow" class="brand-logo-img logo-light-only" />
+      </a>
+
+      <div class="nav-actions">
+        <a href="index.html" class="back-home-btn">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+          Back to App
+        </a>
+
+        <!-- Theme Toggle -->
+        <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Obsidian and Light Theme">
+          <svg id="themeIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-policy">
+    <div class="shield-icon-wrap">
+      <svg class="shield-svg" viewBox="0 0 80 80">
+        <path class="shield-path" d="M 40,8 L 68,20 C 68,52 40,72 40,72 C 40,72 12,52 12,20 Z" />
+        <path class="shield-check" d="M 28,40 L 36,48 L 52,32" />
+      </svg>
+    </div>
+
+    <h1 class="hero-title">Privacy Policy for Docu – Daily Cashflow</h1>
+
+    <div class="date-badge">
+      <div class="badge-shimmer"></div>
+      <span>Effective & Last Updated: October 7, 2026</span>
+    </div>
+
+    <div class="glance-chips-row">
+      <span class="glance-chip">🔒 Offline-First</span>
+      <span class="glance-chip">🚫 No Ads</span>
+      <span class="glance-chip">🛡️ No Data Selling</span>
+      <span class="glance-chip">✨ You Control Your Data</span>
+    </div>
+  </section>
+
+  <!-- Mobile Sticky Table of Contents Dropdown -->
+  <div class="mobile-toc-bar" id="mobileTocBar">
+    <select class="mobile-toc-select" id="mobileTocSelect" onchange="scrollToSection(this.value)" aria-label="Jump to Privacy Section">
+      <option value="#section-1">1. Information We Collect and Process</option>
+      <option value="#section-2">2. Purpose & Limited Use Disclosure</option>
+      <option value="#section-3">3. Data Security & Storage Practices</option>
+      <option value="#section-4">4. User Rights, Disconnection & Data Deletion</option>
+      <option value="#section-5">5. Developer & Contact Information</option>
+    </select>
+  </div>
+
+  <!-- Two-Column Document Layout -->
+  <main class="document-layout">
+    
+    <!-- Left: Sticky Sidebar Scrollspy -->
+    <aside class="toc-sidebar" aria-label="Table of Contents">
+      <div class="toc-title">Table of Contents</div>
+      <ul class="toc-list" id="tocList">
+        <li class="toc-item active"><a href="#section-1">1. Information Collected</a></li>
+        <li class="toc-item"><a href="#section-2">2. Purpose & Limited Use</a></li>
+        <li class="toc-item"><a href="#section-3">3. Security & Storage</a></li>
+        <li class="toc-item"><a href="#section-4">4. User Rights & Deletion</a></li>
+        <li class="toc-item"><a href="#section-5">5. Contact Information</a></li>
+      </ul>
+    </aside>
+
+    <!-- Right: Policy Content Card -->
+    <article class="policy-content">
+      <div class="policy-card-main">
+        
+        <p class="reveal-item">
+          Welcome to <strong>Docu – Daily Cashflow</strong> ("we," "our," or "the App"). Docu – Daily Cashflow is designed to help users track transactions, manage personal finances, compute financial metrics (such as no-spend periods and budget allocations), and organize tax reports.
+        </p>
+        <p class="reveal-item">
+          We respect your privacy and are committed to safeguarding your personal and financial data. This Privacy Policy details our practices concerning data collection, usage, storage, and our explicit compliance with Google's API policies.
+        </p>
+
+        <!-- SECTION 1 -->
+        <section id="section-1" class="policy-section" aria-labelledby="heading-sec-1">
+          <div class="section-heading-wrap">
+            <h2 id="heading-sec-1">1. Information We Collect and Process</h2>
+            <a href="#section-1" class="anchor-hash" aria-label="Anchor link to section 1">#</a>
+          </div>
+
+          <!-- Dual-path Data Diagram -->
+          <div class="flow-diagram-box reveal-item">
+            <svg class="flow-diagram-svg" viewBox="0 0 680 120" style="overflow: visible;">
+              <defs>
+                <linearGradient id="solidGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#2dd4bf"/>
+                  <stop offset="100%" stop-color="#14b8a6"/>
+                </linearGradient>
+                <linearGradient id="dashGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#8b5cf6"/>
+                  <stop offset="100%" stop-color="#a855f7"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Line 1: Solid Path (Device -> SQLite) -->
+              <!-- Node A1: Device -->
+              <g transform="translate(15, 12)">
+                <rect width="140" height="40" rx="10" fill="rgba(45,212,191,0.12)" stroke="var(--teal)" stroke-width="1.5" />
+                <text x="70" y="25" fill="var(--text-main)" font-size="12" font-weight="700" text-anchor="middle">Your Device</text>
+              </g>
+
+              <!-- Solid Connector Line -->
+              <path class="flow-line-solid" d="M 155,32 L 440,32" stroke="url(#solidGrad)" />
+              <polygon points="440,27 450,32 440,37" fill="var(--teal)" />
+              <text x="300" y="24" fill="var(--teal)" font-size="10.5" font-weight="700" text-anchor="middle">Stored locally (SQLite)</text>
+
+              <!-- Node B1: SQLite -->
+              <g transform="translate(450, 12)">
+                <rect width="215" height="40" rx="10" fill="rgba(255,255,255,0.05)" stroke="var(--card-border)" stroke-width="1.5" />
+                <text x="107" y="25" fill="var(--text-main)" font-size="12" font-weight="700" text-anchor="middle">Private SQLite Database</text>
+              </g>
+
+              <!-- Line 2: Dashed Path (Google Account -> Cloud) -->
+              <!-- Node A2: Google Account -->
+              <g transform="translate(15, 68)">
+                <rect width="140" height="40" rx="10" fill="rgba(139,92,246,0.12)" stroke="var(--violet)" stroke-width="1.5" />
+                <text x="70" y="93" fill="var(--text-main)" font-size="12" font-weight="700" text-anchor="middle">Google Account</text>
+              </g>
+
+              <!-- Dashed Connector Line -->
+              <path class="flow-line-dash" d="M 155,88 L 440,88" stroke="url(#dashGrad)" />
+              <polygon points="440,83 450,88 440,93" fill="var(--violet)" />
+              <text x="300" y="80" fill="var(--violet)" font-size="10.5" font-weight="700" text-anchor="middle">Only when you connect</text>
+
+              <!-- Animated Traveling Particle on Dashed Path -->
+              <circle cx="160" cy="88" r="3.5" class="flow-dot-particle" />
+
+              <!-- Node B2: Sheets & Drive Cloud -->
+              <g transform="translate(450, 68)">
+                <rect width="215" height="40" rx="10" fill="rgba(139,92,246,0.06)" stroke="rgba(139,92,246,0.25)" stroke-width="1.5" />
+                <text x="107" y="93" fill="var(--violet)" font-size="12" font-weight="700" text-anchor="middle">Google Sheets &amp; Drive (Private)</text>
+              </g>
+            </svg>
+          </div>
+
+          <h3 class="reveal-item">A. Data Stored Locally on Your Device</h3>
+          <ul class="reveal-item">
+            <li><strong>Financial Records & Receipts:</strong> Transaction logs, income, expenses, category tags, tax records, and receipts that you record inside Docu – Daily Cashflow.</li>
+            <li><strong>Preference Settings:</strong> App theme, currency settings, target budgets, and local notification preferences.</li>
+            <li><em>Docu – Daily Cashflow operates primarily as an on-device local application. Your financial entries remain on your device unless you explicitly opt to export or synchronize them.</em></li>
+          </ul>
+
+          <h3 class="reveal-item">B. Information Accessed via Google APIs (Google Sheets & Drive)</h3>
+          <p class="reveal-item">When you connect your Google Account to enable spreadsheet backup or export features:</p>
+          <ul class="reveal-item">
+            <li><strong>Google Profile Identity:</strong> Basic information (email address and display name) strictly to verify your active login session and show connected account status.</li>
+            <li>
+              <strong>Google Sheets API:</strong> Permission to create, view, and edit specific spreadsheets managed by Docu:
+              <div class="scopes-grid">
+                <div class="scope-card">
+                  <div class="scope-header">
+                    <span>📊 Google Sheets Scope</span>
+                  </div>
+                  <div class="scope-code-row">
+                    <code>https://www.googleapis.com/auth/spreadsheets</code>
+                    <button class="copy-scope-btn" onclick="copyScope('https://www.googleapis.com/auth/spreadsheets', this)">Copy</button>
+                  </div>
+                </div>
+              </div>
+              Used to sync transaction tables in <span class="mono-chip">Docu_Database</span> and perform live market pricing via the <span class="mono-chip">Stocks_database</span> scratchpad.
+            </li>
+            <li>
+              <strong>Google Drive API:</strong> Permission to manage application backup files:
+              <div class="scopes-grid">
+                <div class="scope-card">
+                  <div class="scope-header">
+                    <span>📁 Google Drive Scope</span>
+                  </div>
+                  <div class="scope-code-row">
+                    <code>https://www.googleapis.com/auth/drive</code>
+                    <button class="copy-scope-btn" onclick="copyScope('https://www.googleapis.com/auth/drive', this)">Copy</button>
+                  </div>
+                </div>
+              </div>
+              Used to create a dedicated folder <span class="mono-chip">Docu_Backups</span> and store compressed snapshots (<span class="mono-chip">docu_backup_*.zip</span>).
+            </li>
+            <li><strong>OAuth Credentials:</strong> Secure authentication tokens issued by Google to allow continuous background synchronization per your schedule.</li>
+          </ul>
+        </section>
+
+        <!-- SECTION 2 -->
+        <section id="section-2" class="policy-section" aria-labelledby="heading-sec-2">
+          <div class="section-heading-wrap">
+            <h2 id="heading-sec-2">2. Purpose and Usage of Google User Data</h2>
+            <a href="#section-2" class="anchor-hash" aria-label="Anchor link to section 2">#</a>
+          </div>
+
+          <p class="reveal-item">Docu uses Google Sheets API permissions exclusively for user-facing features:</p>
+
+          <div class="purposes-grid reveal-item">
+            <div class="purpose-card">
+              <div class="purpose-num-badge">1</div>
+              <h4>Automated Export</h4>
+              <p>Exporting financial logs and tax summaries into your personal spreadsheet.</p>
+            </div>
+            <div class="purpose-card">
+              <div class="purpose-num-badge">2</div>
+              <h4>Two-Way Sync</h4>
+              <p>Syncing spreadsheet rows back to the local Docu database when edited externally.</p>
+            </div>
+            <div class="purpose-card">
+              <div class="purpose-num-badge">3</div>
+              <h4>Cloud Backup</h4>
+              <p>Creating automated financial records backups in your private Google account.</p>
+            </div>
+          </div>
+
+          <!-- Mandatory Limited Use Disclosure Box -->
+          <div class="limited-use-box reveal-item">
+            <div class="limited-use-inner">
+              <p>
+                <strong>Google API Limited Use Disclosure:</strong><br>
+                Docu’s use and transfer to any other app of information received from Google APIs will adhere to the 
+                <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener noreferrer" class="policy-link-hover">Google API Services User Data Policy</a>, 
+                including the Limited Use requirements.
+              </p>
+            </div>
+          </div>
+
+          <p class="reveal-item">In strict compliance with these requirements:</p>
+          <ul class="clauses-list reveal-item">
+            <li class="clause-row">
+              <span class="cross-icon">✕</span>
+              <span><strong>No AI / ML Training:</strong> We do <strong>NOT</strong> use data obtained through Google Sheets or Drive APIs to train, retrain, or fine-tune general Artificial Intelligence or Machine Learning models.</span>
+            </li>
+            <li class="clause-row">
+              <span class="cross-icon">✕</span>
+              <span><strong>No Data Monetization or Sale:</strong> We never sell, transfer, or license your Google user data, financial logs, or contact information to third parties, advertising networks, or data brokers.</span>
+            </li>
+            <li class="clause-row">
+              <span class="cross-icon">✕</span>
+              <span><strong>No Advertising:</strong> Google user data accessed by Docu is never used for serving advertisements or behavioral profiling.</span>
+            </li>
+            <li class="clause-row">
+              <span class="info-icon-amber">i</span>
+              <span><strong>Restricted Human Access:</strong> No human at Docu reads your Google Sheets data, except when you give explicit written permission for technical troubleshooting, when strictly necessary to investigate security breaches, or in response to a legally binding subpoena or applicable law.</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- SECTION 3 -->
+        <section id="section-3" class="policy-section" aria-labelledby="heading-sec-3">
+          <div class="section-heading-wrap">
+            <h2 id="heading-sec-3">3. Data Security and Retention</h2>
+            <a href="#section-3" class="anchor-hash" aria-label="Anchor link to section 3">#</a>
+          </div>
+
+          <div class="security-cards-grid reveal-item">
+            <div class="security-card">
+              <div class="sec-icon-box">🔑</div>
+              <h4>Token Protection</h4>
+              <p style="font-size: 0.85rem; margin: 0;">Google OAuth tokens are stored in secure, sandboxed storage provided by the operating system.</p>
+            </div>
+
+            <div class="security-card">
+              <div class="sec-icon-box lock-svg-sec">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path class="shackle-sec" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+              </div>
+              <h4>Transport TLS</h4>
+              <p style="font-size: 0.85rem; margin: 0;">All communications with Google APIs are encrypted using modern Transport Layer Security (TLS/HTTPS).</p>
+            </div>
+
+            <div class="security-card">
+              <div class="sec-icon-box" style="color: var(--amber);">🚫</div>
+              <h4>No Password Access</h4>
+              <p style="font-size: 0.85rem; margin: 0;">Docu never requests, sees, or stores your Google account password.</p>
+            </div>
+          </div>
+
+          <!-- Encrypted Transmission Diagram -->
+          <div class="transmission-box reveal-item">
+            <svg class="transmission-svg" viewBox="0 0 540 60">
+              <!-- Phone Node -->
+              <g transform="translate(15, 12)">
+                <rect width="90" height="36" rx="8" fill="rgba(45,212,191,0.12)" stroke="var(--teal)" stroke-width="1.2" />
+                <text x="45" y="23" fill="var(--text-main)" font-size="11" font-weight="700" text-anchor="middle">📱 Device</text>
+              </g>
+
+              <!-- Transmission Line with TLS Badge -->
+              <line x1="110" y1="30" x2="420" y2="30" stroke="rgba(255,255,255,0.12)" stroke-width="2" stroke-dasharray="4,4" />
+              
+              <!-- TLS Badge -->
+              <rect x="235" y="18" width="60" height="24" rx="12" fill="var(--bg-surface)" stroke="var(--teal)" stroke-width="1" />
+              <text x="265" y="34" fill="var(--teal)" font-size="10" font-weight="800" text-anchor="middle">TLS 1.3</text>
+
+              <!-- Encrypted Packets Flowing -->
+              <circle cx="115" cy="30" r="4" class="tls-packet" />
+              <circle cx="115" cy="30" r="4" class="tls-packet-2" />
+
+              <!-- Google Cloud Node -->
+              <g transform="translate(425, 12)">
+                <rect width="100" height="36" rx="8" fill="rgba(139,92,246,0.12)" stroke="var(--violet)" stroke-width="1.2" />
+                <text x="50" y="23" fill="var(--text-main)" font-size="11" font-weight="700" text-anchor="middle">☁️ Google API</text>
+              </g>
+            </svg>
+          </div>
+
+          <ul class="reveal-item">
+            <li><strong>Local Storage:</strong> By default, your financial data is stored locally on your device storage (via secure SQLite / encrypted shared preferences).</li>
+          </ul>
+        </section>
+
+        <!-- SECTION 4 -->
+        <section id="section-4" class="policy-section" aria-labelledby="heading-sec-4">
+          <div class="section-heading-wrap">
+            <h2 id="heading-sec-4">4. Your Rights, Account Disconnection & Data Deletion</h2>
+            <a href="#section-4" class="anchor-hash" aria-label="Anchor link to section 4">#</a>
+          </div>
+
+          <p class="reveal-item">You have complete control over your data:</p>
+
+          <div class="timeline-container reveal-item">
+            <div class="timeline-line"></div>
+
+            <div class="timeline-step">
+              <div class="timeline-node"></div>
+              <h4>1. Disconnect Google Account</h4>
+              <p style="font-size: 0.9rem; margin-top: 4px;">
+                You can unlink your Google account anytime within Docu's settings menu (<code>Settings</code> > <code>Integrations</code> / <code>Cloud Sync</code>).
+              </p>
+            </div>
+
+            <div class="timeline-step">
+              <div class="timeline-node"></div>
+              <h4>2. Revoke Google Access Remotely</h4>
+              <p style="font-size: 0.9rem; margin-top: 4px;">
+                You can immediately revoke Docu's permissions through your Google Account security center at any time:
+              </p>
+              <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer" class="google-perm-btn">
+                <span>Google Account Permissions</span>
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </a>
+            </div>
+
+            <div class="timeline-step">
+              <div class="timeline-node"></div>
+              <h4>3. Direct Deletion of Files</h4>
+              <p style="font-size: 0.9rem; margin-top: 4px;">
+                <strong>Delete Local Data:</strong> You can delete all your financial records and app data at any time by clearing the app cache/data or uninstalling Docu.<br>
+                <strong>Delete Cloud Files:</strong> Any spreadsheet created by Docu remains within your private Google Drive and can be deleted or renamed directly by you via Google Drive.
+              </p>
+            </div>
+          </div>
+
+          <h3 class="reveal-item">Third-Party Services</h3>
+          <p class="reveal-item">Docu does not share your financial information with third-party tracking or advertising SDKs. The only external API communication is conducted directly between your device and Google's official API servers.</p>
+
+          <h3 class="reveal-item">Children's Privacy</h3>
+          <p class="reveal-item">Docu is not directed to individuals under the age of 13 (or under the legal age of consent in your country). We do not knowingly collect personal information from children.</p>
+
+          <h3 class="reveal-item">Changes to This Privacy Policy</h3>
+          <p class="reveal-item">We may update this Privacy Policy from time to time to reflect improvements in Docu or regulatory requirements. Any modifications will be posted here with an updated "Last Updated" date.</p>
+        </section>
+
+        <!-- SECTION 5 -->
+        <section id="section-5" class="policy-section" aria-labelledby="heading-sec-5">
+          <div class="section-heading-wrap">
+            <h2 id="heading-sec-5">5. Developer & Contact Information</h2>
+            <a href="#section-5" class="anchor-hash" aria-label="Anchor link to section 5">#</a>
+          </div>
+
+          <p class="reveal-item">If you have questions, feedback, or data privacy inquiries regarding Docu:</p>
+
+          <div class="contact-card-box reveal-item">
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <svg class="envelope-svg envelope-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <rect x="2" y="4" width="20" height="16" rx="3" stroke-width="2" />
+                <path class="env-flap" d="M 2,5 L 12,13 L 22,5" stroke-width="2" stroke-linecap="round" />
+              </svg>
+
+              <div>
+                <h4 style="font-size: 1.05rem; font-weight: 800;">Docu Support & Inquiries</h4>
+                <div style="font-size: 0.9rem; color: var(--text-muted);">Application: Docu – Daily Cashflow</div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; color: var(--teal); margin-top: 4px;">thedesignervr@gmail.com</div>
+              </div>
+            </div>
+
+            <button class="copy-email-btn" onclick="copyEmail('thedesignervr@gmail.com', this)">
+              <span>Copy Email</span>
+            </button>
+          </div>
+        </section>
+
+      </div>
+    </article>
+  </main>
+
+  <!-- Back to Top Button -->
+  <button id="backToTopBtn" onclick="scrollToTop()" aria-label="Back to top">
+    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+  </button>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+        <img src="asset/icon/logo_vertikal_dark.png" alt="DOCU Logo" class="logo-dark-only" style="height: 48px; width: auto; object-fit: contain;" />
+        <img src="asset/icon/logo_vertikal_light.png" alt="DOCU Logo" class="logo-light-only" style="height: 48px; width: auto; object-fit: contain;" />
+      </div>
+
+      <p style="font-size: 0.9rem; font-weight: 700; color: var(--teal); margin-top: 4px;">
+        Your data stays yours.
+      </p>
+
+      <div style="font-size: 0.8rem; color: var(--text-subtle);">
+        © 2026 Docu – Daily Cashflow. 100% Free, Zero Ads. Made with devotion to personal privacy.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       JAVASCRIPT: MOTION, THEME, SCROLLSPY & CLIPBOARD
+       ========================================================================== -->
   <script>
+    // 1. Theme Management (Prefers-color-scheme default + LocalStorage fallback)
+    (function initTheme() {
+      try {
+        const savedTheme = localStorage.getItem('docu_theme');
+        if (savedTheme) {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      } catch (e) {
+        // Fallback jika localStorage diblokir
+      }
+      updateThemeIcon();
+    })();
+
     function toggleTheme() {
       const current = document.documentElement.getAttribute('data-theme');
       const next = current === 'light' ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', next);
-      document.getElementById('themeBtn').innerText = next === 'light' ? '☀️ Light' : '🌙 Obsidian';
+      try {
+        localStorage.setItem('docu_theme', next);
+      } catch (e) {}
+      updateThemeIcon();
     }
 
-    function switchLang(lang, btn) {
-      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      if (lang === 'en') {
-        document.getElementById('lang-en').style.display = 'block';
-        document.getElementById('lang-id').style.display = 'none';
+    function updateThemeIcon() {
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      const icon = document.getElementById('themeIcon');
+      if (isLight) {
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
       } else {
-        document.getElementById('lang-en').style.display = 'none';
-        document.getElementById('lang-id').style.display = 'block';
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
       }
+    }
+
+    // 2. Scroll Progress Bar & Back to Top Trigger
+    window.addEventListener('scroll', () => {
+      const winScroll = document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('scroll-progress').style.width = scrolled + '%';
+
+      const nav = document.getElementById('mainNavbar');
+      if (winScroll > 60) {
+        nav.classList.add('nav-scrolled');
+      } else {
+        nav.classList.remove('nav-scrolled');
+      }
+
+      const backBtn = document.getElementById('backToTopBtn');
+      if (winScroll > 600) {
+        backBtn.classList.add('show');
+      } else {
+        backBtn.classList.remove('show');
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function scrollToSection(targetId) {
+      const target = document.querySelector(targetId);
+      if (target) {
+        const offset = 130;
+        const targetPos = target.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top: targetPos, behavior: 'smooth' });
+      }
+    }
+
+    // 3. Reveal on Scroll (IntersectionObserver - Once only)
+    const revealItems = document.querySelectorAll('.reveal-item');
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealItems.forEach(el => observer.observe(el));
+
+    // 4. Scrollspy for Sticky Table of Contents & Mobile Select
+    const sections = document.querySelectorAll('.policy-section');
+    const tocItems = document.querySelectorAll('.toc-item');
+    const mobileSelect = document.getElementById('mobileTocSelect');
+
+    window.addEventListener('scroll', () => {
+      let currentSectionId = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 160;
+        if (window.scrollY >= sectionTop) {
+          currentSectionId = section.getAttribute('id');
+        }
+      });
+
+      if (currentSectionId && mobileSelect && mobileSelect.value !== '#' + currentSectionId) {
+        mobileSelect.value = '#' + currentSectionId;
+      }
+
+      tocItems.forEach(item => {
+        const link = item.querySelector('a');
+        if (link && link.getAttribute('href') === '#' + currentSectionId) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+    });
+
+    // 5. Copy Helpers
+    function copyScope(scopeUrl, btn) {
+      navigator.clipboard.writeText(scopeUrl).then(() => {
+        const originalText = btn.innerText;
+        btn.innerText = '✓ Copied';
+        btn.style.background = 'var(--teal)';
+        btn.style.color = '#000';
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 1800);
+      });
+    }
+
+    function copyEmail(email, btn) {
+      navigator.clipboard.writeText(email).then(() => {
+        const original = btn.innerHTML;
+        btn.innerHTML = '<span>✓ Copied to Clipboard</span>';
+        btn.style.background = 'var(--teal)';
+        btn.style.color = '#000';
+        setTimeout(() => {
+          btn.innerHTML = original;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 2000);
+      });
     }
   </script>
 </body>
