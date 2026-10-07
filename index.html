@@ -3339,12 +3339,23 @@
   <script src="translations_data.js"></script>
   <script>
     // 1. Preloader dismissal
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.getElementById('preloader').classList.add('done');
+    function dismissPreloader() {
+      const preloader = document.getElementById('preloader');
+      if (preloader && !preloader.classList.contains('done')) {
+        preloader.classList.add('done');
         initHeroAnimations();
-      }, 700);
-    });
+      }
+    }
+
+    if (document.readyState === 'complete') {
+      setTimeout(dismissPreloader, 300);
+    } else {
+      window.addEventListener('load', () => {
+        setTimeout(dismissPreloader, 500);
+      });
+      // Safety timeout: Ensure preloader always dismisses even if assets hang
+      setTimeout(dismissPreloader, 2500);
+    }
 
     // 2. Mouse Glow Tracker
     const glow = document.getElementById('cursorGlow');
@@ -3370,6 +3381,7 @@
 
     // 4. Hero Motion Animation
     function initHeroAnimations() {
+      if (typeof gsap === 'undefined') return;
       // Word by word reveal
       gsap.to('.hero-title .word-inner', {
         y: '0%',
@@ -3815,10 +3827,13 @@
     // ==========================================================================
     // 11-LANGUAGE TRANSLATION SYSTEM (Loaded from translations_data.js)
     // ==========================================================================
-    const DOCU_TRANSLATIONS = window.DOCU_TRANSLATIONS || {};
+    function getTranslationsDict() {
+      return window.DOCU_TRANSLATIONS || (typeof DOCU_TRANSLATIONS !== 'undefined' ? DOCU_TRANSLATIONS : {});
+    }
 
     function changeLanguage(lang) {
-      if (!DOCU_TRANSLATIONS[lang]) lang = 'en';
+      const trans = getTranslationsDict();
+      if (!trans[lang]) lang = 'en';
       localStorage.setItem('docu_landing_lang', lang);
 
       // Handle RTL for Arabic
@@ -3837,7 +3852,7 @@
       }
 
       // Apply translations to all data-i18n elements
-      const dict = DOCU_TRANSLATIONS[lang];
+      const dict = trans[lang];
       document.querySelectorAll('[data-i18n]').forEach((el) => {
         const key = el.getAttribute('data-i18n');
         if (dict && dict[key]) {
@@ -3852,14 +3867,15 @@
 
     // Auto-detect and initialize language on load
     (function initLanguage() {
+      const trans = getTranslationsDict();
       const savedLang = localStorage.getItem('docu_landing_lang');
-      if (savedLang && DOCU_TRANSLATIONS[savedLang]) {
+      if (savedLang && trans[savedLang]) {
         changeLanguage(savedLang);
         return;
       }
       const navLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
       const code = navLang.split('-')[0];
-      if (DOCU_TRANSLATIONS[code]) {
+      if (trans[code]) {
         changeLanguage(code);
       } else {
         changeLanguage('id'); // Default to Indonesian or English

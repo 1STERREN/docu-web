@@ -1,4 +1,4 @@
-const DOCU_TRANSLATIONS = {
+var DOCU_TRANSLATIONS = {
   "en": {
     "navWhyUs": "Why Us",
     "navFeatures": "Features",
