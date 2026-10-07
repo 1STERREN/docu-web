@@ -1,0 +1,3132 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DOCU - Daily Organized Cashflow Utility</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Dark Theme: Hitam Obsidian */
+      --bg-dark: #050507;
+      --card-bg: rgba(14, 15, 22, 0.92);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-glow: rgba(99, 102, 241, 0.28);
+      --accent: #06b6d4;
+      --accent-glow: rgba(6, 182, 212, 0.25);
+      --emerald: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.2);
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --purple: #a855f7;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-subtle: #64748b;
+      --nav-tabs-bg: rgba(10, 10, 16, 0.85);
+      --item-bg: rgba(255, 255, 255, 0.025);
+      --item-border: rgba(255, 255, 255, 0.05);
+      --hub-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.9), 0 0 1px 1px rgba(255, 255, 255, 0.06);
+      --bg-grad-1: rgba(99, 102, 241, 0.15);
+      --bg-grad-2: rgba(6, 182, 212, 0.12);
+      --top-input-bg: rgba(255, 255, 255, 0.05);
+      --top-input-border: rgba(255, 255, 255, 0.12);
+      --radius-xl: 22px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="light"] {
+      /* Light Theme: Bersih, Elegan & Modern */
+      --bg-dark: #f8fafc;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-border: rgba(0, 0, 0, 0.08);
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-glow: rgba(79, 70, 229, 0.2);
+      --accent: #0891b2;
+      --accent-glow: rgba(8, 145, 178, 0.18);
+      --emerald: #059669;
+      --emerald-glow: rgba(5, 150, 105, 0.18);
+      --amber: #d97706;
+      --rose: #e11d48;
+      --purple: #9333ea;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-subtle: #94a3b8;
+      --nav-tabs-bg: rgba(241, 245, 249, 0.95);
+      --item-bg: rgba(0, 0, 0, 0.025);
+      --item-border: rgba(0, 0, 0, 0.06);
+      --hub-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.08), 0 0 1px 1px rgba(0, 0, 0, 0.05);
+      --bg-grad-1: rgba(99, 102, 241, 0.08);
+      --bg-grad-2: rgba(6, 182, 212, 0.06);
+      --top-input-bg: rgba(0, 0, 0, 0.04);
+      --top-input-border: rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(at 0% 0%, var(--bg-grad-1) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, var(--bg-grad-2) 0px, transparent 50%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px 14px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    [dir="rtl"] {
+      direction: rtl;
+      text-align: right;
+    }
+    [dir="rtl"] .faq-question,
+    [dir="rtl"] .top-bar,
+    [dir="rtl"] .feature-group-header,
+    [dir="rtl"] .quote-box,
+    [dir="rtl"] .support-single-card,
+    [dir="rtl"] .support-cta-box {
+      text-align: right;
+    }
+    [dir="rtl"] .quote-box {
+      border-left: none;
+      border-right: 4px solid var(--accent);
+    }
+    [dir="rtl"] .tab-btn svg {
+      margin-left: 6px;
+      margin-right: 0;
+    }
+
+    .hub-container {
+      width: 100%;
+      max-width: 800px;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      padding: 28px 24px;
+      box-shadow: var(--hub-shadow);
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .hub-container::before {
+      content: '';
+      position: absolute;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 440px;
+      height: 220px;
+      background: linear-gradient(180deg, var(--primary-glow), transparent);
+      border-radius: 50%;
+      filter: blur(60px);
+      pointer-events: none;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      position: relative;
+      z-index: 10;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .brand-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: rgba(6, 182, 212, 0.1);
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(6, 182, 212, 0.2);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Theme Toggle Button */
+    .theme-toggle-btn {
+      background: var(--top-input-bg);
+      border: 1px solid var(--top-input-border);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .theme-toggle-btn:hover {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: var(--primary);
+    }
+
+    .theme-icon {
+      font-size: 0.95rem;
+    }
+
+    .lang-select {
+      background: var(--top-input-bg);
+      border: 1px solid var(--top-input-border);
+      color: var(--text-main);
+      padding: 7px 12px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .lang-select:hover, .lang-select:focus {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: var(--primary);
+    }
+
+    .lang-select option {
+      background: var(--bg-dark);
+      color: var(--text-main);
+    }
+
+    /* Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      background: var(--nav-tabs-bg);
+      padding: 5px;
+      border-radius: 50px;
+      border: 1px solid var(--card-border);
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 10px 14px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      border-radius: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: var(--transition);
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--primary), #4338ca);
+      color: #ffffff;
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+
+    .tab-btn svg {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+    }
+
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero Section */
+    .hero-banner {
+      text-align: center;
+      padding: 10px 8px 24px;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 22px;
+    }
+
+    .app-title-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 5px 14px;
+      border-radius: 30px;
+      color: #a5b4fc;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    [data-theme="light"] .app-title-badge {
+      color: #4f46e5;
+    }
+
+    .hero-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+
+    .hero-subtitle {
+      color: var(--accent);
+      font-size: 0.98rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .hero-desc {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.65;
+      max-width: 660px;
+      margin: 0 auto 12px;
+    }
+
+    /* Support Callout Banner (Above Kenapa Harus DOCU) */
+    .support-cta-box {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.14), rgba(6, 182, 212, 0.1));
+      border: 1px solid rgba(99, 102, 241, 0.28);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      margin-bottom: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: 0 10px 25px -10px var(--primary-glow);
+      transition: var(--transition);
+    }
+
+    .support-cta-box:hover {
+      border-color: rgba(99, 102, 241, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .support-cta-main {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .support-cta-icon {
+      font-size: 1.8rem;
+      background: rgba(99, 102, 241, 0.18);
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .support-cta-content h4 {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 3px;
+    }
+
+    .support-cta-content p {
+      font-size: 0.81rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .support-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #ffffff;
+      padding: 10px 18px;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      box-shadow: 0 4px 15px var(--primary-glow);
+      transition: var(--transition);
+    }
+
+    .support-cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--primary-glow);
+    }
+
+    /* Pillars */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .pillar-card {
+      background: var(--item-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 14px 10px;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .pillar-card:hover {
+      background: rgba(99, 102, 241, 0.12);
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px -5px rgba(6, 182, 212, 0.2);
+    }
+
+    .pillar-icon {
+      font-size: 1.5rem;
+      margin-bottom: 6px;
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+
+    .pillar-card:hover .pillar-icon {
+      transform: scale(1.2) rotate(6deg);
+    }
+
+    .pillar-card h4 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--text-main);
+    }
+
+    .pillar-card p {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* Feature Category Sections */
+    .feature-group {
+      margin-bottom: 24px;
+      background: var(--item-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .feature-group::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary), var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .feature-group:hover {
+      border-color: rgba(99, 102, 241, 0.35);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.35);
+    }
+
+    .feature-group:hover::before {
+      opacity: 1;
+    }
+
+    .feature-group-icon {
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .feature-group:hover .feature-group-icon {
+      transform: scale(1.15) rotate(-5deg);
+    }
+
+    .calc-badge-item {
+      transition: all 0.2s ease;
+      cursor: default;
+    }
+
+    .calc-badge-item:hover {
+      background: rgba(99, 102, 241, 0.12);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .feature-group-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .feature-group-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .f-indigo { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
+    .f-cyan { background: rgba(6, 182, 212, 0.15); color: #22d3ee; }
+    .f-emerald { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+    .f-rose { background: rgba(244, 63, 94, 0.15); color: #fb7185; }
+    .f-amber { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+    .f-purple { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+
+    .feature-group-header h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .feature-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .feature-item-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .bullet-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    .feature-item-content h5 {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 3px;
+    }
+
+    .feature-item-content p {
+      font-size: 0.81rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Calculator Grid */
+    .calc-badges-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .calc-badge-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--item-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      font-size: 0.78rem;
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .calc-badge-item span.emoji {
+      font-size: 1rem;
+    }
+
+    /* Developer Quote Box */
+    .quote-box {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(6, 182, 212, 0.06));
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-top: 26px;
+      margin-bottom: 20px;
+    }
+
+    .quote-text {
+      font-style: italic;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .quote-author {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* Support Single Card (Email Only) */
+    .support-single-card {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(6, 182, 212, 0.08));
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: var(--radius-lg);
+      padding: 24px 20px;
+      margin-bottom: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: var(--transition);
+    }
+
+    .support-card-main {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .support-big-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px var(--primary-glow);
+      flex-shrink: 0;
+    }
+
+    .support-big-icon svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .support-main-info h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .support-main-info p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .support-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      background: var(--item-bg);
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--card-border);
+    }
+
+    .email-display {
+      flex: 1;
+      font-family: monospace, monospace;
+      font-size: 0.94rem;
+      font-weight: 600;
+      color: var(--accent);
+      word-break: break-all;
+    }
+
+    .email-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition);
+    }
+
+    .email-btn.primary {
+      background: var(--primary);
+      color: white;
+    }
+    .email-btn.primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .email-btn.secondary {
+      background: var(--top-input-bg);
+      color: var(--text-main);
+      border: 1px solid var(--top-input-border);
+    }
+    .email-btn.secondary:hover {
+      background: rgba(99, 102, 241, 0.15);
+    }
+
+    /* FAQ List */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--card-border);
+      background: var(--item-bg);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .faq-question {
+      padding: 15px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-main);
+      user-select: none;
+    }
+
+    .faq-question svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.25s ease;
+      color: var(--text-subtle);
+      flex-shrink: 0;
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 0 18px 15px;
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .faq-item.open {
+      border-color: rgba(99, 102, 241, 0.35);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .faq-item.open .faq-question svg {
+      transform: rotate(180deg);
+      color: var(--primary);
+    }
+
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+
+    /* Donation Page - QRIS Focus */
+    .donation-banner {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(6, 182, 212, 0.12));
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .donation-banner h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .donation-banner p {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* QRIS Interactive Card */
+    .qris-container-card {
+      background: var(--item-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 24px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+    }
+
+    .qris-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #6366f1, #06b6d4);
+      color: white;
+      padding: 14px 24px;
+      border-radius: 40px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 20px var(--primary-glow);
+      transition: var(--transition);
+    }
+
+    .qris-toggle-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px var(--primary-glow);
+    }
+
+    .qris-toggle-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Modal / QR Display Box */
+    .qris-box {
+      display: none;
+      width: 100%;
+      max-width: 360px;
+      background: #ffffff;
+      color: #1e293b;
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+      animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-top: 10px;
+    }
+
+    .qris-box.active {
+      display: block;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .qris-header-logo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+    }
+
+    .qris-title-tag {
+      font-size: 1.15rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      color: #dc2626;
+      line-height: 1;
+    }
+
+    .qris-sub-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #64748b;
+      letter-spacing: 0.05em;
+    }
+
+    .qris-gpn-logo {
+      font-size: 0.7rem;
+      font-weight: 800;
+      background: #0f172a;
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .qris-merchant-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+
+    .qris-merchant-meta {
+      font-size: 0.72rem;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+
+    .qris-code-wrapper {
+      background: #ffffff;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px dashed #cbd5e1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .qris-img {
+      width: 100%;
+      max-width: 260px;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      display: block;
+      border-radius: 4px;
+    }
+
+    .qris-scan-instruction {
+      font-size: 0.75rem;
+      color: #475569;
+      line-height: 1.4;
+      margin-bottom: 14px;
+    }
+
+    .qris-banks-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 5px;
+      margin-bottom: 4px;
+    }
+
+    .bank-pill {
+      font-size: 0.64rem;
+      font-weight: 700;
+      background: #f1f5f9;
+      color: #334155;
+      padding: 3px 6px;
+      border-radius: 4px;
+    }
+
+    /* Section Subheaders */
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--text-main);
+    }
+
+    .section-title svg {
+      width: 19px;
+      height: 19px;
+      color: var(--accent);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1e293b;
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      font-size: 0.84rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 680px) {
+      .hub-container {
+        padding: 20px 14px;
+      }
+      .pillars-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .calc-badges-grid {
+        grid-template-columns: 1fr;
+      }
+      .tab-btn {
+        font-size: 0.8rem;
+        padding: 8px 6px;
+      }
+      .tab-btn svg {
+        display: none;
+      }
+      .hero-title {
+        font-size: 1.35rem;
+      }
+      .support-cta-box {
+        flex-direction: column;
+        text-align: center;
+      }
+      .support-cta-main {
+        flex-direction: column;
+      }
+      .support-cta-btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .support-card-main {
+        flex-direction: column;
+        text-align: center;
+      }
+      .support-actions {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hub-container">
+    
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="brand-meta">
+        <span class="brand-badge" data-i18n="app_acronym">Daily Organized Cashflow Utility</span>
+      </div>
+
+      <div class="top-actions">
+        <!-- Theme Toggle Button -->
+        <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle Theme">
+          <span class="theme-icon" id="themeIcon">🌙</span>
+          <span class="theme-name" id="themeText" data-i18n="theme_obsidian">Obsidian</span>
+        </button>
+
+        <!-- Language Selector -->
+        <div class="lang-dropdown-wrapper">
+          <select class="lang-select" id="langSelect" onchange="onLanguageChange(this.value)" aria-label="Select Language">
+            <option value="id">🇮🇩 Bahasa Indonesia</option>
+            <option value="en">🇬🇧 English</option>
+            <option value="ar">🇸🇦 العربية</option>
+            <option value="de">🇩🇪 Deutsch</option>
+            <option value="es">🇪🇸 Español</option>
+            <option value="fr">🇫🇷 Français</option>
+            <option value="ja">🇯🇵 日本語</option>
+            <option value="ko">🇰🇷 한국어</option>
+            <option value="pt">🇧🇷 Português</option>
+            <option value="th">🇹🇭 ไทย</option>
+            <option value="vi">🇻🇳 Tiếng Việt</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs" role="tablist">
+      <button class="tab-btn active" onclick="switchTab('profile', this)" role="tab" aria-selected="true">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <span data-i18n="tab_profile">Profil & Fitur</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('support', this)" role="tab" aria-selected="false">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+        <span data-i18n="tab_support">Support & FAQ</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('donation', this)" role="tab" aria-selected="false">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
+        <span data-i18n="tab_donation">Donasi QRIS</span>
+      </button>
+      <a href="privacy.html" class="tab-btn privacy-link-tab" style="text-decoration: none;" title="Buka Kebijakan Privasi">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+        <span>Privacy Policy</span>
+      </a>
+    </nav>
+
+    <!-- ==================== TAB 1: PROFIL & FITUR LENGKAP ==================== -->
+    <div id="tab-profile" class="tab-pane active" role="tabpanel">
+      
+      <!-- Hero -->
+      <section class="hero-banner">
+        <div class="app-title-badge" data-i18n="hero_badge">100% Bebas Iklan • Gratis Selamanya</div>
+        <h2 class="hero-title" data-i18n="hero_title">DOCU: Catat Keuangan</h2>
+        <p class="hero-subtitle" data-i18n="hero_subtitle">Daily Organized Cashflow Utility</p>
+        <p class="hero-desc" data-i18n="hero_desc">
+          Bosan dengan aplikasi keuangan yang banyak iklan mengganggu atau mengunci fitur penting di balik langganan bulanan mahal? DOCU hadir sebagai ruang yang tenang, privat, dan lengkap untuk membantu Anda mengelola uang, merencanakan mimpi, dan meraih kebebasan finansial tanpa keluar biaya sepeser pun.
+        </p>
+      </section>
+
+      <!-- Ajakan Support / Donasi (di atas bagian Kenapa Harus DOCU) -->
+      <div class="support-cta-box">
+        <div class="support-cta-main">
+          <div class="support-cta-icon">☕</div>
+          <div class="support-cta-content">
+            <h4 data-i18n="cta_support_title">Suka dengan DOCU? Dukung Kemandirian Kami!</h4>
+            <p data-i18n="cta_support_desc">DOCU dikembangkan dengan tulus secara 100% bebas iklan dan tanpa sistem langganan. Donasi sukarela Anda lewat QRIS sangat berarti untuk kelangsungan riset, pemeliharaan fitur, dan server cloud.</p>
+          </div>
+        </div>
+        <button class="support-cta-btn" onclick="openDonationTab()">
+          <span data-i18n="cta_support_btn">Traktir Kopi via QRIS</span>
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </button>
+      </div>
+
+      <!-- Kenapa Harus DOCU? (4 Pilar) -->
+      <div class="section-title">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        <span data-i18n="pillars_heading">✨ Kenapa Harus DOCU?</span>
+      </div>
+
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon">🚫</div>
+          <h4 data-i18n="p1_title">100% Gratis & Tanpa Iklan</h4>
+          <p data-i18n="p1_desc">Tanpa banner pop-up menjengkelkan, tanpa biaya langganan rahasia (No Paywall).</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">🔒</div>
+          <h4 data-i18n="p2_title">Pro-Privasi & Offline-First</h4>
+          <p data-i18n="p2_desc">Data tersimpan aman di perangkat (lokal). Bekerja lancar tanpa kuota internet.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">☁️</div>
+          <h4 data-i18n="p3_title">Backup Google Drive Mandiri</h4>
+          <p data-i18n="p3_desc">Cadangkan & pulihkan kapan saja ke akun Google Drive pribadi Anda dengan aman.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">🎨</div>
+          <h4 data-i18n="p4_title">Desain Elegan & Modern</h4>
+          <p data-i18n="p4_desc">Antarmuka Glassmorphism premium, responsif, Dark Mode & Multi-Tema.</p>
+        </div>
+      </div>
+
+      <!-- FITUR-FITUR UTAMA DOCU -->
+      <div class="section-title">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        <span data-i18n="features_master_title">🚀 Fitur-Fitur Utama DOCU</span>
+      </div>
+
+      <!-- Kategori 1: Input Cerdas & Pemindai Nota AI -->
+      <div class="feature-group">
+        <div class="feature-group-header">
+          <div class="feature-group-icon f-indigo">⚡</div>
+          <h3 data-i18n="g1_title">1. Input Cerdas & Pemindai Nota (On-Device OCR & AI Vision)</h3>
+        </div>
+        <div class="feature-items-list">
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g1_f1_t">Scan Struk & Nota Belanja Otomatis</h5>
+              <p data-i18n="g1_f1_d">Foto struk belanja (Indomaret, Alfamart, SPBU, restoran, hingga invoice Tokopedia & Shopee), sistem OCR cerdas kami langsung membaca total harga dan merchant tanpa perlu mengetik manual.</p>
+            </div>
+          </div>
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g1_f2_t">Deteksi Transfer & QRIS Digital</h5>
+              <p data-i18n="g1_f2_d">Mengenali bukti transfer BCA, Mandiri, BRI, BNI, GoPay, DANA, OVO, ShopeePay, dsb. secara instan.</p>
+            </div>
+          </div>
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g1_f3_t">Auto-Capture Notifikasi (Opsional)</h5>
+              <p data-i18n="g1_f3_d">Tangkap dan catat transaksi perbankan & e-wallet otomatis dari notifikasi ponsel Anda secara instan.</p>
+            </div>
+          </div>
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g1_f4_t">Input Multi-Transaksi & Multi-Mata Uang</h5>
+              <p data-i18n="g1_f4_d">Catat beberapa transaksi sekaligus dalam satu waktu lengkap dengan konversi kurs mata uang asing untuk liburan.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kategori 2: Manajemen Dompet & Multi-Profil -->
+      <div class="feature-group">
+        <div class="feature-group-header">
+          <div class="feature-group-icon f-cyan">💼</div>
+          <h3 data-i18n="g2_title">2. Manajemen Dompet & Multi-Profil (All-in-One)</h3>
+        </div>
+        <div class="feature-items-list">
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g2_f1_t">Multi-Profil Finansial Terisolasi</h5>
+              <p data-i18n="g2_f1_d">Pisahkan catatan Keuangan Pribadi, Bisnis/Usaha, Keluarga, atau Kantor dalam satu aplikasi tanpa tercampur.</p>
+            </div>
+          </div>
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g2_f2_t">Banyak Dompet & Rekening</h5>
+              <p data-i18n="g2_f2_d">Kelola Saldo Tunai, Rekening Bank, E-Wallet, hingga Tabungan dengan kustomisasi warna dan ikon.</p>
+            </div>
+          </div>
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g2_f3_t">Fitur Transfer Antar Dompet & Profil</h5>
+              <p data-i18n="g2_f3_d">Mutasi saldo instan antar rekening atau antar profil usaha dan pribadi dengan riwayat yang rapi.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kategori 3: Anggaran & Perencanaan Masa Depan -->
+      <div class="feature-group">
+        <div class="feature-group-header">
+          <div class="feature-group-icon f-emerald">🎯</div>
+          <h3 data-i18n="g3_title">3. Anggaran & Perencanaan Masa Depan</h3>
+        </div>
+        <div class="feature-items-list">
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g3_f1_t">Sistem Anggaran (Budgeting)</h5>
+              <p data-i18n="g3_f1_d">Atur batas pengeluaran bulanan per kategori dengan indikator visual dan peringatan saat mendekati batas limit.</p>
+            </div>
+          </div>
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g3_f2_t">Target & Tabungan Impian (Financial Goals)</h5>
+              <p data-i18n="g3_f2_d">Pantau progres tabungan beli rumah, kendaraan, dana darurat, atau liburan dengan estimasi waktu pencapaian.</p>
+            </div>
+          </div>
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g3_f3_t">Manajemen Hutang & Piutang (Debts & Loans)</h5>
+              <p data-i18n="g3_f3_d">Catat pinjaman dan tagihan piutang lengkap dengan tanggal jatuh tempo, cicilan, dan status pelunasan.</p>
+            </div>
+          </div>
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g3_f4_t">Klaim Reimbursement Kantor</h5>
+              <p data-i18n="g3_f4_d">Rekap pengeluaran kantor/bisnis yang perlu diganti (reimburse) dengan bukti foto struk terlampir.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kategori 4: Gaya Hidup, Liburan & Acara Sosial -->
+      <div class="feature-group">
+        <div class="feature-group-header">
+          <div class="feature-group-icon f-rose">🌴</div>
+          <h3 data-i18n="g4_title">4. Gaya Hidup, Liburan & Acara Sosial</h3>
+        </div>
+        <div class="feature-items-list">
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g4_f1_t">Mode Trip & Liburan</h5>
+              <p data-i18n="g4_f1_d">Mode khusus pelacak pengeluaran saat bepergian (mendukung multi-currency dan split budget perjalanan).</p>
+            </div>
+          </div>
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g4_f2_t">Manajemen Event & Grup</h5>
+              <p data-i18n="g4_f2_d">Kelola anggaran acara pernikahan, arisan, proyek tim, atau hangout bersama teman.</p>
+            </div>
+          </div>
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g4_f3_t">Daftar Belanja Pintar (Smart Shopping List)</h5>
+              <p data-i18n="g4_f3_d">Buat checklist belanjaan lengkap dengan estimasi harga, centang barang yang sudah dibeli, dan scan struk untuk kalkulasi otomatis.</p>
+            </div>
+          </div>
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g4_f4_t">Rutinitas & Tagihan Berkala (Recurring)</h5>
+              <p data-i18n="g4_f4_d">Otomatisasi pencatatan tagihan langganan (WiFi, listrik, sewa kontrakan) agar tidak pernah terlewat.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kategori 5: Portofolio Investasi & Pelacak Aset -->
+      <div class="feature-group">
+        <div class="feature-group-header">
+          <div class="feature-group-icon f-amber">📈</div>
+          <h3 data-i18n="g5_title">5. Portofolio Investasi & Pelacak Aset</h3>
+        </div>
+        <div class="feature-items-list">
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g5_f1_t">Portofolio Saham, Kripto & Logam Mulia (Emas)</h5>
+              <p data-i18n="g5_f1_d">Pantau pertumbuhan aset investasi saham, aset kripto, serta harga emas / logam mulia secara terintegrasi dengan kalkulasi keuntungan/kerugian portofolio.</p>
+            </div>
+          </div>
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g5_f2_t">Laporan Finansial Komprehensif</h5>
+              <p data-i18n="g5_f2_d">Grafik visual arus kas (Cashflow), analisis pengeluaran per kategori, tren bulanan, dan ekspor laporan ke format Excel/PDF.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kategori 6: Edukasi Finansial & Keamanan Berlapis -->
+      <div class="feature-group">
+        <div class="feature-group-header">
+          <div class="feature-group-icon f-emerald">🎓</div>
+          <h3 data-i18n="g7_title">6. Edukasi Finansial & Keamanan Berlapis</h3>
+        </div>
+        <div class="feature-items-list">
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g7_f1_t">Kuis & Modul Edukasi Keuangan</h5>
+              <p data-i18n="g7_f1_d">Tingkatkan literasi finansial Anda melalui kuis interaktif dan kartu belajar (flashcard).</p>
+            </div>
+          </div>
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g7_f2_t">Kunci Keamanan PIN & Biometrik</h5>
+              <p data-i18n="g7_f2_d">Lindungi data keuangan pribadi Anda dengan kunci PIN dan sensor sidik jari (fingerprint).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <!-- Kategori 7: Multi-Device, AI Cerdas & Sistem BYOK -->
+      <div class="feature-group">
+        <div class="feature-group-header">
+          <div class="feature-group-icon f-rose">🤖</div>
+          <h3 data-i18n="g8_title">7. Multi-Device, AI Quick Voice & Sistem BYOK</h3>
+        </div>
+        <div class="feature-items-list">
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g8_f1_t">Sinkronisasi Multi-Device (Google Drive Mirror Sync)</h5>
+              <p data-i18n="g8_f1_d">Hubungkan ponsel, tablet, dan perangkat lain secara mulus melalui sistem Mirror Sync berbasis Google Drive pribadi Anda. Data disinkronkan secara aman tanpa perantara server pihak ketiga.</p>
+            </div>
+          </div>
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g8_f2_t">AI Quick Voice Assistant (Voice Action)</h5>
+              <p data-i18n="g8_f2_d">Cukup bicara atau ketik bebas dengan bahasa sehari-hari. AI cerdas DOCU mengurai dan mencatat multi-aksi sekaligus dalam 1x rekaman: transaksi instan, tagihan rutin, hutang-piutang, daftar belanja, draf trip, hingga target impian dengan nominal dan kategori otomatis.</p>
+            </div>
+          </div>
+          <div class="feature-item-row">
+            <div class="bullet-dot"></div>
+            <div class="feature-item-content">
+              <h5 data-i18n="g8_f3_t">Sistem BYOK (Bring Your Own Key - Google Gemini)</h5>
+              <p data-i18n="g8_f3_d">Gunakan API Key Google Gemini resmi Anda secara gratis dari Google AI Studio. Kunci API tersimpan terenkripsi di penyimpanan aman lokal perangkat Anda, bebas biaya langganan bulanan selamanya.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Developer Quote -->
+      
+      <!-- Kategori 8: 11+ Kalkulator Finansial & Bisnis Lengkap -->
+      <div class="feature-group">
+        <div class="feature-group-header">
+          <div class="feature-group-icon f-purple">🧮</div>
+          <h3 data-i18n="g6_title">8. 11+ Kalkulator Finansial & Bisnis Lengkap</h3>
+        </div>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;" data-i18n="g6_desc">
+          Semua kalkulator finansial profesional kini ada di genggaman Anda tanpa perlu aplikasi terpisah:
+        </p>
+        <div class="calc-badges-grid">
+          <div class="calc-badge-item"><span class="emoji">🏖️</span> <span data-i18n="c_fire">Kalkulator FIRE (Pensiun Dini)</span></div>
+          <div class="calc-badge-item"><span class="emoji">🏠</span> <span data-i18n="c_kpr">Kalkulator KPR & Bunga Rumah</span></div>
+          <div class="calc-badge-item"><span class="emoji">💳</span> <span data-i18n="c_debt">Kalkulator Pelunasan Hutang</span></div>
+          <div class="calc-badge-item"><span class="emoji">🛡️</span> <span data-i18n="c_emergency">Kalkulator Dana Darurat</span></div>
+          <div class="calc-badge-item"><span class="emoji">📈</span> <span data-i18n="c_inflation">Kalkulator Inflasi Masa Depan</span></div>
+          <div class="calc-badge-item"><span class="emoji">🔑</span> <span data-i18n="c_rent_buy">Kalkulator Sewa vs Beli Properti</span></div>
+          <div class="calc-badge-item"><span class="emoji">📊</span> <span data-i18n="c_bep">Kalkulator Titik Impas (BEP)</span></div>
+          <div class="calc-badge-item"><span class="emoji">💰</span> <span data-i18n="c_margin">Kalkulator Margin & Pricing</span></div>
+          <div class="calc-badge-item"><span class="emoji">⏱️</span> <span data-i18n="c_rate">Kalkulator Tarif Per Jam</span></div>
+          <div class="calc-badge-item"><span class="emoji">⏳</span> <span data-i18n="c_payback">Kalkulator Payback Period</span></div>
+          <div class="calc-badge-item" style="grid-column: span 2;"><span class="emoji">🛫</span> <span data-i18n="c_runway">Kalkulator Business Runway</span></div>
+        </div>
+      </div>
+
+      
+      <div class="quote-box">
+        <p class="quote-text" data-i18n="quote_body">
+          "Kami percaya bahwa alat untuk hidup hemat dan tertata tidak seharusnya mahal. DOCU dibuat secara tulus agar setiap orang memiliki asisten keuangan terbaik tanpa terhalang biaya langganan."
+        </p>
+        <p class="quote-author" data-i18n="quote_signature">💌 Tim Pengembang DOCU</p>
+      </div>
+
+    </div>
+
+    <!-- ==================== TAB 2: SUPPORT & FAQ ==================== -->
+    <div id="tab-support" class="tab-pane" role="tabpanel">
+      <!-- Contact Channels: Email Only -->
+      <div class="section-title">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+        <span data-i18n="support_channels_title">Saluran Bantuan Resmi</span>
+      </div>
+
+      <div class="support-single-card">
+        <div class="support-card-main">
+          <div class="support-big-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+          </div>
+          <div class="support-main-info">
+            <h4 data-i18n="sc_email_title">Hubungi Kami via Email</h4>
+            <p data-i18n="sc_email_desc">Punya pertanyaan, kendala teknis, saran fitur baru, atau penawaran kerja sama? Kirimkan pesan langsung kepada tim kami.</p>
+          </div>
+        </div>
+
+        <div class="support-actions">
+          <span class="email-display">thedesignervr@gmail.com</span>
+          <a href="mailto:thedesignervr@gmail.com" class="email-btn primary">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            <span data-i18n="btn_send_email">Kirim Email</span>
+          </a>
+          <button class="email-btn secondary" onclick="copyText('thedesignervr@gmail.com', this)">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            <span data-i18n="btn_copy_email">Salin Email</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="section-title">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <span data-i18n="faq_heading">Pertanyaan yang Sering Diajukan (FAQ)</span>
+      </div>
+
+      <div class="faq-list">
+        <!-- FAQ 1 -->
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span data-i18n="faq_q1">Apakah DOCU benar-benar 100% gratis tanpa iklan dan langganan?</span>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </div>
+          <div class="faq-answer" data-i18n="faq_a1">
+            Ya! DOCU tidak memiliki banner iklan pop-up, tidak ada iklan video, dan tidak mengunci fitur apapun di balik langganan bulanan (No Paywall). Seluruh modul kalkulator, pemindai nota, dan edukasi gratis digunakan selamanya.
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span data-i18n="faq_q2">Bagaimana cara kerja Pemindai Nota (On-Device OCR) & Notifikasi?</span>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </div>
+          <div class="faq-answer" data-i18n="faq_a2">
+            Pemrosesan pemindaian struk foto belanja serta pembacaan notifikasi transaksi perbankan dilakukan langsung di dalam perangkat Anda. Sistem membaca angka total belanja dan merchant secara lokal tanpa mengakses kata sandi, rekening, atau data sensitif bank Anda.
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span data-i18n="faq_q3">Apakah data saya aman dan bagaimana cara mencadangkannya?</span>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </div>
+          <div class="faq-answer" data-i18n="faq_a3">
+            Sangat aman. DOCU berprinsip Offline-First, di mana seluruh data disimpan di penyimpanan lokal perangkat Anda. Anda dapat mencadangkan dan memulihkan data kapan saja ke akun Google Drive pribadi Anda secara terenkripsi, atau mengekspornya ke format Excel/CSV.
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span data-i18n="faq_q4">Bisakah DOCU digunakan tanpa koneksi internet sama sekali?</span>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </div>
+          <div class="faq-answer" data-i18n="faq_a4">
+            Bisa! 100% fitur pencatatan transaksi, budgeting, 11+ kalkulator finansial, kuis edukasi, dan mode trip dapat diakses lancar tanpa kuota internet. Internet hanya digunakan saat sinkronisasi Google Drive opsional.
+          </div>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span data-i18n="faq_q5">Bisakah DOCU digunakan untuk pembukuan usaha / UMKM selain keuangan pribadi?</span>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </div>
+          <div class="faq-answer" data-i18n="faq_a5">
+            Sangat bisa! DOCU memiliki fitur Multi-Profil Terisolasi, sehingga Anda dapat membuat profil khusus "Bisnis/UMKM" yang terpisah total dari "Pribadi". Anda juga dapat memanfaatkan kalkulator Titik Impas (BEP), Margin Keuntungan & Pricing, serta Business Runway untuk memonitor kesehatan kas operasional usaha Anda.
+          </div>
+        </div>
+
+        <!-- FAQ 6 -->
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span data-i18n="faq_q6">Bagaimana cara memberikan donasi / traktir kopi menggunakan QRIS?</span>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </div>
+          <div class="faq-answer" data-i18n="faq_a6">
+            Buka tab "Donasi QRIS", klik tombol "Tampilkan Barcode QRIS", lalu buka aplikasi m-Banking Anda (BCA, Mandiri, BRI, BNI, dsb.) atau e-Wallet (GoPay, OVO, DANA, ShopeePay, LinkAja) dan arahkan kamera pemindai ke barcode QRIS yang muncul. Anda bebas memasukkan nominal donasi berapapun secara sukarela.
+          </div>
+        </div>
+
+        <!-- FAQ 7 -->
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span data-i18n="faq_q7">Bagaimana jika saya menemukan kendala atau ingin mengusulkan fitur baru?</span>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </div>
+          <div class="faq-answer" data-i18n="faq_a7">
+            Silakan kirimkan email langsung ke thedesignervr@gmail.com dengan melampirkan screenshot atau detail ide Anda. Tim kami membaca setiap pesan dan rutin memperbarui aplikasi berdasarkan saran terbaik dari pengguna!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 3: DONASI QRIS ==================== -->
+    <div id="tab-donation" class="tab-pane" role="tabpanel">
+      <div class="donation-banner">
+        <h3 data-i18n="don_banner_title">☕ Dukung Keberlanjutan Proyek DOCU</h3>
+        <p data-i18n="don_banner_desc">
+          DOCU berkomitmen 100% bebas dari iklan dan menjaga fitur esensial tetap gratis selamanya. Traktir secangkir kopi untuk mendukung waktu riset, pemeliharaan, dan penambahan fitur baru kami!
+        </p>
+      </div>
+
+      <!-- QRIS Card -->
+      <div class="qris-container-card">
+        <button class="qris-toggle-btn" id="btnToggleQris" onclick="toggleQrisCode()">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
+          <span id="btnQrisText" data-i18n="btn_show_qris">Tampilkan Barcode QRIS</span>
+        </button>
+
+        <!-- QR Display Box -->
+        <div class="qris-box" id="qrisBox">
+          <div class="qris-header-logo">
+            <div>
+              <div class="qris-title-tag">QRIS</div>
+              <div class="qris-sub-tag">PEMBAYARAN DIGITAL</div>
+            </div>
+            <div class="qris-gpn-logo">GPN</div>
+          </div>
+
+          <div class="qris-merchant-title">docu-daily cashflow, Digi</div>
+          <div class="qris-merchant-meta">NMID: ID1026506222953 • BEKASI</div>
+
+          <div class="qris-code-wrapper">
+            <img 
+              class="qris-img" 
+              src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=00020101021126610014COM.GO-JEK.WWW01189360091437773177750210G7773177750303UMI51440014ID.CO.QRIS.WWW0215ID10265062229530303UMI5204899953033605802ID5925docu-daily%20cashflow%2C%20Digi6006BEKASI61051741162070703A016304BAE8" 
+              alt="QRIS Barcode - docu-daily cashflow, Digi" 
+            />
+          </div>
+
+          <p class="qris-scan-instruction" data-i18n="qris_instruction">
+            Scan barcode di atas menggunakan aplikasi m-Banking atau E-Wallet pilihan Anda:
+          </p>
+
+          <div class="qris-banks-row">
+            <span class="bank-pill">GoPay</span>
+            <span class="bank-pill">OVO</span>
+            <span class="bank-pill">DANA</span>
+            <span class="bank-pill">ShopeePay</span>
+            <span class="bank-pill">BCA</span>
+            <span class="bank-pill">Mandiri</span>
+            <span class="bank-pill">BRI</span>
+            <span class="bank-pill">BNI</span>
+            <span class="bank-pill">LinkAja</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <svg width="16" height="16" fill="none" stroke="#10b981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+    <span id="toast-text" data-i18n="toast_copied">Berhasil disalin ke clipboard!</span>
+  </div>
+
+  <!-- Localization System for 11 Languages -->
+  <script>
+    const translations = {
+      // 1. Bahasa Indonesia
+      id: {
+        app_acronym: "Daily Organized Cashflow Utility",
+        theme_obsidian: "Obsidian",
+        theme_light: "Light",
+        tab_profile: "Profil & Fitur",
+        tab_support: "Support & FAQ",
+        tab_donation: "Donasi QRIS",
+        hero_badge: "100% Bebas Iklan • Gratis Selamanya",
+        hero_title: 'DOCU: Catat Keuangan',
+        hero_subtitle: "Daily Organized Cashflow Utility",
+        hero_desc: "Bosan dengan aplikasi keuangan yang banyak iklan mengganggu atau mengunci fitur penting di balik langganan bulanan mahal? DOCU hadir sebagai ruang yang tenang, privat, dan lengkap untuk membantu Anda mengelola uang, merencanakan mimpi, dan meraih kebebasan finansial tanpa keluar biaya sepeser pun.",
+        cta_support_title: "Suka dengan DOCU? Dukung Kemandirian Kami!",
+        cta_support_desc: "DOCU dikembangkan dengan tulus secara 100% bebas iklan dan tanpa sistem langganan. Donasi sukarela Anda lewat QRIS sangat berarti untuk kelangsungan riset, pemeliharaan fitur, dan server cloud.",
+        cta_support_btn: "Traktir Kopi via QRIS",
+        pillars_heading: "✨ Kenapa Harus DOCU?",
+        p1_title: "100% Gratis & Tanpa Iklan",
+        p1_desc: "Tanpa banner pop-up menjengkelkan, tanpa biaya langganan rahasia (No Paywall).",
+        p2_title: "Pro-Privasi & Offline-First",
+        p2_desc: "Data tersimpan aman di perangkat (lokal). Bekerja lancar tanpa kuota internet.",
+        p3_title: "Backup Google Drive Mandiri",
+        p3_desc: "Cadangkan & pulihkan kapan saja ke akun Google Drive pribadi Anda dengan aman.",
+        p4_title: "Desain Elegan & Modern",
+        p4_desc: "Antarmuka Glassmorphism premium, responsif, Dark Mode Obsidian & Light Clean.",
+        features_master_title: "🚀 Fitur-Fitur Utama DOCU",
+        g1_title: '1. Input Cerdas & Pemindai Nota (On-Device OCR & AI Vision)',
+        g1_f1_t: "Scan Struk & Nota Belanja Otomatis",
+        g1_f1_d: "Foto struk belanja (Indomaret, Alfamart, SPBU, restoran, hingga invoice Tokopedia & Shopee), sistem OCR cerdas kami langsung membaca total harga dan merchant tanpa perlu mengetik manual.",
+        g1_f2_t: "Deteksi Transfer & QRIS Digital",
+        g1_f2_d: "Mengenali bukti transfer BCA, Mandiri, BRI, BNI, GoPay, DANA, OVO, ShopeePay, dsb. secara instan.",
+        g1_f3_t: "Auto-Capture Notifikasi (Opsional)",
+        g1_f3_d: "Tangkap dan catat transaksi perbankan & e-wallet otomatis dari notifikasi ponsel Anda secara instan.",
+        g1_f4_t: "Input Multi-Transaksi & Multi-Mata Uang",
+        g1_f4_d: "Catat beberapa transaksi sekaligus dalam satu waktu lengkap dengan konversi kurs mata uang asing untuk liburan.",
+        g2_title: "2. Manajemen Dompet & Multi-Profil (All-in-One)",
+        g2_f1_t: "Multi-Profil Finansial Terisolasi",
+        g2_f1_d: "Pisahkan catatan Keuangan Pribadi, Bisnis/Usaha, Keluarga, atau Kantor dalam satu aplikasi tanpa tercampur.",
+        g2_f2_t: "Banyak Dompet & Rekening",
+        g2_f2_d: "Kelola Saldo Tunai, Rekening Bank, E-Wallet, hingga Tabungan dengan kustomisasi warna dan ikon.",
+        g2_f3_t: "Fitur Transfer Antar Dompet & Profil",
+        g2_f3_d: "Mutasi saldo instan antar rekening atau antar profil usaha dan pribadi dengan riwayat yang rapi.",
+        g3_title: "3. Anggaran & Perencanaan Masa Depan",
+        g3_f1_t: "Sistem Anggaran (Budgeting)",
+        g3_f1_d: "Atur batas pengeluaran bulanan per kategori dengan indikator visual dan peringatan saat mendekati batas limit.",
+        g3_f2_t: "Target & Tabungan Impian (Financial Goals)",
+        g3_f2_d: "Pantau progres tabungan beli rumah, kendaraan, dana darurat, atau liburan dengan estimasi waktu pencapaian.",
+        g3_f3_t: "Manajemen Hutang & Piutang (Debts & Loans)",
+        g3_f3_d: "Catat pinjaman dan tagihan piutang lengkap dengan tanggal jatuh tempo, cicilan, dan status pelunasan.",
+        g3_f4_t: "Klaim Reimbursement Kantor",
+        g3_f4_d: "Rekap pengeluaran kantor/bisnis yang perlu diganti (reimburse) dengan bukti foto struk terlampir.",
+        g4_title: "4. Gaya Hidup, Liburan & Acara Sosial",
+        g4_f1_t: "Mode Trip & Liburan",
+        g4_f1_d: "Mode khusus pelacak pengeluaran saat bepergian (mendukung multi-currency dan split budget perjalanan).",
+        g4_f2_t: "Manajemen Event & Grup",
+        g4_f2_d: "Kelola anggaran acara pernikahan, arisan, proyek tim, atau hangout bersama teman.",
+        g4_f3_t: "Daftar Belanja Pintar (Smart Shopping List)",
+        g4_f3_d: "Buat checklist belanjaan lengkap dengan estimasi harga, centang barang yang sudah dibeli, dan scan struk untuk kalkulasi otomatis.",
+        g4_f4_t: "Rutinitas & Tagihan Berkala (Recurring)",
+        g4_f4_d: "Otomatisasi pencatatan tagihan langganan (WiFi, listrik, sewa kontrakan) agar tidak pernah terlewat.",
+        g5_title: "5. Portofolio Investasi & Pelacak Aset",
+        g5_f1_t: 'Portofolio Saham, Kripto & Logam Mulia (Emas)',
+        g5_f1_d: 'Pantau pertumbuhan aset investasi saham, kripto, dan emas/logam mulia terintegrasi dengan kalkulasi profit/loss portofolio.',
+        g5_f2_t: "Laporan Finansial Komprehensif",
+        g5_f2_d: "Grafik visual arus kas (Cashflow), analisis pengeluaran per kategori, tren bulanan, dan ekspor laporan ke format Excel/PDF.",
+        g6_title: '8. 11+ Kalkulator Finansial & Bisnis Lengkap',
+        g6_desc: "Semua kalkulator finansial profesional kini ada di genggaman Anda tanpa perlu aplikasi terpisah:",
+        c_fire: "Kalkulator FIRE (Pensiun Dini)",
+        c_kpr: "Kalkulator KPR & Bunga Rumah",
+        c_debt: "Kalkulator Pelunasan Hutang",
+        c_emergency: "Kalkulator Dana Darurat",
+        c_inflation: "Kalkulator Inflasi Masa Depan",
+        c_rent_buy: "Kalkulator Sewa vs Beli Properti",
+        c_bep: "Kalkulator Titik Impas (BEP)",
+        c_margin: "Kalkulator Margin & Pricing",
+        c_rate: "Kalkulator Tarif Per Jam",
+        c_payback: "Kalkulator Payback Period",
+        c_runway: "Kalkulator Business Runway",
+        g7_title: '6. Edukasi Finansial & Keamanan Berlapis',
+        g7_f1_t: "Kuis & Modul Edukasi Keuangan",
+        g7_f1_d: "Tingkatkan literasi finansial Anda melalui kuis interaktif dan kartu belajar (flashcard).",
+        g7_f2_t: "Kunci Keamanan PIN & Biometrik",
+        g7_f2_d: "Lindungi data keuangan pribadi Anda dengan kunci PIN dan sensor sidik jari (fingerprint).",
+        g8_title: '7. Multi-Device, AI Quick Voice & Sistem BYOK',
+        g8_f1_t: 'Sinkronisasi Multi-Device (Google Drive Mirror Sync)',
+        g8_f1_d: 'Hubungkan ponsel, tablet, dan desktop melalui sistem Mirror Sync via Google Drive pribadi Anda tanpa server pihak ketiga.',
+        g8_f2_t: 'AI Quick Voice Assistant (Perintah Suara & Multi-Aksi)',
+        g8_f2_d: 'Catat transaksi, pengeluaran rutin, hutang, belanja, draf trip, hingga target impian cukup dengan bicara atau mengetik santai. Mendukung multi-aksi sekaligus dalam 1x rekaman, pengenalan istilah lokal (50k, 1.5jt, ceban), dan dikte waktu lampau otomatis (seperti \'kemarin jam 4 sore\').',
+        g8_f3_t: 'Sistem BYOK (Bring Your Own Key - Google Gemini)',
+        g8_f3_d: 'Gunakan API Key Google Gemini resmi Anda secara gratis dari Google AI Studio. Kunci API tersimpan aman terenkripsi di perangkat lokal Anda tanpa biaya langganan.',
+        quote_body: '"Kami percaya bahwa alat untuk hidup hemat dan tertata tidak seharusnya mahal. DOCU dibuat secara tulus agar setiap orang memiliki asisten keuangan terbaik tanpa terhalang biaya langganan."',
+        quote_signature: "💌 Tim Pengembang DOCU",
+        support_channels_title: "Saluran Bantuan Resmi",
+        sc_email_title: "Hubungi Kami via Email",
+        sc_email_desc: "Punya pertanyaan, kendala teknis, saran fitur baru, atau penawaran kerja sama? Kirimkan pesan langsung kepada tim kami.",
+        btn_send_email: "Kirim Email",
+        btn_copy_email: "Salin Email",
+        faq_heading: "Pertanyaan yang Sering Diajukan (FAQ)",
+        faq_q1: "Apakah DOCU benar-benar 100% gratis tanpa iklan dan langganan?",
+        faq_a1: "Ya! DOCU tidak memiliki banner iklan pop-up, tidak ada iklan video, dan tidak mengunci fitur apapun di balik langganan bulanan (No Paywall). Seluruh modul kalkulator, pemindai nota, dan edukasi gratis digunakan selamanya.",
+        faq_q2: 'Bagaimana cara kerja Pemindai Nota (On-Device OCR) & Notifikasi?',
+        faq_a2: "Pemrosesan pemindaian struk foto belanja serta pembacaan notifikasi transaksi perbankan dilakukan langsung di dalam perangkat Anda. Sistem membaca angka total belanja dan merchant secara lokal tanpa mengakses kata sandi, rekening, atau data sensitif bank Anda.",
+        faq_q3: "Apakah data saya aman dan bagaimana cara mencadangkannya?",
+        faq_a3: "Sangat aman. DOCU berprinsip Offline-First, di mana seluruh data disimpan di penyimpanan lokal perangkat Anda. Anda dapat mencadangkan dan memulihkan data kapan saja ke akun Google Drive pribadi Anda secara terenkripsi, atau mengekspornya ke format Excel/CSV.",
+        faq_q4: "Bisakah DOCU digunakan tanpa koneksi internet sama sekali?",
+        faq_a4: "Bisa! 100% fitur pencatatan transaksi, budgeting, 11+ kalkulator finansial, kuis edukasi, dan mode trip dapat diakses lancar tanpa kuota internet. Internet hanya digunakan saat sinkronisasi Google Drive opsional.",
+        faq_q5: "Bisakah DOCU digunakan untuk pembukuan usaha / UMKM selain keuangan pribadi?",
+        faq_a5: "Sangat bisa! DOCU memiliki fitur Multi-Profil Terisolasi, sehingga Anda dapat membuat profil khusus 'Bisnis/UMKM' yang terpisah total dari 'Pribadi'. Anda juga dapat memanfaatkan kalkulator Titik Impas (BEP), Margin Keuntungan & Pricing, serta Business Runway untuk memonitor kesehatan kas operasional usaha Anda.",
+        faq_q6: "Bagaimana cara memberikan donasi / traktir kopi menggunakan QRIS?",
+        faq_a6: "Buka tab 'Donasi QRIS', klik tombol 'Tampilkan Barcode QRIS', lalu buka aplikasi m-Banking Anda (BCA, Mandiri, BRI, BNI, dsb.) atau e-Wallet (GoPay, OVO, DANA, ShopeePay, LinkAja) dan arahkan kamera pemindai ke barcode QRIS yang muncul. Anda bebas memasukkan nominal donasi berapapun secara sukarela.",
+        faq_q7: "Bagaimana jika saya menemukan kendala atau ingin mengusulkan fitur baru?",
+        faq_a7: "Silakan kirimkan email langsung ke thedesignervr@gmail.com dengan melampirkan screenshot atau detail ide Anda. Tim kami membaca setiap pesan dan rutin memperbarui aplikasi berdasarkan saran terbaik dari pengguna!",
+        don_banner_title: "☕ Dukung Keberlanjutan Proyek DOCU",
+        don_banner_desc: "DOCU berkomitmen 100% bebas dari iklan dan menjaga fitur esensial tetap gratis selamanya. Traktir secangkir kopi untuk mendukung waktu riset, pemeliharaan, dan penambahan fitur baru kami!",
+        btn_show_qris: "Tampilkan Barcode QRIS",
+        btn_hide_qris: "Sembunyikan Barcode QRIS",
+        qris_instruction: "Scan barcode di atas menggunakan aplikasi m-Banking atau E-Wallet pilihan Anda:",
+        toast_copied: "Berhasil disalin ke clipboard!"
+      },
+
+      // 2. English
+      en: {
+        app_acronym: "Daily Organized Cashflow Utility",
+        theme_obsidian: "Obsidian",
+        theme_light: "Light",
+        tab_profile: "Overview & Features",
+        tab_support: "Support & FAQ",
+        tab_donation: "QRIS Donation",
+        hero_badge: "100% Ad-Free • Free Forever",
+        hero_title: 'DOCU: Track Your Finances',
+        hero_subtitle: "Daily Organized Cashflow Utility",
+        hero_desc: "Tired of financial apps packed with disruptive ads or locking essential tools behind expensive monthly subscriptions? DOCU offers a serene, private, and all-in-one space to master your money, plan dreams, and reach financial freedom without spending a single penny.",
+        cta_support_title: "Loving DOCU? Support Our Independence!",
+        cta_support_desc: "DOCU is crafted 100% ad-free with zero subscriptions. Your voluntary QRIS contribution directly fuels ongoing development, research, and independent cloud features.",
+        cta_support_btn: "Buy Us a Coffee (QRIS)",
+        pillars_heading: "✨ Why Choose DOCU?",
+        p1_title: "100% Free & Zero Ads",
+        p1_desc: "No disruptive popups, no hidden paywalls, and no subscription traps.",
+        p2_title: "Privacy-First & Offline",
+        p2_desc: "Your data stays encrypted right on your device. Works seamlessly without mobile data.",
+        p3_title: "Self Google Drive Backup",
+        p3_desc: "Securely backup and restore your records anytime with your personal Google Drive account.",
+        p4_title: "Modern Glassmorphism UI",
+        p4_desc: "Pleasing aesthetic design, ultra-responsive, Dark Mode Obsidian & Clean Light Theme.",
+        features_master_title: "🚀 DOCU Core In-Depth Features",
+        g1_title: '1. Smart Input & Receipt Scanner (On-Device OCR & AI Vision)',
+        g1_f1_t: "Automatic Receipt & Bill Scanner",
+        g1_f1_d: "Snap receipts from supermarkets, fuel stations, restaurants, or eCommerce invoices—our on-device OCR instantly parses total amounts and merchants.",
+        g1_f2_t: "Digital Bank & QRIS Transfer Detection",
+        g1_f2_d: "Instantly recognizes transfer slips from banks, QRIS, and e-wallets without manual retyping.",
+        g1_f3_t: "Automated Notification Capture (Optional)",
+        g1_f3_d: "Captures and logs transactions seamlessly from bank notifications on your phone.",
+        g1_f4_t: "Multi-Entry & Multi-Currency Engine",
+        g1_f4_d: "Record batch transactions simultaneously with live international exchange rate conversions for vacations.",
+        g2_title: "2. All-in-One Wallet & Multi-Profile Manager",
+        g2_f1_t: "Isolated Financial Profiles",
+        g2_f1_d: "Effortlessly separate Personal, Business, Household, or Office finances inside one unified app.",
+        g2_f2_t: "Multiple Wallets & Accounts",
+        g2_f2_d: "Manage physical cash, bank accounts, digital e-wallets, and savings with custom colors and icons.",
+        g2_f3_t: "Inter-Wallet & Inter-Profile Transfers",
+        g2_f3_d: "Seamlessly move funds between wallets or between business and personal accounts with tidy audit logs.",
+        g3_title: "3. Budgeting & Future Financial Goals",
+        g3_f1_t: "Dynamic Budgeting System",
+        g3_f1_d: "Set category spending thresholds with color-coded visual alerts when approaching limits.",
+        g3_f2_t: "Target Goals & Dream Savings",
+        g3_f2_d: "Track progress towards buying a home, vehicles, emergency reserves, or dream vacations.",
+        g3_f3_t: "Debts & Loans Management",
+        g3_f3_d: "Organize receivables and payables complete with due dates, installment breakdowns, and payoff statuses.",
+        g3_f4_t: "Office Reimbursement Tracker",
+        g3_f4_d: "Track business expenses pending reimbursement with receipt photo attachments.",
+        g4_title: "4. Lifestyle, Vacation & Social Events",
+        g4_f1_t: "Trip & Vacation Mode",
+        g4_f1_d: "Dedicated travel expense tracker supporting multi-currency and isolated travel budgets.",
+        g4_f2_t: "Event & Group Budgeting",
+        g4_f2_d: "Plan budgets for weddings, team projects, social gatherings, or dining out with friends.",
+        g4_f3_t: "Smart Shopping List",
+        g4_f3_d: "Build interactive checklists with price estimates, check off purchased items, and scan bills for auto-summing.",
+        g4_f4_t: "Recurring Bills & Subscriptions",
+        g4_f4_d: "Automate scheduling for recurring bills (internet, utilities, rent) so you never miss a due date.",
+        g5_title: "5. Investment Portfolio & Asset Growth",
+        g5_f1_t: 'Stock, Crypto & Precious Metals (Gold) Portfolio',
+        g5_f1_d: 'Track stocks, cryptocurrencies, and gold/precious metals in real-time with comprehensive profit & loss performance audits.',
+        g5_f2_t: "Comprehensive Financial Reports",
+        g5_f2_d: "Visual cashflow diagrams, category breakdown analytics, monthly trend lines, and export to Excel/PDF.",
+        g6_title: '8. 11+ Complete Financial & Business Calculators',
+        g6_desc: "All professional financial calculators at your fingertips without extra standalone apps:",
+        c_fire: "FIRE Calculator (Early Retirement)",
+        c_kpr: "Mortgage & Property Loan Calculator",
+        c_debt: "Debt Payoff Calculator (Snowball/Avalanche)",
+        c_emergency: "Emergency Fund Planner",
+        c_inflation: "Future Inflation Simulator",
+        c_rent_buy: "Rent vs Buy Property Decision",
+        c_bep: "Break-Even Point (BEP) Calculator",
+        c_margin: "Profit Margin & Pricing Tool",
+        c_rate: "Freelancer Hourly Rate Calculator",
+        c_payback: "Investment Payback Period",
+        c_runway: "Business Cash Runway Calculator",
+        g7_title: '6. Financial Literacy & Layered Security',
+        g7_f1_t: "Quizzes & Financial Learning Hub",
+        g7_f1_d: "Elevate your financial literacy through interactive quizzes, mastery flashcards, and video modules.",
+        g7_f2_t: "PIN & Biometric Lock Security",
+        g7_f2_d: "Protect sensitive data with master PIN codes and biometric fingerprint sensors.",
+        g8_title: '7. Multi-Device Sync, AI Quick Voice & BYOK System',
+        g8_f1_t: 'Multi-Device Sync (Google Drive Mirror Sync)',
+        g8_f1_d: 'Seamlessly synchronize data across phones, tablets, and desktops using Google Drive Mirror Sync with zero third-party cloud servers.',
+        g8_f2_t: 'AI Quick Voice Assistant (Voice & Multi-Action)',
+        g8_f2_d: 'Log expenses, recurring bills, debts, shopping lists, trip plans, and dream goals simply by speaking or typing naturally. Supports multi-actions in a single voice recording, colloquial amounts (50k, 1.5M), and past timestamp recognition (like \'yesterday at 4 PM\').',
+        g8_f3_t: 'BYOK Architecture (Google Gemini Free Tier)',
+        g8_f3_d: 'Connect your official Google Gemini API Key directly from Google AI Studio free tier. Keys are stored encrypted locally on-device with zero subscription fees.',
+        quote_body: '"We believe the tools for living economically and mindfully shouldn\'t cost a fortune. DOCU is crafted genuinely so that everyone has a world-class financial companion without paywalls."',
+        quote_signature: "💌 The DOCU Team",
+        support_channels_title: "Official Support Channel",
+        sc_email_title: "Contact Us via Email",
+        sc_email_desc: "Have questions, technical issues, feature requests, or partnership inquiries? Send a direct message to our team.",
+        btn_send_email: "Send Email",
+        btn_copy_email: "Copy Email",
+        faq_heading: "Frequently Asked Questions (FAQ)",
+        faq_q1: "Is DOCU truly 100% free with no ads or subscriptions?",
+        faq_a1: "Yes! DOCU contains zero ad banners, no video popups, and no paywalls. All calculators, receipt scanners, and educational courses remain free forever.",
+        faq_q2: 'How does the Receipt Scanner (On-Device OCR) & Notification Capture work?',
+        faq_a2: "Scanning and notification parsing run 100% locally on your smartphone. It recognizes totals and vendors without accessing bank accounts or passwords.",
+        faq_q3: "How is my data protected and backed up?",
+        faq_a3: "DOCU is strictly Offline-First. All databases reside on your local storage. You can backup/restore encrypted files to your own Google Drive or export to CSV/Excel.",
+        faq_q4: "Can DOCU function completely without internet?",
+        faq_a4: "Yes! All transaction logging, budgeting, 11+ calculators, and quizzes run completely offline. Internet is only used for optional Google Drive backup.",
+        faq_q5: "Can DOCU be used for small business accounting?",
+        faq_a5: "Absolutely! DOCU offers Isolated Multi-Profiles, allowing you to run a dedicated 'Business' ledger separate from 'Personal'. You can also utilize BEP, Profit Margin, and Business Runway calculators.",
+        faq_q6: "How do I donate via QRIS?",
+        faq_a6: "Click 'Show QRIS Barcode' in the donation tab, open any Indonesian mobile banking (BCA, Mandiri, BRI, BNI, etc.) or e-wallet (GoPay, OVO, DANA, ShopeePay), and scan the code. Any amount is appreciated!",
+        faq_q7: "How can I report a bug or request new features?",
+        faq_a7: "Send an email directly to thedesignervr@gmail.com with your thoughts or screenshots. We review all feedback for our regular updates!",
+        don_banner_title: "☕ Fuel DOCU's Ongoing Development",
+        don_banner_desc: "DOCU stays 100% ad-free and privacy-respecting thanks to our community. Buy us a coffee to support future features and server maintenance!",
+        btn_show_qris: "Show QRIS Barcode",
+        btn_hide_qris: "Hide QRIS Barcode",
+        qris_instruction: "Scan the barcode above with your preferred Mobile Banking or E-Wallet app:",
+        toast_copied: "Copied to clipboard!"
+      },
+
+      // 3. Arabic (العربية)
+      ar: {
+        app_acronym: "أداة تنظيم التدفق المالي اليومي",
+        theme_obsidian: "أوبسيديان",
+        theme_light: "فاتح",
+        tab_profile: "نظرة عامة والميزات",
+        tab_support: "الدعم والأسئلة الشائعة",
+        tab_donation: "التبرع عبر QRIS",
+        hero_badge: "خالٍ تماماً من الإعلانات • مجاني للأبد",
+        hero_title: 'DOCU: تتبع وإدارة الأموال',
+        hero_subtitle: "Daily Organized Cashflow Utility",
+        hero_desc: "هل سئمت من التطبيقات المالية المليئة بالإعلانات المزعجة أو التي تقفل الميزات باشتراكات باهظة؟ يوفر DOCU مساحة آمنة وخاصة لمساعدتك في إدارة أموالك دون دفع أي رسوم.",
+        cta_support_title: "هل يعجبك DOCU؟ ادعم استقلالنا!",
+        cta_support_desc: "تم تطوير DOCU بصدق ليكون خالياً 100% من الإعلانات ودون اشتراكات. تبرعك الطوعي عبر QRIS يدعم استمرار الأبحاث وتطوير الميزات السحابية.",
+        cta_support_btn: "دعم بفنجان قهوة (QRIS)",
+        pillars_heading: "✨ لماذا تختار DOCU؟",
+        p1_title: "مجاني 100% وبدون إعلانات",
+        p1_desc: "بدون لافتات منبثقة، وبدون رسوم اشتراك خفية أو جدران دفع.",
+        p2_title: "أولوية للخصوصية ويعمل دون إنترنت",
+        p2_desc: "بياناتك مخزنة محلياً على جهازك، ويعمل بسلاسة تامة دون الحاجة لشبكة الإنترنت.",
+        p3_title: "نسخ احتياطي شخصي على Google Drive",
+        p3_desc: "احفظ واستعد سجلاتك في أي وقت بأمان على حسابك الخاص في Google Drive.",
+        p4_title: "تصميم زجاجي عصري وأنيق",
+        p4_desc: "واجهة زجاجية مريحة تدعم الوضع الليلي بلون أوبسيديان الفاخر والوضع الفاتح.",
+        features_master_title: "🚀 ميزات DOCU الأساسية والشاملة",
+        g1_title: '1. الإدخال الذكي وماسح الإيصالات (OCR المحلي ورؤية الذكاء الاصطناعي)',
+        g1_f1_t: "مسح الفواتير والإيصالات تلقائياً",
+        g1_f1_d: "التقط صور فواتير المتاجر وسيتعرف نظام المسح الضوئي المحلي على المبلغ واسم المتجر فوراً.",
+        g1_f2_t: "التعرف على إيصالات التحويل البنكي وQRIS",
+        g1_f2_d: "يتعرف فوراً على إيصالات التحويل والمحافظ الإلكترونية دون كتابة يدوية.",
+        g1_f3_t: "التقاط المعاملات من الإشعارات تلقائياً",
+        g1_f3_d: "يسجل المعاملات بمجرد وصول إشعارات الدفع من تطبيقات البنوك.",
+        g1_f4_t: "إدخال متعدد العملات والمعاملات",
+        g1_f4_d: "تسجيل معاملات متعددة مع تحويل أسعار الصرف الحية للرحلات الخارجية.",
+        g2_title: "2. إدارة المحافظ المتعددة والملفات المنفصلة",
+        g2_f1_t: "ملفات مالية معزولة تماماً",
+        g2_f1_d: "افصل بين المصاريف الشخصية والعمل والعائلة في تطبيق واحد دون تداخل.",
+        g2_f2_t: "محافظ وحسابات بنكية غير محدودة",
+        g2_f2_d: "إدارة النقد والحسابات البنكية والمحافظ الرقمية مع تخصيص الألوان والأيقونات.",
+        g2_f3_t: "تحويل سلس بين المحافظ والملفات",
+        g2_f3_d: "تحويل المبالغ الفوري بين الحسابات مع سجل منظم للمعاملات.",
+        g3_title: "3. الميزانيات والتخطيط المالي للمستقبل",
+        g3_f1_t: "نظام الميزانية الذكي",
+        g3_f1_d: "حدد سقوف الإنفاق الشهرية مع تنبيهات بصرية عند الاقتراب من الحد.",
+        g3_f2_t: "الأهداف المالية والادخار",
+        g3_f2_d: "تتبع تقدم ادخار شراء منزل أو سيارة مع تقدير وقت الإنجاز.",
+        g3_f3_t: "إدارة الديون والقروض",
+        g3_f3_d: "تسجيل الديون والمستحقات مع مواعيد الاستحقاق وحالة السداد.",
+        g3_f4_t: "متابعة تعويضات مصاريف العمل",
+        g3_f4_d: "تسجيل نفقات العمل القابلة للتعويض مع إرفاق صور الفواتير.",
+        g4_title: "4. أسلوب الحياة، العطلات والفعاليات",
+        g4_f1_t: "وضع الرحلات والسفر",
+        g4_f1_d: "تتبع نفقات السفر مع دعم متعدد العملات وميزانية سفر معزولة.",
+        g4_f2_t: "إدارة ميزانيات المناسبات والمجموعات",
+        g4_f2_d: "تنظيم مصاريف الزفاف أو المشاريع أو التجمعات مع الأصدقاء.",
+        g4_f3_t: "قائمة التسوق الذكية",
+        g4_f3_d: "إنشاء قوائم المشتريات مع تقدير التكاليف وحساب الإجمالي تلقائياً.",
+        g4_f4_t: "الفواتير الدورية والاشتراكات",
+        g4_f4_d: "جدولة تلقائية لمواعيد فواتير الإنترنت والإيجار لتفادي التأخير.",
+        g5_title: "5. المحفظة الاستثمارية وتتبع الأصول",
+        g5_f1_t: 'محفظة الأسهم والعملات المشفرة والذهب',
+        g5_f1_d: 'تتبع استثمارات الأسهم والعملات الرقمية والمعادن الثمينة (الذهب) مع حسابات الأرباح والخسائر المباشرة.',
+        g5_f2_t: "تقارير مالية تفصيلية",
+        g5_f2_d: "رسوم بيانية للتدفقات النقدية وتحليل النفقات وتصدير بصيغتي Excel وPDF.",
+        g6_title: '8. أكثر من 11 حاسبة مالية وتجارية متقدمة',
+        g6_desc: "جميع الحاسبات المالية الاحترافية بين يديك دون الحاجة لتطبيقات إضافية:",
+        c_fire: "حاسبة التقاعد المبكر (FIRE)",
+        c_kpr: "حاسبة القروض العقارية",
+        c_debt: "حاسبة سداد الديون",
+        c_emergency: "حاسبة صندوق الطوارئ",
+        c_inflation: "حاسبة التضخم المستقبلي",
+        c_rent_buy: "حاسبة الإيجار مقابل الشراء",
+        c_bep: "حاسبة نقطة التعادل (BEP)",
+        c_margin: "حاسبة هامش الربح والتسعير",
+        c_rate: "حاسبة أجر الساعة للعمل الحر",
+        c_payback: "حاسبة فترة استرداد الاستثمار",
+        c_runway: "حاسبة مدرج سيولة الأعمال",
+        g7_title: '6. الثقافة المالية والأمان المتعدد الطبقات',
+        g7_f1_t: "مسابقات وبطاقات تعليمية مالية",
+        g7_f1_d: "تعزيز الوعي المالي من خلال بطاقات تعليمية واختبارات مرحة.",
+        g7_f2_t: "قفل أمان برمز PIN والبصمة",
+        g7_f2_d: "حماية بياناتك المالية الحساسة برمز PIN ومستشعر بصمة الإصبع.",
+        g8_title: '7. المزامنة متعددة الأجهزة، المساعد الصوتي السريع AI ونظام BYOK',
+        g8_f1_t: 'المزامنة متعددة الأجهزة (Google Drive Mirror Sync)',
+        g8_f1_d: 'مزامنة سلسة بين الهواتف والأجهزة اللوحية والكمبيوتر عبر Google Drive الخاص بك دون خوادم طرف ثالث.',
+        g8_f2_t: 'مساعد الأوامر الصوتية السريع بالذكاء الاصطناعي (AI Quick Voice)',
+        g8_f2_d: 'سجّل المصروفات، الفواتير المتكررة، الديون، قوائم التسوق، خطط السفر، وأهداف الادخار بمجرد التحدث أو الكتابة. يدعم إجراءات متعددة في تسجيل صوتي واحد، وفهم الأوقات السابقة والصيغ المالية بدقة.',
+        g8_f3_t: 'نظام BYOK (مفتاح Google Gemini مجاني)',
+        g8_f3_d: 'استخدم مفتاح Google Gemini API المجاني الخاص بك مباشرة من Google AI Studio. المفتاح مشفر ومخزن على جهازك فقط.',
+        quote_body: '"نؤمن بأن أدوات العيش الاقتصادي لا ينبغي أن تكون باهظة الثمن. صنع DOCU ليكون الرفيق المالي الأفضل للجميع."',
+        quote_signature: "💌 فريق تطوير DOCU",
+        support_channels_title: "قناة الدعم الرسمية",
+        sc_email_title: "تواصل معنا عبر البريد الإلكتروني",
+        sc_email_desc: "هل لديك استفسارات أو مقترحات أو بلاغات تقنية؟ يسعدنا التواصل المباشر معك.",
+        btn_send_email: "إرسال بريد",
+        btn_copy_email: "نسخ البريد",
+        faq_heading: "الأسئلة الشائعة (FAQ)",
+        faq_q1: "هل التطبيق مجاني بالكامل وبدون إعلانات؟",
+        faq_a1: "نعم! التطبيق خالٍ من الإعلانات تماماً ولا يحتوي على ميزات مدفوعة، ومتاح مجاناً دائماً.",
+        faq_q2: 'كيف يعمل ماسح الإيصالات والتقاط الإشعارات التلقائي؟',
+        faq_a2: "تتم معالجة الصور وقراءة الإشعارات محلياً بالكامل على هاتفك دون مشاركتها خارجياً.",
+        faq_q3: "هل بياناتي آمنة وكيف أنسخها احتياطياً؟",
+        faq_a3: "بياناتك مخزنة على هاتفك فقط، ويمكنك نسخها احتياطياً بشكل مشفر إلى حساب Google Drive الخاص بك.",
+        faq_q4: "هل يعمل التطبيق دون اتصال بالإنترنت؟",
+        faq_a4: "نعم! 100٪ من وظائف الحسابات والميزانية تعمل تماماً دون إنترنت.",
+        faq_q5: "هل يمكن استخدامه للأعمال التجارية الصغيرة؟",
+        faq_a5: "نعم، يمكنك تخصيص ملف مالي مستقل للمشروع وحساب نقطة التعادل والسيولة النقدية.",
+        faq_q6: "كيف أتبرع عبر رمز QRIS؟",
+        faq_a6: "اضغط على 'إظهار رمز QRIS' وامسحه عبر أي تطبيق بنكي أو محفظة إلكترونية تدعم QRIS.",
+        faq_q7: "كيف أبلغ عن مشكلة أو أقترح ميزة؟",
+        faq_a7: "راسلنا مباشرة على thedesignervr@gmail.com وسنرد عليك في أقرب وقت.",
+        don_banner_title: "☕ دعم استمرارية وتطوير DOCU",
+        don_banner_desc: "يلتزم DOCU بالبقاء خالياً من الإعلانات بفضل دعمكم. تبرع بفنجان قهوة لدعم ميزاتنا القادمة!",
+        btn_show_qris: "إظهار رمز QRIS",
+        btn_hide_qris: "إخفاء رمز QRIS",
+        qris_instruction: "امسح الرمز أعلاه باستخدام أي تطبيق بنكي أو محفظة رقمية:",
+        toast_copied: "تم النسخ إلى الحافظة بنجاح!"
+      },
+
+      // 4. German
+      de: {
+        app_acronym: "Daily Organized Cashflow Utility",
+        theme_obsidian: "Obsidian",
+        theme_light: "Hell",
+        tab_profile: "Übersicht & Features",
+        tab_support: "Support & FAQ",
+        tab_donation: "QRIS Spende",
+        hero_badge: "100% Werbefrei • Für immer kostenlos",
+        hero_title: 'DOCU: Finanzen erfassen & verwalten',
+        hero_subtitle: "Daily Organized Cashflow Utility",
+        hero_desc: "Keine Lust mehr auf Finanz-Apps mit nerviger Werbung oder teuren Monatsabos? DOCU bietet Ihnen einen ruhigen, privaten und vollständigen Raum für Ihre Finanzverwaltung – völlig kostenlos.",
+        cta_support_title: "Gefällt Ihnen DOCU? Unterstützen Sie uns!",
+        cta_support_desc: "DOCU ist zu 100% werbefrei und ohne Abomodell. Ihre freiwillige Spende via QRIS sichert die Weiterentwicklung, Forschung und Wartung.",
+        cta_support_btn: "Kaffee spendieren (QRIS)",
+        pillars_heading: "✨ Warum DOCU?",
+        p1_title: "100% Kostenlos & Werbefrei",
+        p1_desc: "Keine nervigen Banner, keine versteckten Abogebühren oder Bezahlschranken.",
+        p2_title: "Datenschutz & Offline-First",
+        p2_desc: "Ihre Daten bleiben sicher lokal auf Ihrem Smartphone. Funktioniert ohne Datenvolumen.",
+        p3_title: "Eigenes Google Drive Backup",
+        p3_desc: "Sichern und wiederherstellen Sie verschlüsselt auf Ihrem eigenen Google Drive.",
+        p4_title: "Modernes Glassmorphism-Design",
+        p4_desc: "Ästhetische Benutzeroberfläche, reaktionsschnell, mit Obsidian-Dark-Mode und Clean-Light-Theme.",
+        features_master_title: "🚀 DOCU Kernfunktionen im Detail",
+        g1_title: '1. Smarte Eingabe & Belegscanner (On-Device OCR & KI-Vision)',
+        g1_f1_t: "Automatischer Beleg- & Kassenbon-Scanner",
+        g1_f1_d: "Fotografieren Sie Quittungen – unsere lokale OCR erkennt Beträge und Händler sofort ohne manuelle Eingabe.",
+        g1_f2_t: "Erkennung digitaler Überweisungen",
+        g1_f2_d: "Erkennt Überweisungsbelege und QR-Zahlungen blitzschnell.",
+        g1_f3_t: "Automatische Benachrichtigungserfassung (Optional)",
+        g1_f3_d: "Erfasst Transaktionen direkt aus Bankbenachrichtigungen auf Ihrem Smartphone.",
+        g1_f4_t: "Multi-Buchungen & Währungsumrechnung",
+        g1_f4_d: "Erfassen Sie mehrere Buchungen gleichzeitig mit Live-Wechselkursen für Auslandsreisen.",
+        g2_title: "2. Multi-Wallet & Profilverwaltung",
+        g2_f1_t: "Voneinander getrennte Profile",
+        g2_f1_d: "Verwalten Sie private Ausgaben, Gewerbe und Familie sauber getrennt in einer App.",
+        g2_f2_t: "Mehrere Konten & Geldbörsen",
+        g2_f2_d: "Bargeld, Bankkonten und digitale Wallets mit individuellen Farben und Icons verwalten.",
+        g2_f3_t: "Umbuchungen zwischen Konten & Profilen",
+        g2_f3_d: "Übertragen Sie Beträge zwischen Konten mit übersichtlicher Historie.",
+        g3_title: "3. Budgetierung & Finanzielle Zukunftsplanung",
+        g3_f1_t: "Dynamisches Budget-System",
+        g3_f1_d: "Monatliche Ausgabenlimits nach Kategorien mit visuellen Warnungen bei Überschreitung festlegen.",
+        g3_f2_t: "Sparziele & Traumprojekte",
+        g3_f2_d: "Fortschritt für Hauskauf, Notgroschen oder Reisen mit Zeitschätzungen verfolgen.",
+        g3_f3_t: "Schulden- & Kreditverwaltung",
+        g3_f3_d: "Kredite und Forderungen mit Fälligkeitsdaten und Tilgungsstatus übersichtlich festhalten.",
+        g3_f4_t: "Spesen- & Auslagenerstattung",
+        g3_f4_d: "Berufliche Auslagen mit Belegfotos für die Reisekostenabrechnung sammeln.",
+        g4_title: "4. Lifestyle, Urlaub & Gruppen-Events",
+        g4_f1_t: "Urlaubs- & Reise-Modus",
+        g4_f1_d: "Reisekosten vom normalen Budget trennen und Fremdwährungen automatisch umrechnen.",
+        g4_f2_t: "Event- & Gruppenbudgets",
+        g4_f2_d: "Budgets für Hochzeiten, Ausflüge oder WG-Kassen komfortabel planen.",
+        g4_f3_t: "Smarte Einkaufsliste",
+        g4_f3_d: "Einkaufszettel mit Preisschätzungen, Abhaken und automatischer Quittungsaddition.",
+        g4_f4_t: "Wiederkehrende Fixkosten & Abos",
+        g4_f4_d: "Daueraufträge und Verträge (Miete, Internet, Streaming) automatisch einbuchen.",
+        g5_title: "5. Anlageportfolio & Vermögenstracker",
+        g5_f1_t: 'Aktien-, Krypto- & Edelmetall-Portfolio (Gold)',
+        g5_f1_d: 'Verfolgen Sie Aktien, Kryptowährungen und Gold/Edelmetalle mit integrierten Gewinn- und Verlustberechnungen.',
+        g5_f2_t: "Umfassende Finanzberichte",
+        g5_f2_d: "Cashflow-Diagramme, Kategorieanalysen und Datenexport nach Excel/PDF.",
+        g6_title: '8. 11+ Professionelle Finanz- & Businessrechner',
+        g6_desc: "Alle wichtigen Rechner direkt integriert ohne zusätzliche Apps:",
+        c_fire: "FIRE-Rechner (Früher Ruhestand)",
+        c_kpr: "Baufinanzierungs- & Zinsrechner",
+        c_debt: "Schuldentilgungs-Rechner",
+        c_emergency: "Notgroschen-Planer",
+        c_inflation: "Inflations-Rechner",
+        c_rent_buy: "Mieten vs. Kaufen Simulator",
+        c_bep: "Break-Even-Point (BEP) Rechner",
+        c_margin: "Gewinnmarge- & Preiskalkulator",
+        c_rate: "Stundensatz-Rechner für Freelancer",
+        c_payback: "Amortisationszeit-Rechner (Payback)",
+        c_runway: "Business Runway (Liquiditätsdauer)",
+        g7_title: '6. Finanzwissen & Mehrschichtige Sicherheit',
+        g7_f1_t: "Finanz-Quiz & Lernkarten",
+        g7_f1_d: "Finanzielle Allgemeinbildung durch interaktive Lernkarten und Tests spielerisch verbessern.",
+        g7_f2_t: "PIN- & Fingerabdruck-Sperre",
+        g7_f2_d: "Sensible Daten durch PIN-Code und biometrische Authentifizierung schützen.",
+        g8_title: '7. Multi-Device-Sync, KI Quick Voice & BYOK-System',
+        g8_f1_t: 'Multi-Device-Sync (Google Drive Mirror Sync)',
+        g8_f1_d: 'Synchronisieren Sie Smartphone, Tablet und PC sicher über Ihr persönliches Google Drive ohne Drittanbieter-Server.',
+        g8_f2_t: 'KI Quick Voice Assistant (Sprachbefehle & Multi-Aktion)',
+        g8_f2_d: 'Erfassen Sie Ausgaben, wiederkehrende Rechnungen, Schulden, Einkaufslisten, Reisepläne und Sparziele einfach per Sprache oder Text. Unterstützt mehrere Aktionen in einer Aufnahme, Zahlen-Slang (50k, 1,5 Mio.) und Zeiten wie \'gestern um 16 Uhr\'.',
+        g8_f3_t: 'BYOK-System (Google Gemini Gratis-Tier)',
+        g8_f3_d: 'Nutzen Sie Ihren eigenen kostenlosen Google Gemini API-Key von Google AI Studio. Vollständig lokal verschlüsselt gespeichert.',
+        quote_body: '"Wir sind überzeugt, dass Werkzeuge für ein geordnetes Finanzleben nicht teuer sein dürfen. DOCU wurde mit Herz entwickelt."',
+        quote_signature: "💌 Das DOCU Entwicklerteam",
+        support_channels_title: "Offizieller Support-Kanal",
+        sc_email_title: "Kontaktieren Sie uns per E-Mail",
+        sc_email_desc: "Haben Sie Fragen, technische Probleme oder Feedback? Schreiben Sie uns direkt.",
+        btn_send_email: "E-Mail senden",
+        btn_copy_email: "E-Mail kopieren",
+        faq_heading: "Häufig gestellte Fragen (FAQ)",
+        faq_q1: "Ist DOCU wirklich 100% werbefrei und kostenlos?",
+        faq_a1: "Ja! DOCU hat keine Werbebanner, keine Popups und keine Bezahlschranken. Alle Rechner und Scanner bleiben für immer kostenlos.",
+        faq_q2: 'Wie funktioniert der Belegscanner (On-Device OCR) und die Benachrichtigungserfassung?',
+        faq_a2: "Das Scannen und Analysieren erfolgt komplett lokal auf Ihrem Smartphone ohne Zugriff auf vertrauliche Passwörter.",
+        faq_q3: "Sind meine Daten sicher und wie sichere ich sie?",
+        faq_a3: "Sehr sicher. Backups können verschlüsselt auf Ihrem Google Drive gesichert oder als CSV/Excel exportiert werden.",
+        faq_q4: "Kann DOCU komplett ohne Internet verwendet werden?",
+        faq_a4: "Ja! 100% der Funktionen (Budgetierung, Rechner, Erfassung) funktionieren offline ohne Datenvolumen.",
+        faq_q5: "Kann DOCU für geschäftliche Finanzen genutzt werden?",
+        faq_a5: "Ja! Mit isolierten Profilen und Rechnern wie Break-Even-Point (BEP) und Marge ist es perfekt für Kleinunternehmen geeignet.",
+        faq_q6: "Wie spende ich über QRIS?",
+        faq_a6: "Klicken Sie auf 'QRIS Barcode anzeigen' und scannen Sie den Code mit Ihrer Banking-App.",
+        faq_q7: "Wie melde ich Fehler oder reiche Vorschläge ein?",
+        faq_a7: "Schreiben Sie uns direkt an thedesignervr@gmail.com.",
+        don_banner_title: "☕ Unterstützen Sie das DOCU-Projekt",
+        don_banner_desc: "DOCU bleibt werbefrei und unabhängig dank treuer Nutzer. Eine kleine Kaffeespende finanziert neue Funktionen!",
+        btn_show_qris: "QRIS Barcode anzeigen",
+        btn_hide_qris: "QRIS Barcode ausblenden",
+        qris_instruction: "Scannen Sie den obigen Barcode mit Ihrer Banking- oder E-Wallet-App:",
+        toast_copied: "In die Zwischenablage kopiert!"
+      },
+
+      // 5. Spanish
+      es: {
+        app_acronym: "Daily Organized Cashflow Utility",
+        theme_obsidian: "Obsidiana",
+        theme_light: "Claro",
+        tab_profile: "Perfil y Funciones",
+        tab_support: "Soporte y FAQ",
+        tab_donation: "Donación QRIS",
+        hero_badge: "100% Sin Publicidad • Gratis para Siempre",
+        hero_title: 'DOCU: Control y Registro de Finanzas',
+        hero_subtitle: "Daily Organized Cashflow Utility",
+        hero_desc: "¿Cansado de aplicaciones financieras llenas de publicidad molesta o suscripciones caras? DOCU es un espacio privado y seguro para administrar su dinero sin pagar nada.",
+        cta_support_title: "¿Te gusta DOCU? ¡Apoya nuestra independencia!",
+        cta_support_desc: "DOCU está desarrollado 100% sin anuncios ni suscripciones. Su donación voluntaria por QRIS apoya la investigación y el mantenimiento continuo.",
+        cta_support_btn: "Invítanos un café (QRIS)",
+        pillars_heading: "✨ ¿Por qué elegir DOCU?",
+        p1_title: "100% Gratis y Sin Anuncios",
+        p1_desc: "Sin banners invasivos, sin muros de pago ni suscripciones ocultas.",
+        p2_title: "Privacidad y Sin Conexión",
+        p2_desc: "Sus datos se guardan en su propio teléfono. Funciona perfecto sin internet.",
+        p3_title: "Copia en su Google Drive",
+        p3_desc: "Haga copias de seguridad cifradas en su cuenta personal de Google Drive.",
+        p4_title: "Diseño Elegante y Moderno",
+        p4_desc: "Interfaz Glassmorphism premium, totalmente responsiva, con Modo Oscuro Obsidiana y Claro.",
+        features_master_title: "🚀 Funciones Principales de DOCU",
+        g1_title: '1. Entrada Inteligente y Escáner de Recibos (OCR Local e IA)',
+        g1_f1_t: "Escaneo Automático de Tickets y Boletas",
+        g1_f1_d: "Tome foto a recibos: nuestro OCR local lee el total y el comercio al instante sin ingresar datos a mano.",
+        g1_f2_t: "Detección de Transferencias y Pagos QR",
+        g1_f2_d: "Reconoce comprobantes bancarios y transferencias de billeteras digitales al instante.",
+        g1_f3_t: "Captura Automática de Notificaciones (Opcional)",
+        g1_f3_d: "Registra movimientos automáticamente al recibir notificaciones de compras.",
+        g1_f4_t: "Entrada Múltiple y Multidivisa",
+        g1_f4_d: "Anote varias transacciones a la vez con cálculo automático de tipo de cambio.",
+        g2_title: "2. Múltiples Billeteras y Perfiles Aislados",
+        g2_f1_t: "Perfiles Financieros Separados",
+        g2_f1_d: "Separe finanzas personales, negocios y hogar dentro de una sola aplicación.",
+        g2_f2_t: "Múltiples Billeteras y Cuentas",
+        g2_f2_d: "Administre efectivo, cuentas de banco y billeteras virtuales de forma personalizada.",
+        g2_f3_t: "Transferencias entre Billeteras y Perfiles",
+        g2_f3_d: "Mueva saldos entre cuentas o perfiles con historial limpio.",
+        g3_title: "3. Presupuestos y Planificación de Metas",
+        g3_f1_t: "Sistema de Presupuesto Dinámico",
+        g3_f1_d: "Defina límites de gasto por categoría con alertas visuales de aproximación de tope.",
+        g3_f2_t: "Metas de Ahorro y Sueños",
+        g3_f2_d: "Supervise el ahorro para vivienda o vehículos con fecha estimada.",
+        g3_f3_t: "Control de Deudas y Préstamos",
+        g3_f3_d: "Lleve registro de créditos por pagar y cobrar con fechas de vencimiento.",
+        g3_f4_t: "Reembolsos de Gastos Laborales",
+        g3_f4_d: "Controle gastos de trabajo pendientes de reembolso con foto del comprobante.",
+        g4_title: "4. Estilo de Vida, Viajes y Eventos",
+        g4_f1_t: "Modo Vacaciones y Viajes",
+        g4_f1_d: "Controle gastos de turismo con presupuestos separados y conversión de monedas.",
+        g4_f2_t: "Presupuesto para Eventos y Grupos",
+        g4_f2_d: "Organice gastos de bodas, proyectos o salidas con amigos.",
+        g4_f3_t: "Lista de Compras Inteligente",
+        g4_f3_d: "Checklist interactivo con estimación de precios y suma por escaneo.",
+        g4_f4_t: "Gastos Recurrentes y Suscripciones",
+        g4_f4_d: "Programe pagos fijos (internet, alquiler) para no olvidar ningún vencimiento.",
+        g5_title: "5. Portafolio de Inversión y Activos",
+        g5_f1_t: 'Portafolio de Acciones, Cripto y Metales Preciosos (Oro)',
+        g5_f1_d: 'Monitoree acciones, criptomonedas y oro en tiempo real con cálculos integrados de ganancias y pérdidas.',
+        g5_f2_t: "Reportes Financieros Completos",
+        g5_f2_d: "Gráficos de flujo de caja y exportación a Excel o PDF.",
+        g6_title: '8. 11+ Calculadoras Financieras y de Negocios',
+        g6_desc: "Todas las calculadoras financieras clave sin requerir aplicaciones independientes:",
+        c_fire: "Calculadora FIRE (Retiro Temprano)",
+        c_kpr: "Calculadora de Hipotecas y Préstamos",
+        c_debt: "Calculadora de Liquidación de Deudas",
+        c_emergency: "Planificador de Fondo de Emergencia",
+        c_inflation: "Simulador de Inflación Futura",
+        c_rent_buy: "Simulador Alquilar vs Comprar Casa",
+        c_bep: "Punto de Equilibrio (BEP) para Negocios",
+        c_margin: "Margen de Ganancia y Fijación de Precios",
+        c_rate: "Calculadora de Tarifa por Hora Freelance",
+        c_payback: "Periodo de Retorno de Inversión (Payback)",
+        c_runway: "Calculadora de Runway para Negocios",
+        g7_title: '6. Educación Financiera y Seguridad',
+        g7_f1_t: "Cuestionarios y Tarjetas de Aprendizaje",
+        g7_f1_d: "Aprenda educación financiera práctica mediante flashcards interactivas.",
+        g7_f2_t: "Seguridad con PIN y Huella Dactilar",
+        g7_f2_d: "Proteja su información confidencial mediante PIN y biometría.",
+        g8_title: '7. Multi-Dispositivo, AI Quick Voice & Sistema BYOK',
+        g8_f1_t: 'Sincronización Multi-Dispositivo (Google Drive Mirror Sync)',
+        g8_f1_d: 'Conecte su teléfono, tableta y computadora mediante Google Drive Mirror Sync privado sin servidores intermediarios.',
+        g8_f2_t: 'Asistente de Voz Rápido con IA (AI Quick Voice & Multi-Acción)',
+        g8_f2_d: 'Registra gastos, pagos recurrentes, deudas, compras, viajes y metas de ahorro con solo hablar o escribir naturalmente. Admite múltiples acciones en una sola grabación, términos como 50k o 1.5M, y reconocimiento de fechas pasadas como \'ayer a las 4 PM\'.',
+        g8_f3_t: 'Sistema BYOK (Google Gemini API Gratuita)',
+        g8_f3_d: 'Utilice su clave oficial de Google Gemini gratis desde Google AI Studio. Las claves se guardan cifradas localmente en su dispositivo.',
+        quote_body: '"Creemos que las herramientas para vivir de manera ordenada no deberían ser costosas. DOCU fue creado con devoción para todos."',
+        quote_signature: "💌 Equipo de Desarrollo DOCU",
+        support_channels_title: "Canal Oficial de Soporte",
+        sc_email_title: "Contáctenos por Correo Electrónico",
+        sc_email_desc: "¿Tiene dudas, problemas técnicos o sugerencias? Escríbanos directamente.",
+        btn_send_email: "Enviar Correo",
+        btn_copy_email: "Copiar Correo",
+        faq_heading: "Preguntas Frecuentes (FAQ)",
+        faq_q1: "¿Es DOCU 100% gratuito y sin anuncios de verdad?",
+        faq_a1: "¡Sí! DOCU no tiene anuncios emergentes ni muros de pago. Todas las funciones son gratuitas para siempre.",
+        faq_q2: '¿Cómo funciona el Escáner de Recibos (OCR Local) y la Captura de Notificaciones?',
+        faq_a2: "Todo el procesamiento opera de forma 100% local en su dispositivo sin acceder jamás a sus claves bancarias.",
+        faq_q3: "¿Mis datos están seguros y cómo los respaldo?",
+        faq_a3: "Totalmente seguros. Puede crear copias cifradas en su Google Drive personal o exportar a Excel/CSV.",
+        faq_q4: "¿Se puede usar DOCU sin internet?",
+        faq_a4: "¡Por supuesto! El 100% de las funciones de registro y calculadoras funcionan offline sin consumir datos.",
+        faq_q5: "¿Se puede usar para negocios y emprendimientos?",
+        faq_a5: "Sí, cuenta con perfiles aislados y calculadoras de Punto de Equilibrio (BEP) y Margen de Utilidad.",
+        faq_q6: "¿Cómo donar mediante QRIS?",
+        faq_a6: "Haga clic en 'Mostrar Código QRIS' y escanee con su aplicación bancaria o billetera móvil.",
+        faq_q7: "¿Cómo reportar errores o solicitar mejoras?",
+        faq_a7: "Escríbanos a thedesignervr@gmail.com con capturas o detalles.",
+        don_banner_title: "☕ Apoye la Continuidad de DOCU",
+        don_banner_desc: "DOCU se mantiene sin anuncios gracias a nuestra comunidad. ¡Invítanos un café para respaldar el desarrollo!",
+        btn_show_qris: "Mostrar Código QRIS",
+        btn_hide_qris: "Ocultar Código QRIS",
+        qris_instruction: "Escanee el código con su aplicación móvil bancaria o billetera virtual:",
+        toast_copied: "¡Copiado al portapapeles!"
+      },
+
+      // 6. French
+      fr: {
+        app_acronym: "Daily Organized Cashflow Utility",
+        theme_obsidian: "Obsidienne",
+        theme_light: "Clair",
+        tab_profile: "Aperçu & Fonctions",
+        tab_support: "Support & FAQ",
+        tab_donation: "Don QRIS",
+        hero_badge: "100% Sans Pub • Gratuit pour Toujours",
+        hero_title: 'DOCU : Suivi et Gestion Financière',
+        hero_subtitle: "Daily Organized Cashflow Utility",
+        hero_desc: "Lassé des applications financières encombrées de publicités ou bloquant les outils essentiels ? DOCU vous offre un espace sécurisé et complet sans dépenser le moindre centime.",
+        cta_support_title: "Vous aimez DOCU ? Soutenez notre indépendance !",
+        cta_support_desc: "DOCU est conçu à 100% sans publicité ni abonnement. Vos dons volontaires via QRIS permettent de pérenniser la recherche et l'évolution des fonctionnalités.",
+        cta_support_btn: "Offrir un café (QRIS)",
+        pillars_heading: "✨ Pourquoi Choisir DOCU ?",
+        p1_title: "100% Gratuit & Zéro Publicité",
+        p1_desc: "Aucune bannière intrusive, aucun abonnement caché ni mur payant.",
+        p2_title: "Confidentialité & Hors-Ligne",
+        p2_desc: "Vos données restent stockées sur votre appareil. Fonctionne sans connexion internet.",
+        p3_title: "Sauvegarde sur Votre Google Drive",
+        p3_desc: "Sauvegardez et restaurez vos données chiffrées à tout moment sur votre compte personnel.",
+        p4_title: "Design Élégant & Moderne",
+        p4_desc: "Interface Glassmorphism soignée, réactive, avec Mode Sombre Obsidienne et Thème Clair.",
+        features_master_title: "🚀 Fonctionnalités Majeures de DOCU",
+        g1_title: '1. Saisie Intelligente & Scanner de Reçus (OCR Local & Vision IA)',
+        g1_f1_t: "Scan Automatique de Tickets & Factures",
+        g1_f1_d: "Photographiez vos reçus : notre OCR local identifie immédiatement le marchand et le montant total.",
+        g1_f2_t: "Détection de Virements & Paiements QR",
+        g1_f2_d: "Reconnaît automatiquement les reçus de virements bancaires et portefeuilles électroniques.",
+        g1_f3_t: "Capture des Notifications (Optionnel)",
+        g1_f3_d: "Enregistre automatiquement les dépenses dès réception d'une notification de paiement.",
+        g1_f4_t: "Saisie Multiple & Multi-Devises",
+        g1_f4_d: "Enregistrez plusieurs opérations d'un coup avec conversion automatique des devises pour les voyages.",
+        g2_title: "2. Portefeuilles Multiples & Profils Isolés",
+        g2_f1_t: "Profils Financiers Distincts",
+        g2_f1_d: "Séparez vos finances personnelles, professionnelles et familiales sans mélange.",
+        g2_f2_t: "Comptes & Portefeuilles Illimités",
+        g2_f2_d: "Gérez espèces, comptes bancaires et épargne avec couleurs et icônes personnalisées.",
+        g2_f3_t: "Transferts entre Comptes & Profils",
+        g2_f3_d: "Déplacez des fonds d'un compte à un autre avec un historique clair.",
+        g3_title: "3. Budgétisation & Objectifs d'Avenir",
+        g3_f1_t: "Système de Budget Dynamique",
+        g3_f1_d: "Définissez des plafonds mensuels par catégorie avec alertes visuelles d'approche de limite.",
+        g3_f2_t: "Objectifs d'Épargne & Projets",
+        g3_f2_d: "Suivez votre progression vers l'achat d'un bien ou la constitution d'un fonds d'urgence.",
+        g3_f3_t: "Gestion des Dettes & Prêts",
+        g3_f3_d: "Enregistrez dettes et créances avec dates d'échéance et suivi des remboursements.",
+        g3_f4_t: "Gestion des Frais Professionnels",
+        g3_f4_d: "Récapitulez les dépenses à faire rembourser avec justificatifs en photo.",
+        g4_title: "4. Style de Vie, Vacances & Événements",
+        g4_f1_t: "Mode Voyage & Vacances",
+        g4_f1_d: "Isolez votre budget vacances avec conversion de devises et récapitulatif des frais.",
+        g4_f2_t: "Gestion de Projets & Événements",
+        g4_f2_d: "Planifiez les dépenses de mariages ou sorties entre amis.",
+        g4_f3_t: "Liste de Courses Intelligente",
+        g4_f3_d: "Checklist d'achats avec estimation de prix et calcul par scan.",
+        g4_f4_t: "Dépenses Récurrentes & Abonnements",
+        g4_f4_d: "Automatisez le suivi des charges fixes (loyer, internet, énergie) sans oubli.",
+        g5_title: "5. Portefeuille d'Investissement & Actifs",
+        g5_f1_t: 'Portefeuille d\'Actions, Crypto & Métaux Précieux (Or)',
+        g5_f1_d: 'Suivez vos actions, cryptomonnaies et or/métaux précieux avec calculs automatisés des gains et pertes.',
+        g5_f2_t: "Rapports Financiers Complets",
+        g5_f2_d: "Graphiques de flux de trésorerie (Cashflow) et export vers Excel ou PDF.",
+        g6_title: '8. 11+ Calculateurs Financiers & Business',
+        g6_desc: "Tous les outils financiers indispensables réunis sans applications tierces :",
+        c_fire: "Calculateur FIRE (Retraite Anticipée)",
+        c_kpr: "Simulateur de Prêt Immobilier & Intérêts",
+        c_debt: "Calculateur de Remboursement de Dettes",
+        c_emergency: "Planificateur de Fonds d'Urgence",
+        c_inflation: "Simulateur d'Inflation Future",
+        c_rent_buy: "Simulateur Louer vs Acheter un Bien",
+        c_bep: "Calculateur du Seuil de Rentabilité (BEP)",
+        c_margin: "Marge Bénéficiaire & Fixation des Prix",
+        c_rate: "Calculateur de Taux Horaire Freelance",
+        c_payback: "Délai de Récupération (Payback Period)",
+        c_runway: "Autonomie de Trésorerie (Cash Runway)",
+        g7_title: '6. Éducation Financière & Sécurité',
+        g7_f1_t: "Quiz & Cartes Mémo Financières",
+        g7_f1_d: "Développez votre culture financière grâce à des flashcards et quiz interactifs.",
+        g7_f2_t: "Verrouillage PIN & Biométrie",
+        g7_f2_d: "Protégez vos données avec un code PIN et le capteur d'empreinte digitale.",
+        g8_title: '7. Multi-Appareils, AI Quick Voice & Système BYOK',
+        g8_f1_t: 'Synchronisation Multi-Appareils (Google Drive Mirror Sync)',
+        g8_f1_d: 'Synchronisez vos téléphones, tablettes et ordinateurs via votre Google Drive privé sans serveurs tiers.',
+        g8_f2_t: 'Assistant Vocal Rapide IA (AI Quick Voice & Multi-Action)',
+        g8_f2_d: 'Enregistrez dépenses, factures récurrentes, dettes, listes de courses, voyages et objectifs d\'épargne simplement en parlant ou en tapant. Prend en charge plusieurs actions en un enregistrement, les montants (50k, 1.5M) et les dates comme \'hier à 16h\'.',
+        g8_f3_t: 'Architecture BYOK (Google Gemini Gratuit)',
+        g8_f3_d: 'Connectez votre clé API Google Gemini gratuite directement depuis Google AI Studio. Chiffrée localement sur votre appareil.',
+        quote_body: '"Nous croyons que les outils d\'organisation financière ne devraient pas être chers. DOCU a été créé avec passion."',
+        quote_signature: "💌 L'Équipe de Développement DOCU",
+        support_channels_title: "Canal d'Assistance Officiel",
+        sc_email_title: "Contactez-nous par E-mail",
+        sc_email_desc: "Une question, un problème technique ou une suggestion ? Écrivez-nous directement.",
+        btn_send_email: "Envoyer un e-mail",
+        btn_copy_email: "Copier l'e-mail",
+        faq_heading: "Foire Aux Questions (FAQ)",
+        faq_q1: "L'application est-elle réellement 100% gratuite et sans pub ?",
+        faq_a1: "Oui ! DOCU ne contient aucune publicité et aucun péage d'abonnement. Tous les modules restent gratuits pour toujours.",
+        faq_q2: 'Comment fonctionne le scanner de reçus (OCR Local) et la capture de notifications ?',
+        faq_a2: "La reconnaissance s'effectue à 100% localement sur votre téléphone sans accéder à vos comptes bancaires.",
+        faq_q3: "Mes données sont-elles protégées et sauvegardées ?",
+        faq_a3: "Totalement. Vous pouvez exporter vers Excel/CSV ou créer des sauvegardes chiffrées sur Google Drive.",
+        faq_q4: "Peut-on utiliser DOCU sans connexion internet ?",
+        faq_a4: "Oui ! 100% des fonctions opèrent hors ligne sans consommer de données mobiles.",
+        faq_q5: "Peut-on l'utiliser pour la gestion d'une petite entreprise ?",
+        faq_a5: "Absolument, grâce aux profils indépendants et aux calculateurs de rentabilité (BEP, marge).",
+        faq_q6: "Comment effectuer un don via QRIS ?",
+        faq_a6: "Cliquez sur 'Afficher le QRIS' et scannez le code avec votre application bancaire.",
+        faq_q7: "Comment signaler un problème ou proposer une idée ?",
+        faq_a7: "Écrivez-nous directement à thedesignervr@gmail.com.",
+        don_banner_title: "☕ Soutenez le Projet DOCU",
+        don_banner_desc: "DOCU reste sans pub grâce à vous. Offrez-nous un café pour encourager les prochaines mises à jour !",
+        btn_show_qris: "Afficher le Barcode QRIS",
+        btn_hide_qris: "Masquer le Barcode QRIS",
+        qris_instruction: "Scannez le code ci-dessus avec votre application bancaire ou portefeuille électronique :",
+        toast_copied: "Copié dans le presse-papier !"
+      },
+
+      // 7. Japanese
+      ja: {
+        app_acronym: "Daily Organized Cashflow Utility",
+        theme_obsidian: "黒曜石 (Obsidian)",
+        theme_light: "ライト",
+        tab_profile: "概要と機能一覧",
+        tab_support: "サポート & FAQ",
+        tab_donation: "QRIS寄付",
+        hero_badge: "完全広告なし • 永久無料",
+        hero_title: 'DOCU: スマート家計簿・資産管理',
+        hero_subtitle: "Daily Organized Cashflow Utility",
+        hero_desc: "煩わしい広告や高額な月額課金にうんざりしていませんか？DOCUは、費用を一切かけずに家計管理や資産形成を実現するための安全な万能ツールです。",
+        cta_support_title: "DOCUを応援しませんか？開発継続を支援！",
+        cta_support_desc: "DOCUは広告なし・月額課金なしで開発されています。QRISを通じた温かい寄付は、機能改善とクラウド維持の大きな力になります。",
+        cta_support_btn: "コーヒーを奢る (QRIS)",
+        pillars_heading: "✨ DOCUが選ばれる理由",
+        p1_title: "100%完全無料＆広告なし",
+        p1_desc: "ポップアップ広告や月額課金の機能制限は一切ありません。",
+        p2_title: "プライバシー最優先＆完全オフライン",
+        p2_desc: "全データはお使いの端末内に保存され、オフラインでも快適に動作します。",
+        p3_title: "個人のGoogleドライブへバックアップ",
+        p3_desc: "ご自身のGoogleドライブアカウントに暗号化バックアップを保存・復元可能。",
+        p4_title: "洗練されたモダンUI",
+        p4_desc: "目に優しいグラスモーフィズムデザイン。黒曜石ダークモードとライトテーマに対応。",
+        features_master_title: "🚀 DOCUの充実した主要機能",
+        g1_title: '1. スマート入力＆レシートスキャナー (端末内OCR＆AIビジョン)',
+        g1_f1_t: "レシート・領収書の自動読み取り",
+        g1_f1_d: "スーパーや飲食店のレシートを撮影するだけで、端末内OCRが合計金額と店舗名を即座に認識します。",
+        g1_f2_t: "振込明細＆QR決済の自動認識",
+        g1_f2_d: "銀行振込の明細や電子マネー決済の画像を素早く読み取ります。",
+        g1_f3_t: "決済通知の自動取り込み (任意)",
+        g1_f3_d: "スマホに届く決済通知から出入金を自動的かつ即座に記録します。",
+        g1_f4_t: "複数同時入力＆多通貨対応",
+        g1_f4_d: "複数の取引を一括登録でき、海外旅行時の為替換算にも対応。",
+        g2_title: "2. マルチウォレット＆独立プロファイル管理",
+        g2_f1_t: "用途別の独立プロファイル",
+        g2_f1_d: "個人用、事業用、家族用の帳簿を1つのアプリ内で混ざらず完全に分離。",
+        g2_f2_t: "多彩なウォレット＆口座管理",
+        g2_f2_d: "現金、銀行口座、電子マネーをカスタムカラーとアイコンで管理。",
+        g2_f3_t: "ウォレット・プロファイル間の送金",
+        g2_f3_d: "口座間や事業・個人間の資金移動を履歴とともに記録できます。",
+        g3_title: "3. 予算管理と将来の目標設計",
+        g3_f1_t: "動的予算設定システム",
+        g3_f1_d: "カテゴリ別の月間上限額を設定し、上限接近時にアラートを表示。",
+        g3_f2_t: "貯蓄目標と夢の達成計画",
+        g3_f2_d: "住宅購入や旅行などの貯蓄進捗と達成予想時期を可視化。",
+        g3_f3_t: "借入・ローン＆貸付管理",
+        g3_f3_d: "返済期日、分割払い残高、完済状況を分かりやすく管理。",
+        g3_f4_t: "経費精算トラッカー",
+        g3_f4_d: "領収書写真を添付して立替経費を整理できます。",
+        g4_title: "4. ライフスタイル、旅行＆イベント",
+        g4_f1_t: "旅行・バケーションモード",
+        g4_f1_d: "旅費を日常の予算と切り離し、旅費総額を把握。",
+        g4_f2_t: "イベント＆グループ予算管理",
+        g4_f2_d: "結婚式や友人との食事会の費用をスムーズに設計。",
+        g4_f3_t: "スマートお買い物リスト",
+        g4_f3_d: "価格予想付きチェックリストとレシートスキャン合算。",
+        g4_f4_t: "定期支出＆サブスク管理",
+        g4_f4_d: "家賃や各種サブスクなどの固定費を自動登録し、払い忘れを防止。",
+        g5_title: "5. 投資ポートフォリオ＆資産推移",
+        g5_f1_t: '株式・暗号資産・貴金属 (金) ポートフォリオ',
+        g5_f1_d: '株式、暗号資産、金・貴金属をリアルタイムで追跡し、損益パフォーマンスを総合的に算出します。',
+        g5_f2_t: "総合財務レポート",
+        g5_f2_d: "キャッシュフロー推移グラフ、カテゴリ別分析、Excel/PDF出力対応。",
+        g6_title: '8. 11種以上の本格的な財務・ビジネス計算機',
+        g6_desc: "別の専門アプリをインストールすることなく、高度なシミュレーションが可能：",
+        c_fire: "FIRE（早期リタイア）計算機",
+        c_kpr: "住宅ローン＆金利シミュレーター",
+        c_debt: "借入金返済計画シミュレーター",
+        c_emergency: "緊急予備資金プランナー",
+        c_inflation: "インフレ影響シミュレーター",
+        c_rent_buy: "賃貸 vs 持ち家 比較計算機",
+        c_bep: "損益分岐点（BEP）計算機",
+        c_margin: "利益率＆価格設定ツール",
+        c_rate: "フリーランス時給換算ツール",
+        c_payback: "投資回収期間計算機",
+        c_runway: "資金維持期間（ランウェイ）",
+        g7_title: '6. 金融リテラシー教育＆多重セキュリティ',
+        g7_f1_t: "金融クイズ＆フラッシュカード",
+        g7_f1_d: "学習カードとクイズで楽しくお金の基礎知識を向上。",
+        g7_f2_t: "PINコード＆指紋生体ロック",
+        g7_f2_d: "PINコードおよび生体認証で個人情報を厳重保護。",
+        g8_title: '7. マルチデバイス同期、AI Quick Voice＆BYOKシステム',
+        g8_f1_t: 'マルチデバイス同期 (Google Drive Mirror Sync)',
+        g8_f1_d: '外部の中継サーバーを使わず、個人Google Driveを活用したMirror Syncでスマホ・タブレット・PCを連携。',
+        g8_f2_t: 'AI クイック音声アシスタント (AI Quick Voice & マルチアクション)',
+        g8_f2_d: '話しかけるか入力するだけで、支出・定期支払い・借入・買い物リスト・旅行計画・貯金目標を一瞬で記録。1回の音声入力で複数の処理を同時に解析し、「50k」「150万」や「昨日の午後4時」などの自然な表現を自動認識します。',
+        g8_f3_t: 'BYOKシステム (Google Gemini 無料枠)',
+        g8_f3_d: 'Google AI Studioの無料Google Gemini APIキーを設定可能。端末内に安全に暗号化保存され、月額課金ゼロです。',
+        quote_body: '"豊かな暮らしのためのツールが高価であるべきではないと信じています。DOCUは真心を込めて作られました。"',
+        quote_signature: "💌 DOCU開発チームより",
+        support_channels_title: "公式サポート窓口",
+        sc_email_title: "メールでのお問い合わせ",
+        sc_email_desc: "ご質問、不具合報告、機能リクエストなどはお気軽にメールでお送りください。",
+        btn_send_email: "メールを送る",
+        btn_copy_email: "メールをコピー",
+        faq_heading: "よくあるご質問 (FAQ)",
+        faq_q1: "本当に完全無料・広告なしですか？",
+        faq_a1: "はい！バナー広告や課金制限は一切なく、全機能が永久に無料です。",
+        faq_q2: 'レシートスキャナー (端末内OCR) と通知自動取得の仕組みは？',
+        faq_a2: "画像解析や通知読み取りは全て端末内部で完結し、安全です。",
+        faq_q3: "データの安全性とバックアップ方法は？",
+        faq_a3: "完全なオフライン設計です。Googleドライブへの暗号化保存やExcel出力が可能です。",
+        faq_q4: "完全にオフラインでも使えますか？",
+        faq_a4: "はい！記帳や計算機など全機能が通信なしで快適に動作します。",
+        faq_q5: "個人の事業やお店の会計にも使えますか？",
+        faq_a5: "はい、独立したビジネス用プロファイルや損益分岐点（BEP）計算機が活用できます。",
+        faq_q6: "QRISで寄付を行うにはどうすればいいですか？",
+        faq_a6: "「QRIS Barcodeを表示」をクリックし、対応の決済アプリでスキャンしてください。",
+        faq_q7: "不具合報告や要望はどこに送ればいいですか？",
+        faq_a7: "thedesignervr@gmail.com までお気軽にご連絡ください。",
+        don_banner_title: "☕ DOCUプロジェクトの開発継続を支援する",
+        don_banner_desc: "DOCUは皆様のご支援に支えられています。コーヒー1杯分の温かい応援をお待ちしております！",
+        btn_show_qris: "QRIS Barcodeを表示",
+        btn_hide_qris: "QRIS Barcodeを隠す",
+        qris_instruction: "お手持ちの銀行アプリまたは電子マネーで上記のバーコードを読み取ってください：",
+        toast_copied: "クリップボードにコピーしました！"
+      },
+
+      // 8. Korean
+      ko: {
+        app_acronym: "Daily Organized Cashflow Utility",
+        theme_obsidian: "옵시디언 (Obsidian)",
+        theme_light: "라이트",
+        tab_profile: "소개 및 전체 기능",
+        tab_support: "지원 및 FAQ",
+        tab_donation: "QRIS 후원",
+        hero_badge: "100% 광고 없음 • 평생 무료",
+        hero_title: 'DOCU: 스마트 가계부 & 재정 관리',
+        hero_subtitle: "Daily Organized Cashflow Utility",
+        hero_desc: "성가신 광고나 유료 구독 뒤에 숨겨둔 가계부 앱에 지치셨나요? DOCU는 비용 지출 없이도 나만의 자산을 체계적으로 관리할 수 있는 조용하고 안전한 공간입니다.",
+        cta_support_title: "DOCU가 마음에 드시나요? 독립적인 개발을 후원해주세요!",
+        cta_support_desc: "DOCU는 광고와 유료 구독 없이 진심을 다해 제작되었습니다. 자발적인 QRIS 후원은 새로운 기능 개발과 클라우드 유지에 큰 힘이 됩니다.",
+        cta_support_btn: "커피 한 잔 후원 (QRIS)",
+        pillars_heading: "✨ 왜 DOCU를 선택해야 할까요?",
+        p1_title: "100% 무료 & 광고 제로",
+        p1_desc: "거슬리는 팝업 배너, 숨겨진 유료 구독이 전혀 없습니다.",
+        p2_title: "개인정보 보호 & 오프라인 우선",
+        p2_desc: "모든 데이터는 기기 로컬에만 안전하게 보관됩니다.",
+        p3_title: "개인 Google 드라이브 백업",
+        p3_desc: "내 Google 드라이브 계정으로 암호화 백업 및 복원이 가능합니다.",
+        p4_title: "세련된 글래스모피즘 디자인",
+        p4_desc: "눈이 편안한 프리미엄 디자인, 옵시디언 다크 모드 및 라이트 모드 지원.",
+        features_master_title: "🚀 DOCU 핵심 상세 기능",
+        g1_title: '1. 스마트 입력 & 영수증 스캐너 (온디바이스 OCR & AI 비전)',
+        g1_f1_t: "영수증 및 지출 영수증 자동 스캔",
+        g1_f1_d: "마트, 주유소, 식당 영수증을 촬영하면 기기 내 OCR이 총금액과 가맹점을 즉시 추출합니다.",
+        g1_f2_t: "이체 내역 및 QR 결제 자동 감지",
+        g1_f2_d: "은행 이체증 및 간편결제 캡처 화면을 직접 타이핑 없이 빠르게 인식합니다.",
+        g1_f3_t: "결제 알림 자동 기록 (선택 사항)",
+        g1_f3_d: "금융 결제 알림을 실시간 감지하여 가계부에 즉시 등록합니다.",
+        g1_f4_t: "다중 내역 동시 입력 & 다중 통화 지원",
+        g1_f4_d: "여러 건의 지출을 한 번에 입력하고 해외여행 환율을 자동 계산합니다.",
+        g2_title: "2. 올인원 지갑 & 독립 프로필 관리",
+        g2_f1_t: "독립된 재정 프로필 분리",
+        g2_f1_d: "개인 생활비, 사업, 가족 경비 장부를 한 앱에서 분리 관리합니다.",
+        g2_f2_t: "다양한 지갑 및 통장 계좌",
+        g2_f2_d: "현금, 은행 계좌, 간편결제 머니를 커스텀 색상으로 설정합니다.",
+        g2_f3_t: "지갑 및 프로필 간 이체",
+        g2_f3_d: "계좌 간 자금 이동을 깔끔한 내역으로 기록합니다.",
+        g3_title: "3. 예산 관리 및 미래 재무 목표",
+        g3_f1_t: "유연한 카테고리별 예산 시스템",
+        g3_f1_d: "월별 지출 한도를 정하고 한도 초과 시각적 알림을 제공합니다.",
+        g3_f2_t: "재무 목표 및 버킷리스트 저축",
+        g3_f2_d: "내 집 마련, 비상금, 여행 경비 모으기 달성률을 추적합니다.",
+        g3_f3_t: "부채 및 대출 관리",
+        g3_f3_d: "대출금, 상환 만기일 및 분할 납부 현황을 정리합니다.",
+        g3_f4_t: "회사 경비 청구 관리",
+        g3_f4_d: "영수증 사진을 첨부하여 환급받을 출장비를 일목요연하게 정리합니다.",
+        g4_title: "4. 라이프스타일, 여행 & 모임 예산",
+        g4_f1_t: "여행 & 휴가 모드",
+        g4_f1_d: "여행 경비를 일상 예산과 분리하고 총비용을 집계합니다.",
+        g4_f2_t: "이벤트 및 모임 회비 관리",
+        g4_f2_d: "결혼식 준비, 팀 프로젝트 예산을 손쉽게 수립합니다.",
+        g4_f3_t: "스마트 장보기 리스트",
+        g4_f3_d: "예상 가격을 적고 장바구니 품목을 체크하며 자동 결산합니다.",
+        g4_f4_t: "고정 지출 및 정기 구독 관리",
+        g4_f4_d: "공과금, 구독료 지출을 자동 예약하여 연체를 방지합니다.",
+        g5_title: "5. 투자 포트폴리오 & 자산 추적",
+        g5_f1_t: '주식, 암호화폐 및 귀금속 (금) 포트폴리오',
+        g5_f1_d: '주식, 암호화폐, 금/귀금속 자산의 시세와 손익을 통합 포트폴리오로 실시간 추적합니다.',
+        g5_f2_t: "상세 금융 보고서",
+        g5_f2_d: "현금흐름(Cashflow) 분석 및 Excel/PDF 리포트 내보내기 지원.",
+        g6_title: '8. 11가지 이상의 전문 금융 & 비즈니스 계산기',
+        g6_desc: "별도 앱 설치 없이 전문가용 금융 계산기를 즉시 활용하세요:",
+        c_fire: "FIRE 계산기 (조기 은퇴)",
+        c_kpr: "주택담보대출 및 이자 계산기",
+        c_debt: "부채 상환 시뮬레이터",
+        c_emergency: "비상금 플래너",
+        c_inflation: "인플레이션 계산기",
+        c_rent_buy: "전월세 vs 매매 비교 계산기",
+        c_bep: "손익분기점(BEP) 계산기",
+        c_margin: "마진율 & 판매가 산정 도구",
+        c_rate: "프리랜서 시급 계산기",
+        c_payback: "투자 회수 기간 계산기",
+        c_runway: "비즈니스 런웨이 계산기",
+        g7_title: '6. 금융 리터러시 교육 & 철저한 보안',
+        g7_f1_t: "금융 퀴즈 & 플래시카드",
+        g7_f1_d: "재미있는 퀴즈와 단어 카드로 금융 상식을 높이세요.",
+        g7_f2_t: "PIN 비밀번호 및 지문 잠금",
+        g7_f2_d: "마스터 PIN과 지문 인식으로 금융 정보를 보호합니다.",
+        g8_title: '7. 멀티 디바이스 동기화, AI Quick Voice 및 BYOK 시스템',
+        g8_f1_t: '멀티 디바이스 동기화 (Google Drive Mirror Sync)',
+        g8_f1_d: '제3자 서버 없이 개인 Google Drive Mirror Sync를 통해 스마트폰, 태블릿, PC 간에 안전하게 연동됩니다.',
+        g8_f2_t: 'AI 퀵 보이스 어시스턴트 (음성 명령 & 멀티 액션)',
+        g8_f2_d: '자연스럽게 말하거나 입력하는 것만으로 지출, 고정 지출, 부채, 쇼핑 리스트, 여행 계획, 저축 목표를 손쉽게 기록합니다. 1회의 음성 녹음으로 다중 작업을 동시 처리하며, \'5만\', \'150만\', \'어제 오후 4시\' 같은 구어체를 완벽하게 인식합니다.',
+        g8_f3_t: 'BYOK 시스템 (Google Gemini 무료 티어)',
+        g8_f3_d: 'Google AI Studio에서 발급받은 무료 Google Gemini API 키를 등록하세요. 기기 내에만 암호화 보관되며 구독료가 없습니다.',
+        quote_body: '"규모 있는 삶을 살기 위한 도구가 비쌀 이유는 없다고 믿습니다. 누구나 구독료 부담 없이 최고의 비서를 둘 수 있도록 정성을 담았습니다."',
+        quote_signature: "💌 DOCU 개발팀 드림",
+        support_channels_title: "공식 고객지원 채널",
+        sc_email_title: "이메일 문의하기",
+        sc_email_desc: "기술 문의, 제안, 협업 제안 등 궁금한 점이 있으시다면 언제든 이메일을 보내주세요.",
+        btn_send_email: "이메일 보내기",
+        btn_copy_email: "이메일 복사",
+        faq_heading: "자주 묻는 질문 (FAQ)",
+        faq_q1: "정말 광고 없이 100% 무료인가요?",
+        faq_a1: "네! DOCU에는 배너 광고가 없으며 모든 계산기와 기능이 평생 무료입니다.",
+        faq_q2: '영수증 스캐너 (온디바이스 OCR) 및 알림 자동 캡처 작동 방식은?',
+        faq_a2: "기기 내부에서 100% 로컬로 작동하며 금융 비밀번호에는 접근하지 않습니다.",
+        faq_q3: "데이터 백업은 안전한가요?",
+        faq_a3: "오프라인 우선 설계로 Google 드라이브에 암호화 백업하거나 Excel로 내보낼 수 있습니다.",
+        faq_q4: "인터넷이 없어도 사용할 수 있나요?",
+        faq_a4: "네! 장부 입력, 예산, 11가지 계산기 등 모든 기능이 오프라인에서 동작합니다.",
+        faq_q5: "사업체나 소상공인 장부로도 쓸 수 있나요?",
+        faq_a5: "네! 독립된 프로필 기능과 손익분기점(BEP), 마진율 계산기를 지원합니다.",
+        faq_q6: "QRIS 후원은 어떻게 하나요?",
+        faq_a6: "'QRIS 바코드 표시'를 클릭하고 은행 앱에서 스캔하여 후원하실 수 있습니다.",
+        faq_q7: "버그 신고나 기능 제안은 어디로 하나요?",
+        faq_a7: "thedesignervr@gmail.com 으로 문의해 주시면 친절히 답변해 드립니다.",
+        don_banner_title: "☕ DOCU 프로젝트 후원하기",
+        don_banner_desc: "DOCU는 광고 없이 깨끗한 환경을 제공합니다. 커피 한 잔의 후원이 큰 힘이 됩니다!",
+        btn_show_qris: "QRIS 바코드 표시",
+        btn_hide_qris: "QRIS 바코드 숨기기",
+        qris_instruction: "모바일 뱅킹 또는 간편결제 앱으로 위 바코드를 스캔해 주세요:",
+        toast_copied: "클립보드에 복사되었습니다!"
+      },
+
+      // 9. Portuguese
+      pt: {
+        app_acronym: "Daily Organized Cashflow Utility",
+        theme_obsidian: "Obsidiana",
+        theme_light: "Claro",
+        tab_profile: "Visão Geral & Recursos",
+        tab_support: "Suporte & FAQ",
+        tab_donation: "Doação QRIS",
+        hero_badge: "100% Sem Anúncios • Grátis para Sempre",
+        hero_title: 'DOCU: Controle e Gestão Financeira',
+        hero_subtitle: "Daily Organized Cashflow Utility",
+        hero_desc: "Cansado de aplicativos cheios de anúncios inconvenientes ou assinaturas caras? O DOCU oferece um espaço seguro para gerenciar seu dinheiro sem pagar nada.",
+        cta_support_title: "Gosta do DOCU? Apoie nossa independência!",
+        cta_support_desc: "O DOCU foi criado 100% sem anúncios e sem assinaturas. Sua contribuição voluntária via QRIS apoia a pesquisa e as melhorias contínuas.",
+        cta_support_btn: "Pagar um café (QRIS)",
+        pillars_heading: "✨ Por que escolher o DOCU?",
+        p1_title: "100% Grátis & Sem Anúncios",
+        p1_desc: "Sem banners chatos, sem taxas ocultas e sem barreiras de assinatura.",
+        p2_title: "Privacidade Total & Offline",
+        p2_desc: "Seus dados ficam gravados no próprio celular. Funciona sem internet.",
+        p3_title: "Backup no Seu Google Drive",
+        p3_desc: "Salve e restaure cópias criptografadas na sua própria conta do Google Drive.",
+        p4_title: "Design Moderno Glassmorphism",
+        p4_desc: "Interface elegante, responsiva, com Modo Escuro Obsidiana e Tema Claro.",
+        features_master_title: "🚀 Recursos Principais do DOCU",
+        g1_title: '1. Entrada Inteligente & Leitor de Recibos (OCR Local & Visão IA)',
+        g1_f1_t: "Leitura Automática de Comprovantes e Notas",
+        g1_f1_d: "Fotografe cupons fiscais: nosso OCR local reconhece o valor total e o estabelecimento sem precisar digitar.",
+        g1_f2_t: "Detecção de Comprovantes Bancários e QR",
+        g1_f2_d: "Identifica instantaneamente comprovantes de transferência bancária e carteiras digitais.",
+        g1_f3_t: "Captura Automática por Notificações (Opcional)",
+        g1_f3_d: "Registra despesas de forma imediata assim que a notificação bancária chega ao smartphone.",
+        g1_f4_t: "Multi-Lançamentos & Multi-Moedas",
+        g1_f4_d: "Cadastre múltiplas despesas com conversão automática de taxas de câmbio para viagens.",
+        g2_title: "2. Carteiras Tudo-em-Um & Múltiplos Perfis",
+        g2_f1_t: "Perfis Financeiros Independentes",
+        g2_f1_d: "Mantenha registros pessoais, do negócio ou da família sem misturar informações.",
+        g2_f2_t: "Múltiplas Carteiras e Contas",
+        g2_f2_d: "Gerencie saldo em dinheiro vivo, contas de bancos e carteiras digitais.",
+        g2_f3_t: "Transferência entre Contas e Perfis",
+        g2_f3_d: "Transfira quantias entre contas com histórico limpo.",
+        g3_title: "3. Orçamentos & Planejamento de Metas",
+        g3_f1_t: "Sistema de Orçamento Dinâmico",
+        g3_f1_d: "Estipule tetos mensais por categoria com avisos visuais de limite.",
+        g3_f2_t: "Metas de Poupança e Sonhos",
+        g3_f2_d: "Acompanhe o progresso para comprar casa ou carro com estimativa de tempo.",
+        g3_f3_t: "Controle de Dívidas e Empréstimos",
+        g3_f3_d: "Organize valores a pagar e a receber com datas de vencimento.",
+        g3_f4_t: "Reembolso de Despesas de Trabalho",
+        g3_f4_d: "Controle gastos corporativos a serem reembolsados com fotos anexas.",
+        g4_title: "4. Estilo de Vida, Férias & Eventos",
+        g4_f1_t: "Modo Viagem & Férias",
+        g4_f1_d: "Isole as despesas de turismo com orçamentos dedicados.",
+        g4_f2_t: "Orçamentos de Eventos e Grupos",
+        g4_f2_d: "Planeje casamentos ou festas com facilidade.",
+        g4_f3_t: "Lista de Compras Inteligente",
+        g4_f3_d: "Checklist com estimativa de preços e soma via escaneamento.",
+        g4_f4_t: "Despesas Fixas & Recorrentes",
+        g4_f4_d: "Automatize pagamentos de contas (aluguel, internet, luz).",
+        g5_title: "5. Carteira de Investimentos & Ativos",
+        g5_f1_t: 'Portfólio de Ações, Cripto & Metais Preciosos (Ouro)',
+        g5_f1_d: 'Acompanhe ações, criptomoedas e ouro/metais preciosos com cálculos precisos de lucros e perdas.',
+        g5_f2_t: "Relatórios Financeiros Completos",
+        g5_f2_d: "Gráficos de fluxo de caixa e exportação para planilhas Excel/PDF.",
+        g6_title: '8. 11+ Calculadoras Financeiras e de Negócios',
+        g6_desc: "Todas as calculadoras financeiras essenciais sem precisar de outros apps:",
+        c_fire: "Calculadora FIRE (Aposentadoria Precoce)",
+        c_kpr: "Simulador de Financiamento Imobiliário",
+        c_debt: "Calculadora de Quitação de Dívidas",
+        c_emergency: "Planejador de Reserva de Emergência",
+        c_inflation: "Simulador de Inflação Futura",
+        c_rent_buy: "Simulador Alugar vs Comprar Imóvel",
+        c_bep: "Ponto de Equilíbrio (BEP)",
+        c_margin: "Margem de Lucro e Preços",
+        c_rate: "Calculadora de Valor/Hora Freelance",
+        c_payback: "Período de Retorno (Payback)",
+        c_runway: "Autonomia de Caixa (Runway)",
+        g7_title: '6. Educação Financeira & Segurança em Camadas',
+        g7_f1_t: "Quiz e Cartões de Estudo Interativos",
+        g7_f1_d: "Melhore seus conhecimentos com perguntas e respostas educativas.",
+        g7_f2_t: "Bloqueio com Código PIN e Biometria",
+        g7_f2_d: "Proteja seus registros particulares com código PIN e impressão digital.",
+        g8_title: '7. Multi-Dispositivo, AI Quick Voice & Sistema BYOK',
+        g8_f1_t: 'Sincronização Multi-Dispositivo (Google Drive Mirror Sync)',
+        g8_f1_d: 'Sincronize smartphone, tablet e computador via Google Drive Mirror Sync pessoal sem servidores terceiros.',
+        g8_f2_t: 'Assistente de Voz Rápido com IA (AI Quick Voice & Ação Múltipla)',
+        g8_f2_d: 'Registre despesas, contas recorrentes, dívidas, compras, viagens e metas de economia falando ou digitando com naturalidade. Suporta múltiplas ações em uma única gravação, gírias (50k, 1.5M) e reconhecimento de datas passadas como \'ontem às 16h\'.',
+        g8_f3_t: 'Sistema BYOK (Google Gemini Gratuito)',
+        g8_f3_d: 'Use sua chave de API oficial do Google Gemini gratuitamente pelo Google AI Studio. Criptografada localmente no dispositivo.',
+        quote_body: '"Acreditamos que ferramentas financeiras não deveriam custar caro. O DOCU foi feito de coração para todos."',
+        quote_signature: "💌 Equipe DOCU",
+        support_channels_title: "Canal Oficial de Suporte",
+        sc_email_title: "Fale Conosco por E-mail",
+        sc_email_desc: "Dúvidas técnicas, sugestões de novos recursos ou parcerias? Envie uma mensagem direta.",
+        btn_send_email: "Enviar E-mail",
+        btn_copy_email: "Copiar E-mail",
+        faq_heading: "Perguntas Frequentes (FAQ)",
+        faq_q1: "O DOCU é realmente 100% grátis e sem anúncios?",
+        faq_a1: "Sim! O DOCU não possui anúncios em banner nem cobranças ocultas. É gratuito para sempre.",
+        faq_q2: 'Como funciona o Leitor de Recibos (OCR Local) e a Captura de Notificações?',
+        faq_a2: "O processamento é feito 100% no próprio celular, sem acessar suas senhas bancárias.",
+        faq_q3: "Meus dados estão seguros e como faço backup?",
+        faq_a3: "Muito seguros. Você pode fazer backup criptografado no seu Google Drive ou exportar em Excel/CSV.",
+        faq_q4: "Funciona sem conexão com a internet?",
+        faq_a4: "Sim! 100% das funções operam perfeitamente offline.",
+        faq_q5: "Posso usar para o controle financeiro de uma empresa?",
+        faq_a5: "Sim! Você pode criar perfis separados para empresas e usar calculadoras como Ponto de Equilíbrio (BEP) e Margem de Lucro.",
+        faq_q6: "Como doar via QRIS?",
+        faq_a6: "Clique em 'Mostrar Código QRIS' e aponte o leitor de QR Code do seu aplicativo de banco.",
+        faq_q7: "Como relatar um erro ou sugerir recursos?",
+        faq_a7: "Envie um e-mail para thedesignervr@gmail.com com seus comentários.",
+        don_banner_title: "☕ Apoie a Continuidade do DOCU",
+        don_banner_desc: "O DOCU permanece sem anúncios graças a vocês. Pague-nos um café para apoiar as melhorias!",
+        btn_show_qris: "Mostrar Barcode QRIS",
+        btn_hide_qris: "Ocultar Barcode QRIS",
+        qris_instruction: "Escaneie o código acima com seu aplicativo bancário ou carteira digital:",
+        toast_copied: "Copiado para a área de transferência!"
+      },
+
+      // 10. Thai
+      th: {
+        app_acronym: "Daily Organized Cashflow Utility",
+        theme_obsidian: "ออบซิเดียน (Obsidian)",
+        theme_light: "โหมดสว่าง",
+        tab_profile: "ภาพรวมและฟีเจอร์",
+        tab_support: "ช่วยเหลือ & FAQ",
+        tab_donation: "สนับสนุน QRIS",
+        hero_badge: "ไร้โฆษณา 100% • ใช้งานฟรีตลอดชีพ",
+        hero_title: 'DOCU: บันทึกรายรับรายจ่าย',
+        hero_subtitle: "Daily Organized Cashflow Utility",
+        hero_desc: "เบื่อไหมกับแอปการเงินที่มีโฆษณากวนใจหรือล็อกฟีเจอร์สำคัญ? DOCU ออกแบบมาเพื่อช่วยคุณจัดการเงินและบรรลุอิสรภาพทางการเงินโดยไม่ต้องเสียเงินแม้แต่บาทเดียว",
+        cta_support_title: "ชอบ DOCU ไหม? ร่วมสนับสนุนการพัฒนาอิสระของเรา!",
+        cta_support_desc: "DOCU ถูกพัฒนาขึ้นโดยไม่มีโฆษณาและไม่มีค่าสมาชิก การสนับสนุนด้วยความสมัครใจผ่าน QRIS ช่วยขับเคลื่อนการวิจัยและฟีเจอร์ใหม่ๆ",
+        cta_support_btn: "เลี้ยงกาแฟผ่าน QRIS",
+        pillars_heading: "✨ ทำไมต้องเลือก DOCU?",
+        p1_title: "ฟรี 100% และไม่มีโฆษณา",
+        p1_desc: "ไม่มีป็อปอัปน่ารำคาญ และไม่มีการล็อกฟีเจอร์",
+        p2_title: "เน้นความเป็นส่วนตัว & ทำงานออฟไลน์",
+        p2_desc: "ข้อมูลถูกบันทึกบนเครื่องของคุณโดยตรง ใช้งานได้โดยไม่ต้องมีอินเทอร์เน็ต",
+        p3_title: "สำรองข้อมูลบน Google Drive ส่วนตัว",
+        p3_desc: "สำรองและกู้คืนข้อมูลแบบเข้ารหัสผ่าน Google Drive ของคุณเองได้ทุกเวลา",
+        p4_title: "ดีไซน์ Glassmorphism สวยงาม",
+        p4_desc: "หน้าจอสวยงามสบายตา พร้อมโหมดมืด Obsidian Black และโหมดสว่าง",
+        features_master_title: "🚀 ฟีเจอร์หลักแบบเจาะลึกของ DOCU",
+        g1_title: '1. ระบบบันทึกอัจฉริยะ & สแกนใบเสร็จ (OCR บนเครื่อง & AI Vision)',
+        g1_f1_t: "สแกนสลิปและใบเสร็จอัตโนมัติ",
+        g1_f1_d: "ถ่ายภาพใบเสร็จ: ระบบ OCR บนเครื่องจะอ่านยอดรวมและชื่อร้านทันทีโดยไม่ต้องพิมพ์เอง",
+        g1_f2_t: "ตรวจจับสลิปโอนเงินและ QR Payment",
+        g1_f2_d: "จดจำยอดโอนจากสลิปธนาคารและ e-wallet ต่างๆ ได้ทันที",
+        g1_f3_t: "ดักจับและบันทึกจากแจ้งเตือนอัตโนมัติ (เลือกเปิดได้)",
+        g1_f3_d: "บันทึกรายรับ-รายจ่ายทันทีเมื่อมีการแจ้งเตือนยอดเงินบนโทรศัพท์",
+        g1_f4_t: "บันทึกหลายรายการพร้อมกัน & หลายสกุลเงิน",
+        g1_f4_d: "บันทึกหลายรายการในครั้งเดียว พร้อมแปลงอัตราแลกเปลี่ยนเงินตราต่างประเทศ",
+        g2_title: "2. จัดการหลายกระเป๋าเงิน & แยกโปรไฟล์",
+        g2_f1_t: "แยกโปรไฟล์การเงินอย่างเป็นสัดส่วน",
+        g2_f1_d: "แยกบันทึกการเงินส่วนตัว ธุรกิจ หรือครอบครัวในแอปเดียว",
+        g2_f2_t: "รองรับหลายกระเป๋าเงินและบัญชีธนาคาร",
+        g2_f2_d: "จัดการเงินสด บัญชีธนาคาร และ e-wallet ปรับแต่งสีได้ตามใจ",
+        g2_f3_t: "โอนเงินระหว่างกระเป๋าและข้ามโปรไฟล์",
+        g2_f3_d: "ย้ายเงินระหว่างบัญชีพร้อมบันทึกประวัติชัดเจน",
+        g3_title: "3. งบประมาณ & วางแผนเป้าหมายสู่อนาคต",
+        g3_f1_t: "ระบบงบประมาณยืดหยุ่น",
+        g3_f1_d: "ตั้งเพดานการใช้จ่ายรายเดือนพร้อมการแจ้งเตือนเมื่อใกล้แตะขีดจำกัด",
+        g3_f2_t: "เป้าหมายการออมและความฝัน",
+        g3_f2_d: "ติดตามความคืบหน้าการเก็บเงินซื้อบ้านหรือเงินสำรองฉุกเฉิน",
+        g3_f3_t: "จัดการหนี้สินและลูกหนี้",
+        g3_f3_d: "บันทึกรายการกู้ยืมและสถานะการชำระหนี้อย่างโปร่งใส",
+        g3_f4_t: "ติดตามการเบิกเงินคืนค่าใช้จ่ายบริษัท",
+        g3_f4_d: "รวบรวมค่าใช้จ่ายงานที่ต้องเบิกคืนพร้อมแนบภาพใบเสร็จ",
+        g4_title: "4. ไลฟ์สไตล์, ทริปท่องเที่ยว & กิจกรรม",
+        g4_f1_t: "โหมดท่องเที่ยวและวันหยุด",
+        g4_f1_d: "แยกงบเที่ยวออกจากค่าใช้จ่ายประจำวันและสรุปยอดทริป",
+        g4_f2_t: "จัดการงบงานกิจกรรมและกลุ่มเพื่อน",
+        g4_f2_d: "จัดสรรงบสำหรับงานแต่งงานหรือกิจกรรมกลุ่ม",
+        g4_f3_t: "รายการซื้อของอัจฉริยะ",
+        g4_f3_d: "ทำเช็กลิสต์รายการซื้อของพร้อมระบุราคาประเมินและสแกนรวมยอด",
+        g4_f4_t: "ค่าใช้จ่ายประจำและบิลรอบเดือน",
+        g4_f4_d: "ตั้งบันทึกบิลประจำรอบ (ค่าเน็ต ค่าเช่า ค่าน้ำไฟ) ป้องกันการลืม",
+        g5_title: "5. พอร์ตการลงทุน & ติดตามสินทรัพย์",
+        g5_f1_t: 'พอร์ตหุ้น คริปโต & โลหะมีค่า (ทองคำ)',
+        g5_f1_d: 'ติดตามพอร์ตหุ้น คริปโตเคอร์เรนซี และราคาทองคำ พร้อมคำนวณกำไร/ขาดทุนอย่างครบวงจร',
+        g5_f2_t: "รายงานการเงินแบบครอบคลุม",
+        g5_f2_d: "กราฟกระแสเงินสดและส่งออกรายงานเป็น Excel/PDF",
+        g6_title: '8. 11+ เครื่องคิดเลขการเงินระดับมืออาชีพ',
+        g6_desc: "เครื่องคิดเลขการเงินสำคัญรวมอยู่ที่นี่ ไม่ต้องลงแอปแยก:",
+        c_fire: "เครื่องคิดเลข FIRE (เกษียณเร็ว)",
+        c_kpr: "เครื่องคิดเลขสินเชื่อบ้านและดอกเบี้ย",
+        c_debt: "เครื่องคิดเลขวางแผนปลดหนี้",
+        c_emergency: "เครื่องคิดเลขเงินสำรองฉุกเฉิน",
+        c_inflation: "เครื่องคิดเลขเงินเฟ้อ",
+        c_rent_buy: "เครื่องคิดเลขเช่า vs ซื้อบ้าน",
+        c_bep: "เครื่องคิดเลขจุดคุ้มทุน (BEP)",
+        c_margin: "เครื่องคิดเลขกำไรและการตั้งราคา",
+        c_rate: "เครื่องคิดเลขค่าแรงรายชั่วโมง",
+        c_payback: "เครื่องคิดเลขระยะเวลาคืนทุน",
+        c_runway: "เครื่องคิดเลขกระแสเงินสดธุรกิจ (Runway)",
+        g7_title: '6. การเงินศึกษา & ความปลอดภัยหลายชั้น',
+        g7_f1_t: "ควิซความรู้การเงิน & แฟลชการ์ด",
+        g7_f1_d: "ยกระดับความรู้ทางการเงินผ่านควิซและการ์ดคำศัพท์",
+        g7_f2_t: "ล็อกรหัส PIN และสแกนลายนิ้วมือ",
+        g7_f2_d: "ปกป้องข้อมูลส่วนตัวด้วยรหัส PIN และระบบไบโอเมตริกซ์",
+        g8_title: '7. ซิงค์หลายอุปกรณ์, AI Quick Voice & ระบบ BYOK',
+        g8_f1_t: 'ซิงค์หลายอุปกรณ์ (Google Drive Mirror Sync)',
+        g8_f1_d: 'เชื่อมต่อมือถือ แท็บเล็ต และคอมพิวเตอร์ผ่าน Google Drive Mirror Sync ส่วนตัว ปลอดภัยโดยไม่ต้องผ่านเซิร์ฟเวอร์คนกลาง',
+        g8_f2_t: 'ผู้ช่วยคำสั่งเสียง AI อัจฉริยะ (AI Quick Voice Assistant)',
+        g8_f2_d: 'บันทึกรายรับ-รายจ่าย บิลประจำ หนี้สิน รายการซื้อของ ทริปท่องเที่ยว และเป้าหมายการออม เพียงแค่พูดหรือพิมพ์ด้วยภาษาธรรมชาติ รองรับคำสั่งหลายรายการพร้อมกันในเสียงเดียว เข้าใจคำสแลง (50k, 1.5 ล้าน) และระบุย้อนหลังได้อัตโนมัติ',
+        g8_f3_t: 'ระบบ BYOK (Google Gemini ฟรี)',
+        g8_f3_d: 'ใช้ API Key ฟรีของ Google Gemini จาก Google AI Studio ได้โดยตรง คีย์ถูกเข้ารหัสจัดเก็บเฉพาะบนอุปกรณ์ของคุณ',
+        quote_body: '"เราเชื่อว่าเครื่องมือเพื่อชีวิตที่เป็นระเบียบไม่ควรมีราคาแพง DOCU ถูกสร้างขึ้นด้วยใจเพื่อให้ทุกคนมีผู้ช่วยทางการเงินที่ดีที่สุด"',
+        quote_signature: "💌 ทีมพัฒนา DOCU",
+        support_channels_title: "ช่องทางติดต่อช่วยเหลืออย่างเป็นทางการ",
+        sc_email_title: "ติดต่อเราทางอีเมล",
+        sc_email_desc: "มีข้อสงสัย ปัญหาการใช้งาน หรือข้อเสนอแนะ ติดต่อเราได้โดยตรง",
+        btn_send_email: "ส่งอีเมล",
+        btn_copy_email: "คัดลอกอีเมล",
+        faq_heading: "คำถามที่พบบ่อย (FAQ)",
+        faq_q1: "แอปนี้ฟรี 100% และไม่มีโฆษณาจริงหรือไม่?",
+        faq_a1: "จริงแน่นอน! DOCU ไม่มีโฆษณาคั่น และไม่มีการล็อกฟีเจอร์ใดๆ ฟรีตลอดชีพ",
+        faq_q2: 'ระบบสแกนใบเสร็จ (OCR บนเครื่อง) และดักจับแจ้งเตือนทำงานอย่างไร?',
+        faq_a2: "ประมวลผลบนเครื่องของคุณ 100% ไม่มีการเข้าถึงรหัสผ่านบัญชีธนาคารของคุณ",
+        faq_q3: "ข้อมูลปลอดภัยหรือไม่และสำรองอย่างไร?",
+        faq_a3: "ปลอดภัยสูง สามารถสำรองข้อมูลแบบเข้ารหัสไปยัง Google Drive ส่วนตัวหรือส่งออกเป็น Excel ได้",
+        faq_q4: "ใช้งานแบบไม่ต่อเน็ตได้หรือไม่?",
+        faq_a4: "ได้แน่นอน! 100% ของฟีเจอร์บันทึกและเครื่องคิดเลขทำงานแบบออฟไลน์ได้สมบูรณ์",
+        faq_q5: "ใช้ทำบัญชีร้านค้าหรือธุรกิจขนาดเล็กได้ไหม?",
+        faq_a5: "ได้เป็นอย่างดี ด้วยระบบแยกโปรไฟล์ธุรกิจและเครื่องคิดเลขจุดคุ้มทุน (BEP)",
+        faq_q6: "สนับสนุนผ่าน QRIS ได้อย่างไร?",
+        faq_a6: "กดปุ่ม 'แสดง QRIS Barcode' และใช้แอปธนาคารสแกนเพื่อร่วมสนับสนุนได้ตามสะดวก",
+        faq_q7: "แจ้งปัญหาหรือเสนอแนะฟีเจอร์ได้อย่างไร?",
+        faq_a7: "ส่งอีเมลหาเราโดยตรงที่ thedesignervr@gmail.com",
+        don_banner_title: "☕ สนับสนุนการพัฒนาแอป DOCU",
+        don_banner_desc: "DOCU มุ่งมั่นที่จะไร้โฆษณาตลอดไป เลี้ยงกาแฟทีมงานสักแก้วเพื่อเป็นกำลังใจพัฒนาฟีเจอร์ใหม่ๆ นะครับ!",
+        btn_show_qris: "แสดง QRIS Barcode",
+        btn_hide_qris: "ซ่อน QRIS Barcode",
+        qris_instruction: "สแกนบาร์โค้ดด้านบนด้วยแอปธนาคารหรือ E-Wallet ของคุณ:",
+        toast_copied: "คัดลอกไปยังคลิปบอร์ดแล้ว!"
+      },
+
+      // 11. Vietnamese
+      vi: {
+        app_acronym: "Daily Organized Cashflow Utility",
+        theme_obsidian: "Obsidian",
+        theme_light: "Sáng",
+        tab_profile: "Tổng Quan & Tính Năng",
+        tab_support: "Hỗ Trợ & FAQ",
+        tab_donation: "Ủng Hộ QRIS",
+        hero_badge: "100% Không Quảng Cáo • Miễn Phí Trọn Đời",
+        hero_title: 'DOCU: Ghi Chép Thu Chi & Quản Lý Tài Chính',
+        hero_subtitle: "Daily Organized Cashflow Utility",
+        hero_desc: "Bạn chán nản với các ứng dụng tài chính ngập tràn quảng cáo hoặc khóa tính năng sau gói đăng ký đắt đỏ? DOCU là không gian riêng tư, toàn diện giúp bạn quản lý tiền bạc mà không tốn một xu.",
+        cta_support_title: "Bạn yêu thích DOCU? Hãy ủng hộ sự phát triển độc lập của chúng tôi!",
+        cta_support_desc: "DOCU được xây dựng 100% không quảng cáo và không thu phí thuê bao. Sự ủng hộ tự nguyện qua QRIS giúp duy trì nghiên cứu và phát triển tính năng mới.",
+        cta_support_btn: "Mời cà phê qua QRIS",
+        pillars_heading: "✨ Vì Sao Nên Chọn DOCU?",
+        p1_title: "100% Miễn Phí & Không Quảng Cáo",
+        p1_desc: "Không quảng cáo pop-up phiền toái, không chi phí thuê bao ẩn.",
+        p2_title: "Ưu Tiên Quyền Riêng Tư & Ngoại Tuyến",
+        p2_desc: "Dữ liệu lưu an toàn trên máy của bạn. Hoạt động mượt mà không cần mạng.",
+        p3_title: "Sao Lưu Google Drive Cá Nhân",
+        p3_desc: "Sao lưu và khôi phục mã hóa an toàn trên tài khoản Google Drive của riêng bạn.",
+        p4_title: "Thiết Kế Glassmorphism Hiện Đại",
+        p4_desc: "Giao diện cao cấp, siêu mượt, hỗ trợ Dark Mode Obsidian và Light Mode trang nhã.",
+        features_master_title: "🚀 Các Tính Năng Chuyên Sâu Của DOCU",
+        g1_title: '1. Nhập Liệu Thông Minh & Quét Hóa Đơn (OCR Cục Bộ & AI Vision)',
+        g1_f1_t: "Quét Hóa Đơn & Biên Lai Tự Động",
+        g1_f1_d: "Chụp ảnh hóa đơn mua sắm: hệ thống OCR cục bộ tự động nhận diện tổng tiền và cửa hàng mà không cần gõ tay.",
+        g1_f2_t: "Nhận Diện Chuyển Khoản & Mã QR",
+        g1_f2_d: "Tự động nhận diện ảnh chụp giao dịch ngân hàng và ví điện tử tức thì.",
+        g1_f3_t: "Bắt Thông Báo Biến Động Số Dư (Tùy chọn)",
+        g1_f3_d: "Tự động ghi nhận giao dịch ngay khi điện thoại nhận được thông báo ngân hàng.",
+        g1_f4_t: "Nhập Nhiều Khoản Thu Chi & Đa Tiền Tệ",
+        g1_f4_d: "Ghi chép nhiều khoản cùng lúc kèm quy đổi tỷ giá ngoại tệ tiện lợi khi du lịch.",
+        g2_title: "2. Quản Lý Ví & Hồ Sơ Độc Lập",
+        g2_f1_t: "Tách Biệt Hồ Sơ Tài Chính Độc Lập",
+        g2_f1_d: "Phân tách thu chi Cá nhân, Kinh doanh, Gia đình trong một ứng dụng duy nhất.",
+        g2_f2_t: "Quản Lý Nhiều Ví & Tài Khoản",
+        g2_f2_d: "Quản lý tiền mặt, tài khoản ngân hàng, ví điện tử với màu sắc tùy chỉnh.",
+        g2_f3_t: "Chuyển Tiền Giữa Các Ví & Hồ Sơ",
+        g2_f3_d: "Điều chuyển số dư qua lại dễ dàng với lịch sử minh bạch.",
+        g3_title: "3. Ngân Sách & Kế Hoạch Tương Lai",
+        g3_f1_t: "Hệ Thống Ngân Sách Linh Hoạt",
+        g3_f1_d: "Đặt hạn mức chi tiêu hàng tháng theo từng hạng mục kèm cảnh báo khi sắp chạm giới hạn.",
+        g3_f2_t: "Mục Tiêu Tiết Kiệm & Giấc Mơ",
+        g3_f2_d: "Theo dõi tiến độ tích lũy mua nhà, xe hơi hay quỹ khẩn cấp với dự tính thời gian.",
+        g3_f3_t: "Quản Lý Vay & Nợ",
+        g3_f3_d: "Ghi chép các khoản nợ, ngày đến hạn thanh toán và trạng thái trả góp.",
+        g3_f4_t: "Quản Lý Hoàn Tiền Công Tác (Reimbursement)",
+        g3_f4_d: "Tổng hợp các khoản chi tiêu công việc cần thanh toán lại kèm ảnh hóa đơn.",
+        g4_title: "4. Phong Cách Sống, Du Lịch & Sự Kiện",
+        g4_f1_t: "Chế Độ Du Lịch & Nghỉ Dưỡng",
+        g4_f1_d: "Tách biệt chi phí chuyến đi khỏi ngân sách hàng ngày và quy đổi tỷ giá.",
+        g4_f2_t: "Quản Lý Ngân Sách Sự Kiện & Nhóm",
+        g4_f2_d: "Lên kế hoạch chi tiêu cho đám cưới, dự án nhóm hay tiệc tùng cùng bạn bè.",
+        g4_f3_t: "Danh Sách Mua Sắm Thông Minh",
+        g4_f3_d: "Lập danh sách đồ cần mua với ước tính giá cả và quét hóa đơn tự tính tổng.",
+        g4_f4_t: "Hóa Đơn Định Kỳ & Đăng Ký Dịch Vụ",
+        g4_f4_d: "Tự động hóa lịch trả tiền internet, tiền điện nước để không bao giờ bị trễ hạn.",
+        g5_title: "5. Danh Mục Đầu Tư & Theo Dõi Tài Sản",
+        g5_f1_t: 'Danh Mục Cổ Phiếu, Tiền Điện Tử & Kim Loại Quý (Vàng)',
+        g5_f1_d: 'Theo dõi cổ phiếu, tiền mã hóa và vàng/kim loại quý với tính toán lãi lỗ chi tiết theo thời gian thực.',
+        g5_f2_t: "Báo Cáo Tài Chính Chuyên Sâu",
+        g5_f2_d: "Biểu đồ dòng tiền (Cashflow) và xuất báo cáo ra Excel/PDF.",
+        g6_title: '8. 11+ Công Cụ Tính Toán Tài Chính & Kinh Doanh',
+        g6_desc: "Tất cả máy tính tài chính chuyên nghiệp nằm gọn trong tay bạn:",
+        c_fire: "Máy tính FIRE (Nghỉ hưu sớm)",
+        c_kpr: "Máy tính Vay Mua Nhà & Lãi Suất",
+        c_debt: "Máy tính Lộ Trình Trả Nợ",
+        c_emergency: "Kế hoạch Quỹ Khẩn Cấp",
+        c_inflation: "Máy tính Lạm Phát Tương Lai",
+        c_rent_buy: "Máy tính Thuê Nhà vs Mua Nhà",
+        c_bep: "Máy tính Điểm Hòa Vốn (BEP)",
+        c_margin: "Máy tính Biên Lợi Nhuận & Định Giá",
+        c_rate: "Máy tính Giá Trị Giờ Công Freelancer",
+        c_payback: "Máy tính Thời Gian Thu Hồi Vốn",
+        c_runway: "Máy tính Runway Tiền Mặt Doanh Nghiệp",
+        g7_title: '6. Giáo Dục Tài Chính & Bảo Mật Đa Tầng',
+        g7_f1_t: "Trắc Nghiệm & Thẻ Ghi Nhớ Tài Chính",
+        g7_f1_d: "Nâng cao kiến thức quản lý tiền bạc qua các câu đố ngắn.",
+        g7_f2_t: "Khóa Bảo Mật Mã PIN & Sinh Trắc Học",
+        g7_f2_d: "Bảo vệ thông tin tài chính nhạy cảm bằng mã PIN và cảm biến vân tay.",
+        g8_title: '7. Đồng Bộ Đa Thiết Bị, AI Quick Voice & Hệ Thống BYOK',
+        g8_f1_t: 'Đồng Bộ Đa Thiết Bị (Google Drive Mirror Sync)',
+        g8_f1_d: 'Đồng bộ hóa liền mạch điện thoại, máy tính bảng và máy tính qua Google Drive Mirror Sync cá nhân mà không qua máy chủ bên thứ ba.',
+        g8_f2_t: 'Trợ Lý Giọng Nói Nhanh AI (AI Quick Voice & Đa Hành Động)',
+        g8_f2_d: 'Ghi chép thu chi, hóa đơn định kỳ, công nợ, danh sách mua sắm, kế hoạch du lịch và mục tiêu tiết kiệm chỉ bằng cách nói hoặc gõ tự nhiên. Hỗ trợ nhận diện nhiều giao dịch trong 1 lần ghi âm, từ lóng (50k, 1.5tr) và mốc thời gian như \'hôm qua lúc 4 giờ chiều\'.',
+        g8_f3_t: 'Hệ Thống BYOK (Google Gemini Miễn Phí)',
+        g8_f3_d: 'Sử dụng API Key Google Gemini chính thức miễn phí từ Google AI Studio. Khóa được mã hóa lưu trữ hoàn toàn trên thiết bị của bạn.',
+        quote_body: '"Chúng tôi tin rằng công cụ để sống ngăn nắp không nên có giá đắt đỏ. DOCU được tạo ra bằng sự tận tâm."',
+        quote_signature: "💌 Đội Ngũ DOCU",
+        support_channels_title: "Kênh Hỗ Trợ Chính Thức",
+        sc_email_title: "Liên Hệ Qua Email",
+        sc_email_desc: "Bạn có câu hỏi, sự cố kỹ thuật, đề xuất tính năng mới hay hợp tác? Hãy gửi email trực tiếp cho chúng tôi.",
+        btn_send_email: "Gửi Email",
+        btn_copy_email: "Sao Chép Email",
+        faq_heading: "Câu Hỏi Thường Gặp (FAQ)",
+        faq_q1: "DOCU có thực sự miễn phí 100% và không có quảng cáo?",
+        faq_a1: "Đúng vậy! DOCU hoàn toàn không có quảng cáo và không khóa tính năng. Mọi công cụ đều miễn phí trọn đời.",
+        faq_q2: 'Trình quét hóa đơn (OCR Cục Bộ) & Tự động bắt thông báo hoạt động thế nào?',
+        faq_a2: "Việc nhận diện ảnh chụp hóa đơn được xử lý hoàn toàn cục bộ trên thiết bị của bạn mà không truy cập tài khoản ngân hàng.",
+        faq_q3: "Dữ liệu có an toàn không và sao lưu như thế nào?",
+        faq_a3: "Tuyệt đối an toàn. Bạn có thể sao lưu mã hóa lên Google Drive cá nhân hoặc xuất ra Excel/CSV.",
+        faq_q4: "DOCU có hoạt động khi không có internet không?",
+        faq_a4: "Có chứ! 100% tính năng ghi chép và máy tính tài chính hoạt động trơn tru ngoại tuyến.",
+        faq_q5: "Có thể dùng cho sổ sách kinh doanh hoặc cửa hàng nhỏ không?",
+        faq_a5: "Hoàn toàn được! Bạn có thể tạo hồ sơ riêng cho kinh doanh và sử dụng máy tính Điểm hòa vốn (BEP) cùng Biên lợi nhuận.",
+        faq_q6: "Cách ủng hộ qua mã QRIS như thế nào?",
+        faq_a6: "Nhấn 'Hiển Thị Mã QRIS' và dùng ứng dụng ngân hàng hoặc ví điện tử để quét mã thanh toán.",
+        faq_q7: "Làm thế nào để báo lỗi hoặc đóng góp ý kiến?",
+        faq_a7: "Gửi email trực tiếp đến thedesignervr@gmail.com, chúng tôi sẽ lắng nghe và giải đáp sớm nhất.",
+        don_banner_title: "☕ Chung Tay Ủng Hộ Dự Án DOCU",
+        don_banner_desc: "DOCU cam kết luôn không quảng cáo. Hãy mời đội ngũ một tách cà phê để tiếp thêm năng lượng phát triển nhé!",
+        btn_show_qris: "Hiển Thị Barcode QRIS",
+        btn_hide_qris: "Ẩn Barcode QRIS",
+        qris_instruction: "Quét mã barcode ở trên bằng ứng dụng Mobile Banking hoặc Ví Điện Tử:",
+        toast_copied: "Đã sao chép vào bộ nhớ tạm!"
+      }
+    };
+
+    let currentLang = 'id';
+    let currentTheme = 'dark';
+
+    function setLanguage(lang) {
+      if (!translations[lang]) return;
+      currentLang = lang;
+
+      if (lang === 'ar') {
+        document.documentElement.setAttribute('dir', 'rtl');
+        document.documentElement.setAttribute('lang', 'ar');
+      } else {
+        document.documentElement.removeAttribute('dir');
+        document.documentElement.setAttribute('lang', lang);
+      }
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          el.textContent = translations[lang][key];
+        }
+      });
+
+      const select = document.getElementById('langSelect');
+      if (select) select.value = lang;
+
+      updateThemeButtonLabel();
+
+      try {
+        localStorage.setItem('docu_lang', lang);
+      } catch (e) {}
+    }
+
+    function onLanguageChange(lang) {
+      setLanguage(lang);
+    }
+
+    // Theme Management (Obsidian Dark & Clean Light)
+    function setTheme(theme) {
+      currentTheme = theme;
+      document.documentElement.setAttribute('data-theme', theme);
+      
+      const icon = document.getElementById('themeIcon');
+      if (icon) {
+        icon.textContent = theme === 'dark' ? '🌙' : '☀️';
+      }
+      
+      updateThemeButtonLabel();
+
+      try {
+        localStorage.setItem('docu_theme', theme);
+      } catch (e) {}
+    }
+
+    function toggleTheme() {
+      const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      setTheme(nextTheme);
+    }
+
+    function updateThemeButtonLabel() {
+      const textSpan = document.getElementById('themeText');
+      if (textSpan) {
+        if (currentTheme === 'dark') {
+          textSpan.textContent = translations[currentLang]?.theme_obsidian || 'Obsidian';
+        } else {
+          textSpan.textContent = translations[currentLang]?.theme_light || 'Light';
+        }
+      }
+    }
+
+    // Tab Navigation
+    function switchTab(tabId, element) {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      });
+      document.querySelectorAll('.tab-pane').forEach(pane => {
+        pane.classList.remove('active');
+      });
+
+      element.classList.add('active');
+      element.setAttribute('aria-selected', 'true');
+      document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    // Shortcut to open Donation Tab directly
+    function openDonationTab() {
+      const donationBtn = document.querySelectorAll('.tab-btn')[2];
+      if (donationBtn) {
+        switchTab('donation', donationBtn);
+        const box = document.getElementById('qrisBox');
+        if (box && !box.classList.contains('active')) {
+          toggleQrisCode();
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function toggleFaq(headerElement) {
+      const parent = headerElement.parentElement;
+      const isOpen = parent.classList.contains('open');
+
+      document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('open'));
+
+      if (!isOpen) {
+        parent.classList.add('open');
+      }
+    }
+
+    // Toggle QRIS Barcode Box
+    function toggleQrisCode() {
+      const box = document.getElementById('qrisBox');
+      const btnText = document.getElementById('btnQrisText');
+      const isHidden = !box.classList.contains('active');
+
+      if (isHidden) {
+        box.classList.add('active');
+        if (btnText) {
+          btnText.textContent = translations[currentLang]?.btn_hide_qris || "Sembunyikan Barcode QRIS";
+        }
+      } else {
+        box.classList.remove('active');
+        if (btnText) {
+          btnText.textContent = translations[currentLang]?.btn_show_qris || "Tampilkan Barcode QRIS";
+        }
+      }
+    }
+
+    function copyText(text, btnElement) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => showToast(btnElement));
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          showToast(btnElement);
+        } catch (err) {
+          console.error('Gagal menyalin:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    }
+
+    function showToast(btnElement) {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      
+      const originalHtml = btnElement ? btnElement.innerHTML : null;
+      if (btnElement) {
+        btnElement.classList.add('copied');
+        btnElement.innerHTML = `
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          ✓
+        `;
+      }
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+        if (btnElement && originalHtml) {
+          btnElement.classList.remove('copied');
+          btnElement.innerHTML = originalHtml;
+        }
+      }, 2000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Language init
+      let initialLang = 'id';
+      try {
+        const savedLang = localStorage.getItem('docu_lang');
+        if (savedLang && translations[savedLang]) {
+          initialLang = savedLang;
+        } else {
+          const navLang = (navigator.language || navigator.userLanguage || 'id').toLowerCase();
+          const shortCode = navLang.split('-')[0];
+          if (translations[shortCode]) {
+            initialLang = shortCode;
+          }
+        }
+      } catch (e) {
+        initialLang = 'id';
+      }
+      setLanguage(initialLang);
+
+      // 2. Theme init (Obsidian default)
+      let initialTheme = 'dark';
+      try {
+        const savedTheme = localStorage.getItem('docu_theme');
+        if (savedTheme === 'light' || savedTheme === 'dark') {
+          initialTheme = savedTheme;
+        }
+      } catch (e) {
+        initialTheme = 'dark';
+      }
+      setTheme(initialTheme);
+    });
+  </script>
+</body>
+</html>

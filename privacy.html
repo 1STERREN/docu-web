@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy - Docu</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --card-bg: rgba(18, 24, 38, 0.85);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --primary: #6366f1;
+      --primary-glow: rgba(99, 102, 241, 0.25);
+      --accent: #06b6d4;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --transition: all 0.2s ease;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-border: rgba(0, 0, 0, 0.08);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --primary: #4f46e5;
+      --primary-glow: rgba(79, 70, 229, 0.2);
+      --accent: #0891b2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.7;
+      padding: 30px 16px 80px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      transition: var(--transition);
+    }
+
+    .back-btn:hover {
+      background: rgba(6, 182, 212, 0.2);
+      transform: translateX(-2px);
+    }
+
+    .theme-toggle {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .policy-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(12px);
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--text-main), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .meta-date {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 28px 0 12px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin: 16px 0 8px;
+      color: var(--text-main);
+    }
+
+    p, li {
+      color: var(--text-muted);
+      font-size: 0.94rem;
+      margin-bottom: 12px;
+    }
+
+    ul, ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    .callout-box {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(6, 182, 212, 0.08));
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-left: 5px solid var(--primary);
+      padding: 18px 20px;
+      border-radius: var(--radius-md);
+      margin: 20px 0;
+    }
+
+    .callout-box p {
+      color: var(--text-main);
+      font-size: 0.92rem;
+      margin: 0;
+    }
+
+    .callout-box strong {
+      color: #38bdf8;
+    }
+
+    code {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.88em;
+      color: var(--accent);
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .lang-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 4px;
+      border-radius: 30px;
+      width: fit-content;
+      border: 1px solid var(--card-border);
+    }
+
+    .lang-btn {
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .lang-btn.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    @media (max-width: 640px) {
+      .policy-card {
+        padding: 24px 18px;
+      }
+      h1 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header class="nav-header">
+      <a href="index.html" class="back-btn">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+        Back to App Profile
+      </a>
+
+      <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙 Mode</button>
+    </header>
+
+    <div class="lang-tabs">
+      <button class="lang-btn active" onclick="switchLang('en', this)">English (Official)</button>
+      <button class="lang-btn" onclick="switchLang('id', this)">Bahasa Indonesia</button>
+    </div>
+
+    <!-- ENGLISH VERSION -->
+    <article class="policy-card" id="lang-en">
+      <h1>Privacy Policy for Docu</h1>
+      <div class="meta-date">Effective & Last Updated: October 7, 2026</div>
+
+      <p>
+        Welcome to <strong>Docu</strong> ("we," "our," or "the App"). Docu is an offline-first personal finance management, asset tracking (stocks & gold), and cashflow planning application.
+      </p>
+      <p>
+        We respect your privacy and are committed to safeguarding your personal and financial information. This Privacy Policy details our data handling practices and our explicit compliance with <strong>Google API Services User Data Policy</strong>.
+      </p>
+
+      <h2>1. Information We Collect and Process</h2>
+      <h3>A. Local Device Storage (Offline-First)</h3>
+      <ul>
+        <li><strong>Financial Records:</strong> Transaction notes, amounts, categories, budget limits, tax calculations, and receipt metadata saved in the local SQLite database.</li>
+        <li><strong>Asset Portfolio:</strong> Investment entries, wallets, and stock/gold holding numbers.</li>
+        <li><em>All primary financial calculations occur directly on your device. We do not operate external central databases to collect or store your private logs.</em></li>
+      </ul>
+
+      <h3>B. Data Accessed via Google APIs</h3>
+      <p>When you link your Google Account to enable synchronization and backup features:</p>
+      <ul>
+        <li><strong>Google Profile Identity:</strong> Basic account email and display name strictly to verify connection state and display linked user info.</li>
+        <li><strong>Google Sheets API (<code>https://www.googleapis.com/auth/spreadsheets</code>):</strong>
+          <br>Used to create/update your personal <code>Docu_Database</code> spreadsheet, sync transaction tables, and utilize temporary formula scratchpads (<code>Stocks_database</code>) for live asset pricing via <code>GOOGLEFINANCE</code>.
+        </li>
+        <li><strong>Google Drive API (<code>https://www.googleapis.com/auth/drive</code>):</strong>
+          <br>Used to maintain a dedicated <code>Docu_Backups</code> folder in your personal Google Drive for uploading and restoring compressed database snapshots (<code>docu_backup_*.zip</code>).
+        </li>
+      </ul>
+
+      <h2>2. Purpose & Utilization of Google User Data</h2>
+      <p>Google user data is used exclusively to facilitate explicit, user-initiated actions:</p>
+      <ol>
+        <li><strong>Private Cloud Backup & Restore:</strong> Storing SQLite snapshots into your own personal Google Drive storage.</li>
+        <li><strong>Spreadsheet Synchronization:</strong> Exporting financial records and transaction logs to your Google Sheets file.</li>
+        <li><strong>Market Data Lookups:</strong> Querying public market values for stocks and precious metals directly within your personal spreadsheet.</li>
+      </ol>
+
+      <div class="callout-box">
+        <p>
+          <strong>Google API Limited Use Disclosure:</strong><br>
+          Docu's use and transfer to any other app of information received from Google APIs adheres to the 
+          <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.
+        </p>
+      </div>
+
+      <p>Under these requirements:</p>
+      <ul>
+        <li>We <strong>DO NOT</strong> use Google user data to train, retrain, or improve generalized Artificial Intelligence (AI) or Machine Learning (ML) models.</li>
+        <li>We <strong>DO NOT</strong> sell, rent, or transfer your Google data or financial logs to advertising networks or data brokers.</li>
+        <li>We <strong>DO NOT</strong> use your Google Sheets or Drive content for personalized advertising.</li>
+        <li>Humans will not read your Google user data unless you give explicit permission for support, it is necessary for security analysis, or required by law.</li>
+      </ul>
+
+      <h2>3. Data Security & Storage</h2>
+      <ul>
+        <li><strong>Tokens:</strong> Google OAuth tokens are stored in private, sandboxed app storage and used solely to communicate with official Google endpoints.</li>
+        <li><strong>Transmission:</strong> All API communication uses encrypted HTTPS/TLS protocols.</li>
+        <li><strong>Passwords:</strong> Docu never requests or stores your Google account password.</li>
+      </ul>
+
+      <h2>4. User Rights & Data Deletion</h2>
+      <ul>
+        <li><strong>Disconnect:</strong> You can disconnect your Google account anytime via the App's sync settings.</li>
+        <li><strong>Revoke Remote Access:</strong> You can revoke Docu's authorization anytime via <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">Google Account Permissions</a>.</li>
+        <li><strong>Direct Deletion:</strong> Because all files reside in your personal Google Drive and device, you can delete the <code>Docu_Backups</code> folder, <code>Docu_Database</code> spreadsheet, or clear app local data at any time.</li>
+      </ul>
+
+      <h2>5. Contact Information</h2>
+      <p>If you have any questions or inquiries regarding Docu's privacy practices:</p>
+      <ul>
+        <li><strong>Email:</strong> <a href="mailto:thedesignervr@gmail.com">thedesignervr@gmail.com</a></li>
+        <li><strong>App:</strong> Docu - Daily Organized Cashflow Utility</li>
+      </ul>
+    </article>
+
+    <!-- BAHASA INDONESIA VERSION -->
+    <article class="policy-card" id="lang-id" style="display: none;">
+      <h1>Kebijakan Privasi Docu</h1>
+      <div class="meta-date">Berlaku & Terakhir Diperbarui: 7 Oktober 2026</div>
+
+      <p>
+        Selamat datang di <strong>Docu</strong> ("kami" atau "Aplikasi"). Docu adalah aplikasi pencatatan keuangan pribadi, pelacak portofolio aset (saham & emas), serta kalkulator cashflow dengan prinsip offline-first.
+      </p>
+      <p>
+        Kami menghargai privasi Anda dan berkomitmen menjaga keamanan data keuangan Anda. Kebijakan ini menjelaskan bagaimana data dikelola serta kepatuhan kami terhadap <strong>Google API Services User Data Policy</strong>.
+      </p>
+
+      <h2>1. Data yang Dikumpulkan dan Diproses</h2>
+      <h3>A. Penyimpanan Lokal di Perangkat (Offline-First)</h3>
+      <ul>
+        <li><strong>Catatan Transaksi:</strong> Nominal, kategori, catatan, batas anggaran, kalkulasi pajak, dan foto bukti struk yang tersimpan di database lokal SQLite.</li>
+        <li><strong>Portofolio Aset:</strong> Catatan tabungan, dompet, dan kuantitas investasi saham/emas.</li>
+        <li><em>Seluruh data utama tersimpan di memori perangkat Anda. Kami tidak memiliki server terpusat untuk mengumpulkan riwayat keuangan Anda.</em></li>
+      </ul>
+
+      <h3>B. Data yang Diakses melalui Google API</h3>
+      <p>Saat Anda menghubungkan akun Google untuk fitur sinkronisasi dan cadangan:</p>
+      <ul>
+        <li><strong>Profil Google:</strong> Nama dan alamat email untuk memverifikasi akun aktif.</li>
+        <li><strong>Google Sheets API (<code>https://www.googleapis.com/auth/spreadsheets</code>):</strong>
+          <br>Membuat dan memperbarui spreadsheet <code>Docu_Database</code> untuk ekspor catatan, serta lembar kerja sementara (<code>Stocks_database</code>) untuk membaca harga saham & emas via formula <code>GOOGLEFINANCE</code>.
+        </li>
+        <li><strong>Google Drive API (<code>https://www.googleapis.com/auth/drive</code>):</strong>
+          <br>Membuat folder <code>Docu_Backups</code> di Google Drive pribadi Anda untuk mencadangkan dan memulihkan snapshot database SQLite (<code>docu_backup_*.zip</code>).
+        </li>
+      </ul>
+
+      <h2>2. Kepatuhan Ketentuan Google (Limited Use Disclosure)</h2>
+      <div class="callout-box">
+        <p>
+          Penggunaan data yang diperoleh Docu melalui Google API tunduk sepenuhnya pada 
+          <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, termasuk ketentuan <strong>Limited Use</strong>.
+        </p>
+      </div>
+
+      <ul>
+        <li>Kami <strong>TIDAK</strong> menggunakan data Google Anda untuk melatih model Artificial Intelligence (AI) atau Machine Learning (ML).</li>
+        <li>Kami <strong>TIDAK</strong> menjual atau membagikan data Google maupun data keuangan Anda ke pihak ketiga atau pengiklan.</li>
+        <li>Data tidak digunakan untuk personalisasi iklan.</li>
+        <li>Tidak ada staf manusia yang membaca isi spreadsheet atau cadangan Drive Anda kecuali atas izin eksplisit Anda saat bantuan teknis.</li>
+      </ul>
+
+      <h2>3. Keamanan Data & Hak Pengguna</h2>
+      <ul>
+        <li><strong>Pencabutan Akses:</strong> Anda dapat memutus akun Google di aplikasi atau mencabut izin sewaktu-waktu melalui <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">Google Account Permissions</a>.</li>
+        <li><strong>Penghapusan Data:</strong> Anda memegang kendali 100% atas file spreadsheet dan backup di Google Drive pribadi Anda untuk dihapus kapan saja.</li>
+      </ul>
+
+      <h2>4. Kontak Kami</h2>
+      <p>Pertanyaan terkait privasi data Docu dapat diajukan ke:</p>
+      <ul>
+        <li><strong>Email:</strong> <a href="mailto:thedesignervr@gmail.com">thedesignervr@gmail.com</a></li>
+        <li><strong>Aplikasi:</strong> Docu - Daily Organized Cashflow Utility</li>
+      </ul>
+    </article>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      document.getElementById('themeBtn').innerText = next === 'light' ? '☀️ Light' : '🌙 Obsidian';
+    }
+
+    function switchLang(lang, btn) {
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (lang === 'en') {
+        document.getElementById('lang-en').style.display = 'block';
+        document.getElementById('lang-id').style.display = 'none';
+      } else {
+        document.getElementById('lang-en').style.display = 'none';
+        document.getElementById('lang-id').style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
